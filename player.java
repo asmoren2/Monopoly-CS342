@@ -1,15 +1,14 @@
 public class player
 {
-  String playerToken;
-  int moneyInBank;
-  int numRailroad;
-  int numUtility;
-  int spaceFromGo;
-
+  String playerToken; //Differentiates the player from
+  double moneyInBank; //The amount of money that the player has
+  int numRailroad; //Number of railroads that the player owns
+  int numUtility; //Number of utilities that the player owns
+  int spaceFromGo; //Number of spaces the player is from Go tile
+  boardLocation boardLocation; //Location where the player resides on the
 
 player()
-//POST:
-//Test
+//POST:Constructs a player wit
 {
 
 }
