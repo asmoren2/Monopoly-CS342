@@ -7,59 +7,40 @@ public class player
   private String playerToken; //Differentiates the player from
   private int boardLocation; //Location where the player resides on the
 
-  player()
-  // POST: Sets a new board location for the specific player.
-  {
-    this(1500, 0, 0, 0,0," ", 0);
-  }
-  player(double money, int railroads, int utility, int spaceGo, String token, int location)
-  //PRE : 0 < location < 41; location is in block.
-  {
-    this.money = money;
-    this.numRailroad = railroads;
-    this.numUtility = utility;
-    this.spaceFromGo = spaceGo;
-    this.playerToken = token;
-    this.boardLocation = location;
-  }
+//THIS IS CHRISTIAN
 
-  public int getMoney()
-  // POST: FCTVAL == 	The amount of money a player has.
-  {
-    return this.money
-  }
+player()
+// POST: Sets a new board location for the specific player.
+{
+  this(1500, 0, 0, 0,0," ", 0);
+}
+player(double money, int railroads, int utility, int spaceGo, String token, int location)
+//PRE : 0 < location < 41; location is in block.
+{
+  this.money = money;
+  this.numRailroad = railroads;
+  this.numUtility = utility;
+  this.spaceFromGo = spaceGo;
+  this.playerToken = token;
+  this.boardLocation = location;
+}
 
-  public int getNumberRailroad()
-  // POST: FCTVAL == The number of railroads a player owns.
-  {
-    return this.numRailroad;
-  }
+public int getMoney()
+// POST: FCTVAL == 	The amount of money a player has.
+{
+  return this.money
+}
 
-  public int getNumberUtilities()
-  // POST: FCTVAL == The number of utilities a player has.
-  {
-    return this.numUtility;
-  }
+public int getNumberRailroad()
+// POST: FCTVAL == The number of railroads a player owns.
+{
+  return this.numRailroad;
+}
 
-  addMoney (double money)
-  // PRE: money must be initialized, money is in dollars.
-  // POST: adds money to member variable money. If money is a
-  //       negative value, then we subtract from the member variable money.
-  {
-    this.money += money;
-  }
-
-  addNumRailroad ()
-	// POST: adds one to the class member numRailroad.
-  {
-    this.numRailroad++;
-  }
-
-  addNumUtilities ()
-	// POST: adds one to the class member numUtilities.
-  {
-    this.numUtilities++;
-  }
-
+public int getNumberUtilities()
+// POST: FCTVAL == The number of utilities a player has.
+{
+  return this.numUtility;
+}
 
 }//End Player Class
