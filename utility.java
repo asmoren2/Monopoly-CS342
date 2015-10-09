@@ -1,11 +1,11 @@
 
-public class utility extends boardLocation
+public class utility extends property
 {
    //Description:
    //Electric Company, Cost: 150, Tile: 12
    //Water Works, Cost : 150, Tile: 28
 
-   private static final uCost;//represents the cost to own 1 utility
+   private static final double uCost;//represents the cost to own 1 utility
 
    public utility()
    //POST:
@@ -31,5 +31,9 @@ public class utility extends boardLocation
       }
    }
 
+   public double getUtilityCost()
+   {
+      return uCost;
+   }
 
 }

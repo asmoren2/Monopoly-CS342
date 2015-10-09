@@ -1,4 +1,4 @@
-public class railroad extends boardLocation
+public class railroad extends property
 {
 //Railroad class
 //Short Line Railroad = cost 200, Tile 35

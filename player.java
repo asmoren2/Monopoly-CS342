@@ -25,10 +25,23 @@ player(double money, int railroads, int utility, int spaceGo, String token, int 
   this.boardLocation = location;
 }
 
-public int getMoney()
-// POST: FCTVAL == 	The amount of money a player has.
+public int setBoardLocation(int location)
+//PRE: Assume 0 < location < 41, location is in block
+//POST: Set a new board location for the specific player.
 {
-  return this.money
+   this.boardLocation = location;
+}
+
+public int getMoney()
+// POST: FCTVAL == The amount of money a player has.
+{
+  return this.money;
+}
+
+public int getBoardLocation()
+//POST: FCTVAL == The current location of the player.
+{
+   return boardLocation;
 }
 
 public int getNumberRailroad()
@@ -41,6 +54,38 @@ public int getNumberUtilities()
 // POST: FCTVAL == The number of utilities a player has.
 {
   return this.numUtility;
+}
+
+public void addMoney(double amount)
+// PRE: money must be initialized, money is in dollars.
+// POST: adds money to member variable money. If money is a
+//    negative value, then we subtract from the member variable money.
+{
+   this.money += amount;
+}
+
+public void addNumRailroad()
+// POST: adds one to the class member numRailroad.
+{
+   this.numRailroad += 1;
+}
+
+public void addNumUtility()
+//POST: Adds one to the class member numUtilities.
+{
+   this.numUtility += 1;
+}
+
+public void bankrupt()
+// POST: Will reduce the amount of money a player has to $0.
+{
+   this.money = 0;
+}
+
+public int throwDice()
+// POST: returns a random number between 1 and 6.
+{
+   int diceLand;
 }
 
 }//End Player Class
