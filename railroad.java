@@ -7,7 +7,7 @@ public class railroad extends boardLocation
 //B&O Railroad = cost 200, Tile 25
 
    //Data Dictionary
-   private static final rCost;
+   private static final rCost;//represents the total cost to own 1 railroad
 
    public void railroad()
    //POST:
@@ -46,7 +46,10 @@ public class railroad extends boardLocation
          rentPayable = 200.0;
       }
    }//End calcRent
-   public double getRailCost(){
+   public double getRailCost()
+   //POST: FCTVAL == the class member rCost, it represents the cost to own
+   //      the railroad.
+   {
       return rCost;
    }
 }
