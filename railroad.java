@@ -46,4 +46,7 @@ public class railroad extends boardLocation
          rentPayable = 200.0;
       }
    }//End calcRent
+   public double getRailCost(){
+      return rCost;
+   }
 }
