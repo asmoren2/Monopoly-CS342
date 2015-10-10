@@ -2,10 +2,11 @@
 public abstract class property extends boardLocation
 {
     protected player owner;             // The owner of the property.
+    protected String [] possibleActions;// Array of actions a player can perform.
     protected double purchaseCost;      // The cost of purchasing.
     protected double [] rentStructure;  // The rent structure of this property.
     protected boolean isOwned;          // is the district owned or not
-    
+
     public void setRent(double rent, int option)
     // PRE: rent and option are initialized.
     //      rent >= 0
@@ -43,4 +44,19 @@ public abstract class property extends boardLocation
         return this.rentStructure[numHouses];
     }
     
+    @Override
+    // TODO:: This is a little confusing , ask Prof.Hogan.
+    public String [] getPossibleActions(player player)
+    {
+        return possibleActions;
+    }
+    
+    @Override
+    public String toString()
+    // POST:  A string representing this property.
+    {
+        return super.toString() +
+               "\nThe property is owned by: " + owner.getToken() +
+               "\nThe property costs: " + purchaseCost;
+    }
 }
