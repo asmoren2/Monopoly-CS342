@@ -6,13 +6,13 @@ public class player
   private int spaceFromGo; //Number of spaces the player is from Go tile
   private String playerToken; //Differentiates the player from
   private int boardLocation; //Location where the player resides on the
-
+  private int diceLand;      // The value of the dice as it lands.
 //THIS IS CHRISTIAN
 
 player()
 // POST: Sets a new board location for the specific player.
 {
-  this(1500, 0, 0, 0,0," ", 0);
+  this(1500, 0, 0, 0," ", 0);
 }
 player(double money, int railroads, int utility, int spaceGo, String token, int location)
 //PRE : 0 < location < 41; location is in block.
@@ -25,14 +25,14 @@ player(double money, int railroads, int utility, int spaceGo, String token, int 
   this.boardLocation = location;
 }
 
-public int setBoardLocation(int location)
+public void setBoardLocation(int location)
 //PRE: Assume 0 < location < 41, location is in block
 //POST: Set a new board location for the specific player.
 {
    this.boardLocation = location;
 }
 
-public int getMoney()
+public double getMoney()
 // POST: FCTVAL == The amount of money a player has.
 {
   return this.money;
@@ -83,9 +83,15 @@ public void bankrupt()
 }
 
 public int throwDice()
-// POST: returns a random number between 1 and 6.
+// POST: returns a random number between 1 and 12.
 {
-   int diceLand;
+    
+    return (int)Math.random()*13;
 }
 
+public String getToken()
+// POST: FCTVAL ==  the token of the player.
+{
+    return this.playerToken;
+}
 }//End Player Class
