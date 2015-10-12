@@ -85,7 +85,6 @@ public void bankrupt()
 public int throwDice()
 // POST: returns a random number between 1 and 12.
 {
-
     return (int)Math.random()*13;
 }
 

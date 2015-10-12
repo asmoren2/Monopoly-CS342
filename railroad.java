@@ -18,7 +18,7 @@ public class railroad extends property
 //Method 1. Pass as String
 //Method 2. declare a number for each radilRoad type and pass in
 //          a number having already given it a signification.
-   public void railroad(String rType)
+   public void railroad(String rType, String name)
    //POST: Create a railroad object with a cost of 200 and a tile number
    {
       super();
