@@ -13,9 +13,10 @@ public class utility extends property
 
    }//Default Constructor
 
-   public utility(String name)
+   public utility(String name, int spacesFromGo)
    {
       super();
+      this.setSpacesFromGo = spacesFromGo;
       this.uCost = 150.0;
    }//input Constructor
 
