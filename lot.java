@@ -1,12 +1,15 @@
 
 public class lot extends property
 {
-    private String color;
-    private String district;
-    private String hasHotel;
-    private double improveCost;
-    private int numHouses;
-    private boolean isHotel;
+    private String color;           // The color of the district that the
+                                    // lot belongs to.
+    private String district;        // District of the lot.
+    private String hasHotel;        // Represents a string that changes based
+                                    // on the hotel status of the lot.
+    private double improveCost;     // Cost to build a house, or upgrade.
+    private int numHouses;          // Number of houses in the lot.
+    private boolean isHotel;        // Boolean representing if a hotel is created.
+    
     lot()
     // POST: a default lot is created, with no district, 
     //       no color, and no name.  It is 0 spaces away from go,
