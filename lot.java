@@ -3,14 +3,13 @@ public class lot extends property
 {
     private String color;           // The color of the district that the
                                     // lot belongs to.
-    private String district;        // District of the lot.
     private String hasHotel;        // Represents a string that changes based
                                     // on the hotel status of the lot.
     private double improveCost;     // Cost to build a house, or upgrade.
     private int numHouses;          // Number of houses in the lot.
     private boolean isHotel;        // Boolean representing if a hotel is created.
     
-    lot()
+    public lot()
     // POST: a default lot is created, with no district, 
     //       no color, and no name.  It is 0 spaces away from go,
     //       it has a cost of 0.0 and an improve cost of 0.0.
@@ -18,10 +17,10 @@ public class lot extends property
     //       It initialized the class member hasHotel to "does not have a"
     //       It also has a rent structure of rentStructure.
     {
-        this("","","",0,0.0,0.0,0,new double [7]);
+        this("",0.0,0.0,0,new double [7]);
     }
-    lot(String district, String color, String nameOfLocation,
-        int spacesFromGo,double purchaseCost, double improveCost,
+    
+    public lot(String color, double purchaseCost, double improveCost,
         int numHouses, double [] rentStructure)
     // PRE: district, color, nameOfLocation must be initialize.
     //      spaceFromGo >= 0
@@ -38,10 +37,8 @@ public class lot extends property
     //       class member hasHotel to "does not have a",
     //       and the class member isHotel set to false.
     {
-        this.district = district;
+        super();
         this.color = color;
-        this.nameOfLocation = nameOfLocation;
-        this.spacesFromGo = spacesFromGo;
         this.purchaseCost = purchaseCost;
         this.improveCost = improveCost;
         this.rentStructure = rentStructure;
@@ -69,12 +66,6 @@ public class lot extends property
     // POST: FCTVAL == the improve cost of this class.
     {
         return this.improveCost;
-    }
-    
-    public String getDistrict()
-    // POST: FCTVAL == the district this lot is a part of.
-    {
-        return this.district;
     }
     
     public String getColor()
