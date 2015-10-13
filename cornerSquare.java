@@ -18,19 +18,45 @@ public class cornerSquare extends boardLocation
    private boolean isFreeSpace;  // isFreeSpace determines whether this corner is
                                  //    is just a free space.
 
-   //CONSTRUCTOR
+   private double costOnLanding; // constOnLanding determines what the cost for
+                                 //    landing on this corner implies
+
+   //CONSTRUCTORS
    //........................................................................
    public void cornerSquare()
    // POST: cornerSquare() creates an instance of cornerSquare, with boolean
-   //       values isJail, isGo, isFreeSpace = false;
+   //       values isJail, isGo = false.   Will assume a given corner is a
+   //       freeSpace as it has no side effects therefore isFreeSpace = true
    {
       super();             //construct boardLocation superClass
-      isJail = false;
-      isGo = false;
-      isFreeSpace = false;
+      setToFreeSpace();
    }
 
-   //MODIFIER
+   public void cornerSquare(String nameOfLocation, int spacesFromGo, int chooseCornerMode)
+   // PRE: nameOfLocation is non-empty.   spacesFromGo corresponds to spaces from
+   //      go to the target cornerSquare.   0<= chooseCornermode <= 2, where 0
+   //      determines the cornerSquare as Jail, 1 to Go block, and 2 to freeSpace
+   //      block
+   // POST: cornerSuqre(...) creates an instance of cornerSquare. Calls the boardLocation
+   //       constructor.  Booleans isJail, isGo, and isFreeSpace are dependent on
+   //       chooseCornermode.  If chooseCornermode == 0,  cornerSquare summons setToJail.
+   //       If chooseCornermode == 1, cornerSquare summons setToGo.  If
+   //       chooseCornermode == 2, cornerSquare summons setToFreeSpace.
+   //
+   {
+      super(nameOfLocation, spacesFromGo);
+
+      if(chooseCornerMode == 0)        // If CornerMode == 0,  the cornerBlock is determined
+         setToJail();                  //   to be a jail block
+
+      else if (chooseCornerMode == 1)  // If chooseCornerMode == 1, the cornerBlock is
+         setToGo();                    //   determined to be a Go block
+
+      else                             // if chooseCornerMode >= 2, the cornerBlock is
+         setToFreeSpace();             //   determined to be a Free Space block
+   }
+
+   //MODIFIERS
    //........................................................................
    public void setToJail()
    // PRE: cornerSquare instance has been constructed, and isJail = false
@@ -59,7 +85,7 @@ public class cornerSquare extends boardLocation
       isGo = false;
    }
 
-   //GETTER
+   //GETTERS
    //...........................................................................
    public boolean getJailStatus()
    // POST: Determines whether this cornerSquare instance is a Jail square
