@@ -12,7 +12,7 @@ public class railroad extends property
    public void railroad()
    //POST:
    {
-
+      
    }//End Default Constructor
 
 //Method 1. Pass as String
@@ -21,7 +21,7 @@ public class railroad extends property
    public void railroad(String rType, String name)
    //POST: Create a railroad object with a cost of 200 and a tile number
    {
-      super();
+      this.purchaseCost = 200;
    }
 
    public double calcRent(int n)
