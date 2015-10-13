@@ -85,7 +85,6 @@ public void bankrupt()
 public int throwDice()
 // POST: returns a random number between 1 and 12.
 {
-    
     return (int)Math.random()*13;
 }
 
@@ -93,5 +92,13 @@ public String getToken()
 // POST: FCTVAL ==  the token of the player.
 {
     return this.playerToken;
+}
+
+@Override
+public String toString()
+{
+   return "Player: " + playerToken + "Has $"+money + "Railroads owned: "+
+         numRailroad + "Utilities owned" + numUtility + "Board location: " +
+         boardLocation;
 }
 }//End Player Class
