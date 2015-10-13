@@ -95,7 +95,7 @@ public String getToken()
 }
 
 @Override
-public void toString()
+public String toString()
 {
    return "Player: " + playerToken + "Has $"+money + "Railroads owned: "+
          numRailroad + "Utilities owned" + numUtility + "Board location: " +
