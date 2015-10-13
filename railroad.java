@@ -7,7 +7,7 @@ public class railroad extends property
 //B&O Railroad = cost 200, Tile 25
 
    //Data Dictionary
-   private static final double rCost = 0;//represents the total cost to own 1 railroad
+   private static final double RCOST = 0;//represents the total cost to own 1 railroad
 
    public void railroad()
    //POST:
@@ -51,6 +51,6 @@ public class railroad extends property
    //POST: FCTVAL == the class member rCost, it represents the cost to own
    //      the railroad.
    {
-      return rCost;
+      return RCOST;
    }
 }
