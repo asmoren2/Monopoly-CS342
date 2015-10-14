@@ -7,26 +7,28 @@ public class railroad extends property
 //B&O Railroad = cost 200, Tile 25
 
    //Data Dictionary
-   private static final double RCOST = 0;//represents the total cost to own 1 railroad
 
-   public void railroad()
-   //POST:
+   public railroad()
+   //POST: Create a railroad object with defaults set
    {
-      
+      this.purchaseCost = 200;
    }//End Default Constructor
 
 //Method 1. Pass as String
 //Method 2. declare a number for each radilRoad type and pass in
 //          a number having already given it a signification.
-   public void railroad(String rType, String name)
+   public railroad(String name, int spaceGo)
    //POST: Create a railroad object with a cost of 200 and a tile number
    {
       this.purchaseCost = 200;
+      this.nameOfLocation = name;
+      this.spacesFromGo = spaceGo;
    }
 
    public double calcRent(int n)
-   //PRE: n is the number of radilRoads a player owns. It is assumed that the
+   //PRE: n is the number of railroads a player owns. It is assumed that the
    //    player can own no less than 0 and no more than 4.
+   //POST: The amount rent do is returned
    {
       double rentPayable = 0.0;
       if( n == 1)
@@ -47,10 +49,4 @@ public class railroad extends property
       }
       return rentPayable;
    }//End calcRent
-   public double getRailCost()
-   //POST: FCTVAL == the class member rCost, it represents the cost to own
-   //      the railroad.
-   {
-      return RCOST;
-   }
 }
