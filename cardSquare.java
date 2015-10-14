@@ -51,4 +51,20 @@ public class cardSquare extends boardLocation
          return (Math.random() * bound) * (-1); //   negative random value
 
    }
+
+   public String[] getPossibleActions()
+   // POST: FCTVAL = (string) "Get a chance value applied to your account"
+   {
+       super.possibleActions[0] = "Get a chance value applied to your account";
+       return possibleActions;
+   }
+
+   public String toString()
+// POST:  returns a string representing the object of the cardSquare class
+//
+{
+    return "The name of this location is : " + nameOfLocation
+          +"The location is " + spacesFromGo +" away from go."
+          +"This location is a card square.";
+}
 }
