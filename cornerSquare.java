@@ -23,7 +23,7 @@ public class cornerSquare extends boardLocation
 
    //CONSTRUCTORS
    //........................................................................
-   public void cornerSquare()
+   public cornerSquare()
    // POST: cornerSquare() creates an instance of cornerSquare, with boolean
    //       values isJail, isGo = false.   Will assume a given corner is a
    //       freeSpace as it has no side effects therefore isFreeSpace = true
@@ -32,7 +32,7 @@ public class cornerSquare extends boardLocation
       setToFreeSpace();
    }
 
-   public void cornerSquare(String nameOfLocation, int spacesFromGo, int chooseCornerMode)
+   public cornerSquare(String nameOfLocation, int spacesFromGo, int chooseCornerMode)
    // PRE: nameOfLocation is non-empty.   spacesFromGo corresponds to spaces from
    //      go to the target cornerSquare.   0<= chooseCornermode <= 2, where 0
    //      determines the cornerSquare as Jail, 1 to Go block, and 2 to freeSpace
