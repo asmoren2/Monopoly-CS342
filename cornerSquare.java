@@ -44,7 +44,8 @@ public class cornerSquare extends boardLocation
    //       chooseCornermode == 2, cornerSquare summons setToFreeSpace.
    //
    {
-      super(nameOfLocation, spacesFromGo);
+      this.nameOfLocation = nameOfLocation;
+      this.spacesFromGo = spacesFromGo;
 
       if(chooseCornerMode == 0)        // If CornerMode == 0,  the cornerBlock is determined
          setToJail();                  //   to be a jail block
