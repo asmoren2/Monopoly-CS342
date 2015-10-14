@@ -5,36 +5,32 @@ public class utility extends property
    //Electric Company, Cost: 150, Tile: 12
    //Water Works, Cost : 150, Tile: 28
 
-   private double uCost = 0;//represents the cost to own 1 utility
-
    public utility()
    //POST:
    {
+	   this.purchaseCost = 150;
        
    }//Default Constructor
 
    public utility(String name, int spacesFromGo)
    {
-      super();
+      this.nameOfLocation = name;
       this.spacesFromGo = spacesFromGo;
-      this.uCost = 150.0;
+      this.purchaseCost = 150.0;
    }//input Constructor
 
-   public void caltUtilRent(int n, int diceNumber)
+   public double caltUtilRent(int n, int diceNumber)
    {
+	  double rentCost = 0;
       if(n == 1)
       {
-         uCost = (4*diceNumber);
+         rentCost = (4*diceNumber);
       }
       else if(n == 2)
       {
-         uCost = (10*diceNumber);
+         rentCost = (10*diceNumber);
       }
+      
+      return rentCost;
    }
-
-   public double getUtilityCost()
-   {
-      return uCost;
-   }
-
 }
