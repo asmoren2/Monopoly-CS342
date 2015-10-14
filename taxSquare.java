@@ -13,7 +13,6 @@ public class taxSquare extends boardLocation
     // POST: creates an instance of taxSquare.  It instantiates the super class
     //       board location, and sets the taxMode to income tax by default
     {
-        super();
         taxMode = 0;
     }
 
@@ -21,7 +20,8 @@ public class taxSquare extends boardLocation
     // POST: creates an instance of taxSquare.  It instantiates the super class
     //       board location, and sets the taxMode = taxMode
     {
-        super(nameOfLocation, spacesFromGo);
+        this.nameOfLocation = nameOfLocation;
+        this.spacesFromGo = spacesFromGo;
         this.taxMode = taxMode;
     }
 
