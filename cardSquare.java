@@ -29,7 +29,8 @@ public class cardSquare extends boardLocation
    //       constructed.  Further, bound = bound,  and isPositive = isPositive
    //       valueReturned = 0;
    {
-       super(nameOfLocation, spacesFromGo);
+       this.nameOfLocation = nameOfLocation;
+       this.spacesFromGo = spacesFromGo;
        this.bound = bound;
        this.isPositive = isPositive;
        valueReturned = 0;
