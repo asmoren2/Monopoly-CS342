@@ -108,13 +108,19 @@ public class cornerSquare extends boardLocation
    {
       return isFreeSpace;
    }
-
+   
+   @Override
    public String toString()
 // POST:  returns a string representing the object of the cardSquare class
 //
 {
     return "The name of this location is : " + nameOfLocation
-          +"The location is " + spacesFromGo +" away from go."
-          +"This location is a corner square.";
+          +"\nThe location is " + spacesFromGo +" away from go.";
+}
+
+@Override
+public String[] getPossibleActions(player player) {
+    // TODO Auto-generated method stub
+    return null;
 }
 }
