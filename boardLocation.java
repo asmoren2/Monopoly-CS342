@@ -1,4 +1,10 @@
-
+// Programmer:  Harsh Patel
+// Assignment:  Monopoly
+// Date:        October, 14 2015
+// Description: This class acts as a super class to all the other
+//              monopoly classes, it represents a board location
+//              through the use of inheritance, we can change this
+//              class to represent more specific locations of the board.
 public abstract class boardLocation
 {
     
@@ -7,17 +13,26 @@ public abstract class boardLocation
                                          // a player can have.
     protected int spacesFromGo;          // The distance from "go". 
     
-    boardLocation()
+    public boardLocation()
+    // POST: A default board location is created.
+    //       the class member nameOfLocation is set to "".
+    //       the class member spacesFromGo is set to 0.
+    //       the class member possibleActions initialized.
     {
-        nameOfLocation = "";
-        spacesFromGo = 0;
-        possibleActions = new String[20];
+        this("",0);
     }
     
     boardLocation(String nameOfLocation, int spacesFromGo)
+    // PRE: nameOfLocation and spacesFromGo must be initialized.
+    // POST: A new board location is initialize.
+    //       the class member nameOfLocation is set to nameOfLocation.
+    //       the class member spacesFromGo is set to spacesFromGo.
+    //       the class member possibleActions initialized.
     {
         this.nameOfLocation = nameOfLocation;
         this.spacesFromGo = spacesFromGo;
+        possibleActions = new String[20];
+
     }
     
     public void setSpacesFromGo (int numSpaces)
@@ -47,21 +62,17 @@ public abstract class boardLocation
     {
         return this.nameOfLocation;
     }
-    // TODO:: This is a little confusing , ask Prof.Hogan.
-    public String[] getPossibleActions(player player)
-    // POST: FCTVAL == The class member possibleActions, it represents
-    //                 all the possible actions a player can do at the 
-    //                 current board location.
-    {
-        return possibleActions;
-    }
+
     
+    public abstract String[] getPossibleActions(player player);
+    
+    @Override
     public String toString()
     // POST:  returns a string representing the object of the board location
     //        class.
     {
         return "The name of this location is : " + nameOfLocation
-              +"The location is " + spacesFromGo +" away from go.";
+              +"\nThe location is " + spacesFromGo +" away from go.";
     }
     
 }
