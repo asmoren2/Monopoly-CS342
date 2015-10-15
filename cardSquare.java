@@ -24,15 +24,14 @@ public class cardSquare extends boardLocation
        valueReturned = 0;
    }
 
-   public cardSquare(String nameOfLocation, int spacesFromGo, double bound, boolean isPositive)
+   public cardSquare(String nameOfLocation, int spacesFromGo, double bound)
    // POST: cardSquare creates an instance of cardSquare, where its super class is
-   //       constructed.  Further, bound = bound,  and isPositive = isPositive
+   //       constructed.  Further, bound = bound,  and isPositive = true by default
    //       valueReturned = 0;
    {
-       this.nameOfLocation = nameOfLocation;
-       this.spacesFromGo = spacesFromGo;
+       super(nameOfLocation,spacesFromGo);
        this.bound = bound;
-       this.isPositive = isPositive;
+       this.isPositive = true;
        valueReturned = 0;
    }
 
@@ -52,20 +51,21 @@ public class cardSquare extends boardLocation
          return (Math.random() * bound) * (-1); //   negative random value
 
    }
+   
 
-   public String[] getPossibleActions()
-   // POST: FCTVAL = (string) "Get a chance value applied to your account"
-   {
-       super.possibleActions[0] = "Get a chance value applied to your account";
-       return possibleActions;
-   }
 
    public String toString()
 // POST:  returns a string representing the object of the cardSquare class
 //
 {
     return "The name of this location is : " + nameOfLocation
-          +"The location is " + spacesFromGo +" away from go."
-          +"This location is a card square.";
+          +"\nThe location is " + spacesFromGo +" away from go."
+          +"\nThis location is a card square.";
+}
+
+@Override
+public String[] getPossibleActions(player player) {
+    // TODO Auto-generated method stub
+    return null;
 }
 }
