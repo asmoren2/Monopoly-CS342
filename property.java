@@ -1,12 +1,29 @@
-
+// Programmer:  Harsh Patel
+// Assignment:  Monopoly
+// Date:        October, 14 2015
+// Description: This class acts as a super class to all the properties
+//              on the monopoly board.  It represents a property on the
+//              board, it can eventually be converted to a lot and other
+//              properties. 
 public abstract class property extends boardLocation
 {
     protected player owner;             // The owner of the property.
-    protected String [] possibleActions;// Array of actions a player can perform.
     protected double purchaseCost;      // The cost of purchasing.
     protected double [] rentStructure;  // The rent structure of this property.
     protected boolean isOwned;          // is the district owned or not
 
+    public property()
+    // POST: A default property is initialized.
+    {
+        super();
+    }
+    
+    public property(String nameOfLocation, int spacesFromGo)
+    // POST: the class member nameOfLocation is set to nameOfLocation
+    //       the class member spacesFromGo is set to spacesFromGo.
+    {
+        super(nameOfLocation,spacesFromGo);
+    }
     public void setRent(double rent, int option)
     // PRE: rent and option are initialized.
     //      rent >= 0
@@ -38,6 +55,12 @@ public abstract class property extends boardLocation
         return this.purchaseCost;
     }
     
+    public player getOwner()
+    // FCTVAL: The owner of this property.
+    {
+        return this.owner;
+    }
+    
     public double getRent(int numHouses)
     // FCTVAL == The rent of the property, with numHouses houses on it.
     {
@@ -45,9 +68,9 @@ public abstract class property extends boardLocation
     }
     
     @Override
-    // TODO:: This is a little confusing , ask Prof.Hogan.
     public String [] getPossibleActions(player player)
-    {
+    {   
+        possibleActions[0] = "Pass";
         return possibleActions;
     }
     
@@ -56,7 +79,7 @@ public abstract class property extends boardLocation
     // POST:  A string representing this property.
     {
         return super.toString() +
-               "\nThe property is owned by: " + owner.getToken() +
+               "\nThe property is owned by: " + //owner.getToken() +
                "\nThe property costs: " + purchaseCost;
     }
 }
