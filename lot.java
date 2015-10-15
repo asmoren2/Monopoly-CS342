@@ -1,4 +1,8 @@
-
+// Programmer:  Harsh Patel
+// Assignment:  Monopoly
+// Date:        October, 14 2015
+// Description: This class represents a lot on the board,
+//              the user can then buy or build houses on the lot.
 public class lot extends property
 {
     private String color;           // The color of the district that the
@@ -17,11 +21,12 @@ public class lot extends property
     //       It initialized the class member hasHotel to "does not have a"
     //       It also has a rent structure of rentStructure.
     {
-        this("",0.0,0.0,0,new double [7]);
+        this("",0,"",0.0,0.0,0,new double [7]);
     }
     
-    public lot(String color, double purchaseCost, double improveCost,
-        int numHouses, double [] rentStructure)
+    public lot(String nameOfLocation, int spacesFromGo, String color, 
+               double purchaseCost, double improveCost,
+               int numHouses, double [] rentStructure)
     // PRE: district, color, nameOfLocation must be initialize.
     //      spaceFromGo >= 0
     //      purchaseCost >= 0.0, improveCost >= 0.0
@@ -37,7 +42,7 @@ public class lot extends property
     //       class member hasHotel to "does not have a",
     //       and the class member isHotel set to false.
     {
-        super();
+        super(nameOfLocation,spacesFromGo);
         this.color = color;
         this.purchaseCost = purchaseCost;
         this.improveCost = improveCost;
@@ -78,6 +83,16 @@ public class lot extends property
     // TODO:: This is a little confusing , ask Prof.Hogan.
     public String [] getPossibleActions(player player)
     {
+        possibleActions[0] = "Do Nothing";
+        if(isOwned == false)
+        {
+            possibleActions[1] = "Buy";
+        }
+        // TODO:: how to check if the houses are evenly built
+        else if (isOwned == true && player.getMoney() > improveCost)
+        {
+            possibleActions[2] = "Make a house";
+        }
         return possibleActions;
     }
     
