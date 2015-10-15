@@ -1,3 +1,8 @@
+// Programmer:  Adolfo Moreno
+// Assignment:  Monopoly
+// Date:        October, 14 2015
+// Description: This class represents a railroad block on the
+//              monopoly game.
 public class railroad extends property
 {
 //Railroad class
@@ -11,18 +16,18 @@ public class railroad extends property
    public railroad()
    //POST: Create a railroad object with defaults set
    {
+      super();
       this.purchaseCost = 200;
    }//End Default Constructor
 
 //Method 1. Pass as String
 //Method 2. declare a number for each radilRoad type and pass in
 //          a number having already given it a signification.
-   public railroad(String name, int spaceGo)
+   public railroad(String nameOfLocation, int spacesFromGo)
    //POST: Create a railroad object with a cost of 200 and a tile number
    {
+      super(nameOfLocation,spacesFromGo);
       this.purchaseCost = 200;
-      this.nameOfLocation = name;
-      this.spacesFromGo = spaceGo;
    }
 
    public double calcRent(int n)
@@ -49,4 +54,10 @@ public class railroad extends property
       }
       return rentPayable;
    }//End calcRent
+   
+   @Override 
+   public String toString()
+   {
+       return super.toString() + "\nThe purchase cost is : " + purchaseCost;
+   }
 }
