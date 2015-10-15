@@ -1,3 +1,8 @@
+// Programmer:  Adolfo Moreno
+// Assignment:  Monopoly
+// Date:        October, 14 2015
+// Description: This class represents a player in the game.  
+//              The player holds money, and property information.
 public class player
 {
   private double money; //The amount of money that the player has
@@ -5,16 +10,14 @@ public class player
   private int numUtility; //Number of utilities that the player owns
   private int spaceFromGo; //Number of spaces the player is from Go tile
   private String playerToken; //Differentiates the player from
-  private int boardLocation; //Location where the player resides on the
   private int diceLand;      // The value of the dice as it lands.
-//THIS IS CHRISTIAN
 
 player()
 // POST: Sets a new board location for the specific player.
 {
-  this(1500, 0, 0, 0," ", 0);
+  this(1500, 0, 0, 0," ");
 }
-player(double money, int railroads, int utility, int spaceGo, String token, int location)
+player(double money, int railroads, int utility, int spaceGo, String token)
 //PRE : 0 < location < 41; location is in block.
 {
   this.money = money;
@@ -22,14 +25,13 @@ player(double money, int railroads, int utility, int spaceGo, String token, int 
   this.numUtility = utility;
   this.spaceFromGo = spaceGo;
   this.playerToken = token;
-  this.boardLocation = location;
 }
 
 public void setBoardLocation(int location)
 //PRE: Assume 0 < location < 41, location is in block
 //POST: Set a new board location for the specific player.
 {
-   this.boardLocation = location;
+   this.spaceFromGo = location;
 }
 
 public double getMoney()
@@ -41,7 +43,7 @@ public double getMoney()
 public int getBoardLocation()
 //POST: FCTVAL == The current location of the player.
 {
-   return boardLocation;
+   return this.spaceFromGo;
 }
 
 public int getNumberRailroad()
@@ -99,6 +101,6 @@ public String toString()
 {
    return "Player: " + playerToken + "Has $"+money + "Railroads owned: "+
          numRailroad + "Utilities owned" + numUtility + "Board location: " +
-         boardLocation;
+         spaceFromGo;
 }
 }//End Player Class
