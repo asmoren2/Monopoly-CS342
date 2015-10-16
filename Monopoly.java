@@ -45,6 +45,16 @@ public class Monopoly
         }
     }
 
+    public void printAllPlayers()
+    // POST: This method prints out information about all players.
+    {
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            System.out.println();
+            System.out.println(playerArr[i].toString());
+        }
+    }
+
     public void getPlayerOrder ()
     {
         int slotsLeft;        // To count how many player slots are left to be assigned

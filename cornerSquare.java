@@ -44,8 +44,7 @@ public class cornerSquare extends boardLocation
    //       chooseCornermode == 2, cornerSquare summons setToFreeSpace.
    //
    {
-      this.nameOfLocation = nameOfLocation;
-      this.spacesFromGo = spacesFromGo;
+      super(nameOfLocation, spacesFromGo);
 
       if(chooseCornerMode == 0)        // If CornerMode == 0,  the cornerBlock is determined
          setToJail();                  //   to be a jail block
@@ -108,19 +107,35 @@ public class cornerSquare extends boardLocation
    {
       return isFreeSpace;
    }
-   
-   @Override
-   public String toString()
-// POST:  returns a string representing the object of the cardSquare class
-//
-{
-    return "The name of this location is : " + nameOfLocation
-          +"\nThe location is " + spacesFromGo +" away from go.";
-}
 
-@Override
-public String[] getPossibleActions(player player) {
-    // TODO Auto-generated method stub
-    return null;
-}
+   @Override
+   public String[] getPossibleActions(player player)
+   {
+       // 1) Populate a string array containing all possible actions.
+
+       if (isJail == true)      // verify the case when our cornerSquare is a Jail
+       {
+           super.possibleActions[0] = "1) Wait a turn.\n";
+       }
+
+       if (isGo == true)       // verify the case when our cornerSquare is a Free Space
+       {
+           super.possibleActions[0] = "1) Wait a turn.";
+           super.possibleActions[1] = "2) Buy a hotel within your properties";
+           super.possibleActions[2] = "3) Buy a house within your properties";
+           super.possibleActions[3] = "4) End Game";
+       }
+
+       if (isFreeSpace == true)
+       {
+           super.possibleActions[0] = "1) Wait a turn and recieve $200.00 reward.";
+           super.possibleActions[1] = "2) Buy a hotel within your properties and" +
+                                           "recieve $200.00 reward.";
+           super.possibleActions[2] = "3) Buy a house within your properties" +
+                                           "and recieve $200.00 reward.";
+           super.possibleActions[3] = "4) End Game";
+       }
+
+       return super.possibleActions;
+   }
 }
