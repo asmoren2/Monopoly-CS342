@@ -31,18 +31,6 @@ public class taxSquare extends boardLocation
         this.taxMode = taxMode;
     }
 
-    public String [] getPossibleActions()
-    // POST: FCTVAL possibleActions
-    {
-        if (taxMode == 1) //If taxMode == 1, then generate possibleActions for a
-                          //   luxury tax
-           super.possibleActions[0] = "Pay 200$ to the bank due to income tax.";
-        else
-           super.possibleActions[0] = "Pay 50$ to the bank to income tax.";
-
-        return possibleActions;
-    }
-    
     @Override
     public String toString()
 // POST:  returns a string representing the object of the cardSquare class
@@ -53,9 +41,16 @@ public class taxSquare extends boardLocation
 }
 
     @Override
-    public String[] getPossibleActions(player player) {
-        // TODO Auto-generated method stub
-        return null;
+    public String[] getPossibleActions(player player)
+    // POST: FCTVAL possibleActions
+    {
+        if (taxMode == 1) //If taxMode == 1, then generate possibleActions for a
+            //   luxury tax
+            super.possibleActions[0] = "1) Pay 200$ to the bank due to income tax.";
+        else
+            super.possibleActions[0] = "1) Pay 50$ to the bank to income tax.";
+
+        return possibleActions;
     }
 
 
