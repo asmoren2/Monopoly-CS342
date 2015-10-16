@@ -80,18 +80,35 @@ public class lot extends property
     }
     
     @Override
-    // TODO:: This is a little confusing , ask Prof.Hogan.
     public String [] getPossibleActions(player player)
+    // PRE: player must be initialized
+    // POST: FCTVAL == A string array representing all the actions
+    //                 a player can currently perform is returned.
     {
+        possibleActions = new String[20];
         possibleActions[0] = "Do Nothing";
-        if(isOwned == false)
+        if(isOwned == false)                // The property is not owned.
         {
             possibleActions[1] = "Buy";
         }
-        // TODO:: how to check if the houses are evenly built
-        else if (isOwned == true && player.getMoney() > improveCost)
+        else if (isOwned == true &&         // The property is owned
+                 this.owner == player &&    // by the current player,
+                 player.getMoney() > this.improveCost) // and the player has enough money
+                                                       // to buy the house.
         {
             possibleActions[2] = "Make a house";
+            if(numHouses >= 4)                          // If the player can build a hotel.
+            {
+                possibleActions[3] = "Make a hotel";
+            }
+        }
+        else if (isOwned == true && this.owner != player && player.getMoney() > this.rentStructure[numHouses])
+        {
+            possibleActions[4] = "Pay rent";
+        }
+        else
+        {
+            possibleActions[5] = "End game";
         }
         return possibleActions;
     }
