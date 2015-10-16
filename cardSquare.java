@@ -51,21 +51,23 @@ public class cardSquare extends boardLocation
          return (Math.random() * bound) * (-1); //   negative random value
 
    }
-   
+
 
 
    public String toString()
-// POST:  returns a string representing the object of the cardSquare class
-//
-{
-    return "The name of this location is : " + nameOfLocation
-          +"\nThe location is " + spacesFromGo +" away from go."
-          +"\nThis location is a card square.";
-}
+    // POST:  returns a string representing the object of the cardSquare class
+    //
+    {
+        return "The name of this location is : " + nameOfLocation
+              +"\nThe location is " + spacesFromGo +" away from go."
+              +"\nThis location is a card square.";
+    }
 
-@Override
-public String[] getPossibleActions(player player) {
-    // TODO Auto-generated method stub
-    return null;
-}
+    @Override
+    public String[] getPossibleActions(player player)
+    {
+        // TODO Auto-generated method stub
+        super.possibleActions[0] = "1) Take a Chance Value and Apply to your Balance.";
+        return possibleActions;
+    }
 }

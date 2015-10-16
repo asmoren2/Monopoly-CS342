@@ -16,6 +16,8 @@ public class Monopoly
                                                     //   players will throw
 
 
+
+
     public Monopoly()
     // POST : A default monopoly game is created with an initialized board,
     //        and two players.
@@ -93,6 +95,38 @@ public class Monopoly
                 playerOrders[aSlot] = aSlot - firstPlayerIndex;
             }
         }
+    }
+
+    public void demoMode ()
+    {
+      int propIndex;    //To hold the index of a given property
+         ((property) monopolyBoard[1]).buy(playerArr[0]);
+         ((lot) monopolyBoard[1]).addNumHouses();
+         ((lot) monopolyBoard[1]).addNumHouses();
+         ((property) monopolyBoard[3]).buy(playerArr[1]);
+         ((lot) monopolyBoard[3]).addNumHouses();
+         ((property) monopolyBoard[5]).buy(playerArr[0]);
+         ((property) monopolyBoard[6]).buy(playerArr[1]);
+         ((lot) monopolyBoard[6]).addNumHouses();
+         ((property) monopolyBoard[8]).buy(playerArr[0]);
+         ((lot) monopolyBoard[8]).addNumHouses();
+         ((lot) monopolyBoard[8]).addNumHouses();
+         ((property) monopolyBoard[9]).buy(playerArr[0]);
+         ((property) monopolyBoard[11]).buy(playerArr[1]);
+         ((property) monopolyBoard[12]).buy(playerArr[1]);
+         ((property) monopolyBoard[13]).buy(playerArr[0]);
+         ((lot) monopolyBoard[13]).addNumHouses();
+         ((lot) monopolyBoard[13]).addNumHouses();
+         ((property) monopolyBoard[14]).buy(playerArr[0]);
+         ((property) monopolyBoard[15]).buy(playerArr[0]);
+         ((property) monopolyBoard[16]).buy(playerArr[1]);
+         ((property) monopolyBoard[18]).buy(playerArr[1]);
+         ((property) monopolyBoard[19]).buy(playerArr[1]);
+         ((property) monopolyBoard[21]).buy(playerArr[0]);
+         ((property) monopolyBoard[23]).buy(playerArr[0]);
+         ((property) monopolyBoard[24]).buy(playerArr[0]);
+         ((property) monopolyBoard[25]).buy(playerArr[0]);
+         ((property) monopolyBoard[26]).buy(playerArr[0]);
     }
 
     private player [] initializeTwoPlayers()
