@@ -11,6 +11,16 @@ public class testDriver {
 
         theGame.printAllLocations();
         theGame.printAllPlayers();
+
+
+        // TEST ONLY: GET POSSIBLE ACTIONS
+        for (int i = 0; i < 40; i++)
+        {
+            System.out.println();
+            for(String anOption : theGame. monopolyBoard[i].getPossibleActions(playerList[0]))
+                if (anOption != null)
+                    System.out.println(anOption);
+        }
     }
 
 }
