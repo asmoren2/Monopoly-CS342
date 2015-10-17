@@ -1,4 +1,3 @@
-// Harsh is editing 
 // Programmer:  Adolfo Moreno
 // Assignment:  Monopoly
 // Date:        October, 14 2015
@@ -9,23 +8,28 @@ public class player
   private double money; //The amount of money that the player has
   private int numRailroad; //Number of railroads that the player owns
   private int numUtility; //Number of utilities that the player owns
+  private int numLots;    // Number of lots a player owns.
+  private int numProperties; // The number of property a player owns.
   private int spaceFromGo; //Number of spaces the player is from Go tile
   private String playerToken; //Differentiates the player from
   private int diceLand;      // The value of the dice as it lands.
-
-player()
+  private property [] propertyList;
+public player()
 // POST: Sets a new board location for the specific player.
 {
-  this(1500, 0, 0, 0," ");
+  this(1500, 0," ");
 }
-player(double money, int railroads, int utility, int spaceGo, String token)
+public player(double money,int spaceGo, String token)
 //PRE : 0 < location < 41; location is in block.
 {
   this.money = money;
-  this.numRailroad = railroads;
-  this.numUtility = utility;
   this.spaceFromGo = spaceGo;
   this.playerToken = token;
+  this.propertyList = new property [28];
+  this.numProperties = 0;
+  this.numLots = 0; 
+  this.numRailroad = 0;
+  this.numUtility = 0;
 }
 
 public void setBoardLocation(int location)
@@ -34,7 +38,11 @@ public void setBoardLocation(int location)
 {
    this.spaceFromGo = location;
 }
-
+public int getNumLots()
+// POST: FCTVAL == The number of lots a player owns.
+{
+    return this.numLots;
+}
 public double getMoney()
 // POST: FCTVAL == The amount of money a player has.
 {
@@ -103,11 +111,65 @@ public String getToken()
     return this.playerToken;
 }
 
+public void buyProperty(property property)
+// PRE:  property must be initialized
+// POST: adds the property to the list of property a player owns.
+//       increments the property counters as needed.
+{
+   propertyList[numProperties] = property;
+   numProperties++;
+  
+   if(property instanceof lot)              // if the property is a lot
+   {                                        // add one to numLots.
+       numLots++;
+   }
+   else if (property instanceof railroad)   // if the property is a railroad
+   {                                        // add one to numRailroad.
+       numRailroad++;
+   }
+   else if (property instanceof utility)    // if the property is a utility
+   {                                        // add one to the numUtility.
+       numUtility++;
+   }
+   property.isOwned = true;
+}
+
 @Override
 public String toString()
 {
    return "Player: " + playerToken + "Has $"+money + "Railroads owned: "+
          numRailroad + "Utilities owned" + numUtility + "Board location: " +
          spaceFromGo;
+}
+
+public boolean sell (double amount)
+// PRE: amount >= 0
+// POST: FCTVAL == returns true, if the user has sold enough houses
+//       to pay the amount, else return false.
+{
+    double recoveredMoney = 0;
+    for(property currProperty: propertyList)            // Go through the properties
+    {
+        if(currProperty instanceof lot)                 // for each lot check if there
+        {                                               // you can build a house.
+            if(((lot)currProperty).getHotel() == true)
+            {
+                recoveredMoney += ((lot)currProperty).sellHotel();
+            }
+            else if (((lot)currProperty).getNumHouses() > 0)
+            {
+                // keep selling houses until you have enough money to pay off the creditor.
+                while(recoveredMoney <= amount && ((lot)currProperty).getNumHouses() > 0)
+                {
+                    recoveredMoney += ((lot)currProperty).sellHouse();
+                }
+            }
+            if(recoveredMoney > amount)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 }//End Player Class
