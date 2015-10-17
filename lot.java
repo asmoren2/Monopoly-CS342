@@ -60,6 +60,12 @@ public class lot extends property
         
     }
     
+    public boolean getHotel()
+    // POST: FCTVAL == does the lot have a hotel.
+    {
+        return isHotel;
+    }
+    
     public void addNumHouses()
     // POST: adds one to the number of houses on this lot.
     {
