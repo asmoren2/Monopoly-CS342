@@ -19,7 +19,7 @@ public class cornerSquare extends boardLocation
                                  //    is just a free space.
 
    private double costOnLanding; // constOnLanding determines what the cost for
-                                 //    landing on this corner implies
+                                 //    landing on this corner implies   
 
    //CONSTRUCTORS
    //........................................................................
@@ -107,35 +107,44 @@ public class cornerSquare extends boardLocation
    {
       return isFreeSpace;
    }
-
+   
    @Override
    public String[] getPossibleActions(player player)
    {
        // 1) Populate a string array containing all possible actions.
-
+       
        if (isJail == true)      // verify the case when our cornerSquare is a Jail
        {
-           super.possibleActions[0] = "1) Wait a turn.\n";
+           super.possibleActions[0] = "1) Wait a turn.\n"; 
        }
-
+       
        if (isGo == true)       // verify the case when our cornerSquare is a Free Space
        {
            super.possibleActions[0] = "1) Wait a turn.";
-           super.possibleActions[1] = "2) Buy a hotel within your properties";
-           super.possibleActions[2] = "3) Buy a house within your properties";
-           super.possibleActions[3] = "4) End Game";
+           super.possibleActions[1] = "2) Buy a hotel within your properties (unimplemented)";
+           super.possibleActions[2] = "3) Buy a house within your properties (unimplemented)" ;
+           super.possibleActions[3] = "4) End Game (unimplemented)";
        }
-
+       
        if (isFreeSpace == true)
        {
            super.possibleActions[0] = "1) Wait a turn and recieve $200.00 reward.";
            super.possibleActions[1] = "2) Buy a hotel within your properties and" +
-                                           "recieve $200.00 reward.";
+                                           "recieve $200.00 reward. (unimplemented)";
            super.possibleActions[2] = "3) Buy a house within your properties" +
-                                           "and recieve $200.00 reward.";
-           super.possibleActions[3] = "4) End Game";
+                                           "and recieve $200.00 reward. (unimplemented)";
+           super.possibleActions[3] = "4) End Game (unimplemented)";
        }
-
+       
        return super.possibleActions;
    }
+
+    @Override
+    public boolean performAction(player thePlayer, player theBank, char choice) 
+    {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+
 }

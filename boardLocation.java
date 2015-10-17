@@ -8,9 +8,15 @@
 public abstract class boardLocation
 {
     
-    protected String nameOfLocation;     // The name of the location.
+    protected String nameOfLocation;           // The name of the location.
     protected String [] possibleActions; // All the possible actions 
-                                         // a player can have.
+                                               // a player can have.   
+    
+    public boolean [] actionStatus;                 // An array to hold which actions
+                                                    //   are enabled and disabled
+                                                    //   for a given board location.
+                                                    //   Used to enforce fair Play.
+    
     protected int spacesFromGo;          // The distance from "go". 
     
     public boardLocation()
@@ -18,6 +24,7 @@ public abstract class boardLocation
     //       the class member nameOfLocation is set to "".
     //       the class member spacesFromGo is set to 0.
     //       the class member possibleActions initialized.
+    //       the calss member actionStatus[i] = false   for 0 < i < actionStatus.Length
     {
         this("",0);
     }
@@ -30,9 +37,23 @@ public abstract class boardLocation
     //       the class member possibleActions initialized.
     {
         this.nameOfLocation = nameOfLocation;
-        this.spacesFromGo = spacesFromGo;
-        possibleActions = new String[20];
-
+        this.spacesFromGo = spacesFromGo;        
+        possibleActions = new String[20];    
+        
+        actionStatus = new boolean [20];
+        
+        for(boolean aStatus : actionStatus)
+            aStatus = false;
+    }
+    
+    private void initializeAllActions()
+    // PRE: masterPossibleActions must be allocated
+    //      actionStatus must be allocated
+    // POST: Populates masterPossibleActions with all possible actions
+    //       Populates actionStatus as all false
+    {
+        
+        
     }
     
     public void setSpacesFromGo (int numSpaces)
@@ -63,6 +84,7 @@ public abstract class boardLocation
         return this.nameOfLocation;
     }
 
+    public abstract boolean performAction(player thePlayer, player theBank, char choice); 
     
     public abstract String[] getPossibleActions(player player);
     

@@ -51,7 +51,7 @@ public class cardSquare extends boardLocation
          return (Math.random() * bound) * (-1); //   negative random value
 
    }
-
+   
 
 
    public String toString()
@@ -64,10 +64,19 @@ public class cardSquare extends boardLocation
     }
 
     @Override
-    public String[] getPossibleActions(player player)
-    {
-        // TODO Auto-generated method stub
-        super.possibleActions[0] = "1) Take a Chance Value and Apply to your Balance.";
+    public String[] getPossibleActions(player player) 
+    {       
+        super.possibleActions[0] = "1) Take a Chance Value and Apply to your Balance. (unimplemented)";
+        super.possibleActions[1] = "2) Build a House. (unimplemented)";       
+        super.possibleActions[2] = "3) Build a Hotel. (unimplemented)";
         return possibleActions;
     }
+
+    @Override
+    public boolean performAction(player thePlayer, player theBank, char choice) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+
 }
