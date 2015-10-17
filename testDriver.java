@@ -1,15 +1,14 @@
-// Harsh is editing.
 import java.util.Scanner;
 
 public class testDriver {
 
     public static void main(String[] args) {
         player [] playerList = new player [3];
-        playerList[0] = new player(1500, 0, 0, 0, "Harsh");
-        playerList[1] = new player(1500, 0, 0, 0, "Adolfo");
-        playerList[2] = new player(1500, 0, 0, 0, "Christian");
+        playerList[0] = new player(1500, 0, "Harsh");
+        playerList[1] = new player(1500, 0, "Adolfo");
+        playerList[2] = new player(1500, 0, "Christian");
         
-        player theBank = new player (9999, 0,0,0, "Bank");
+        player theBank = new player (9999,0, "Bank");
         
         String choice;
         
