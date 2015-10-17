@@ -1,23 +1,24 @@
 public class Monopoly
 {
     public boardLocation [] monopolyBoard;          // The monopoly board.
-    public player [] playerArr;                     // The array of players.
-
-    public int currentDiceValue;                    // currentDiceValue Holds the
+    public player [] playerArr;                     // The array of players.    
+    public player theBank;
+    
+    public int currentDiceValue;                    // currentDiceValue Holds the 
                                                     //   current dice value
-
+    
     public int currentPlayer;                       // currentPlayer holds the index
                                                     //   of the current player's turn
-
-    public int numberOfPlayers;                     // numberOfPlayers holds the
+    
+    public int numberOfPlayers;                     // numberOfPlayers holds the 
                                                     //   number of players for a given game
-
+    
     public int [] playerOrders;                     // an array to hold the order in which
                                                     //   players will throw
-
-
-
-
+    
+    
+    
+    
     public Monopoly()
     // POST : A default monopoly game is created with an initialized board,
     //        and two players.
@@ -26,17 +27,17 @@ public class Monopoly
         playerArr     = initializeTwoPlayers();
         numberOfPlayers = playerArr.length;
     }
-
+    
     public Monopoly (player [] playerArr)
     // PRE: the player array must be initialized.
-    // POST: A new monopoly game is created with an initialized board and
+    // POST: A new monopoly game is created with an initialized board and 
     //       the class member playerArr set to playerArr.
     {
         monopolyBoard = initializeBoard();
         this.playerArr = playerArr;
         numberOfPlayers = playerArr.length;
     }
-
+    
     public void printAllLocations()
     // POST: This method prints out information about all board locations.
     {
@@ -46,7 +47,7 @@ public class Monopoly
             System.out.println(monopolyBoard[i].toString());
         }
     }
-
+    
     public void printAllPlayers()
     // POST: This method prints out information about all players.
     {
@@ -56,50 +57,50 @@ public class Monopoly
             System.out.println(playerArr[i].toString());
         }
     }
-
+    
     public void getPlayerOrder ()
     {
         int slotsLeft;        // To count how many player slots are left to be assigned
-        int firstPlayerIndex; // To hold the index of the first player, generated
+        int firstPlayerIndex; // To hold the index of the first player, generated 
                               //    randomly
-
-
-        slotsLeft = numberOfPlayers;
+        
+        
+        slotsLeft = numberOfPlayers;    
         firstPlayerIndex = (int) (Math.random() * numberOfPlayers);
-
+        
         for(int aSlot = 0; aSlot < numberOfPlayers; aSlot ++)
         {
             //STEP 1: Randomly Generate the first player
-
+            
             if (aSlot == 0) // if aSlot == 0, the player index will be a randomly
                             //   firstPlayerIndex
             {
                 playerOrders[aSlot] = firstPlayerIndex;
             }
-
+            
             // STEP 2: "Assign turns by moving to the right."  This implies assigning
             //          player Indexes incrementally, and wrapping arround if we
             //          exceed the number of players.
-
+            
             else if (firstPlayerIndex + aSlot  // So long as the index of the currentPlayer
-                            < numberOfPlayers) //   does not exceed the number of players,
+                            < numberOfPlayers) //   does not exceed the number of players, 
                                                //   do not wrap arround player index
             {
                 playerOrders[aSlot] = firstPlayerIndex + aSlot;
-
+                            
             }
-
+            
             else    // If the index of the currentPlayer exceeds the number of players,
-                    //    wrap around and asing players left over.
+                    //    wrap around and asing players left over. 
             {
-                playerOrders[aSlot] = aSlot - firstPlayerIndex;
+                playerOrders[aSlot] = aSlot - firstPlayerIndex; 
             }
         }
     }
-
+    
     public void demoMode ()
     {
-      int propIndex;    //To hold the index of a given property
+      int propIndex;    //To hold the index of a given property     
          ((property) monopolyBoard[1]).buy(playerArr[0]);
          ((lot) monopolyBoard[1]).addNumHouses();
          ((lot) monopolyBoard[1]).addNumHouses();
@@ -128,10 +129,10 @@ public class Monopoly
          ((property) monopolyBoard[25]).buy(playerArr[0]);
          ((property) monopolyBoard[26]).buy(playerArr[0]);
     }
-
+    
     private player [] initializeTwoPlayers()
     // POST: Initialized two default players,
-    //       FCTVL ==
+    //       FCTVL == 
     {
         playerArr = new player [2];
         playerArr[0] = new player();

@@ -60,4 +60,19 @@ public class railroad extends property
    {
        return super.toString() + "\nThe purchase cost is : " + purchaseCost;
    }
+
+   @Override
+   public String [] getPossibleActions(player thePlayer)
+   {
+       possibleActions = new String [1];
+       possibleActions [0] = "Railroad actions not implementd";
+       return possibleActions;
+   }
+   
+    @Override
+    public boolean performAction(player thePlayer, player theBank, char choice) 
+    {
+        // TODO Auto-generated method stub
+        return true;
+    }
 }

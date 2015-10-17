@@ -40,6 +40,9 @@ public abstract class property extends boardLocation
     {
         this.owner = owner;
         this.isOwned = true;
+        
+        //NOTE: MAKE SURE YOU ADD THE FUNCTIONALITY TO DEDUCT MONEY FROM THE
+        //      PLAYER
     }
     
     public boolean isOwned()

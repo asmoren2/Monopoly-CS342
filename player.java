@@ -58,6 +58,12 @@ public int getNumberUtilities()
   return this.numUtility;
 }
 
+public int getDiceLand()
+//POST: FCTVAL == The value of the dice for the latest turn.
+{
+    return this.diceLand;
+}
+
 public void addMoney(double amount)
 // PRE: money must be initialized, money is in dollars.
 // POST: adds money to member variable money. If money is a
