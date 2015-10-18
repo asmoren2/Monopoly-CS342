@@ -43,56 +43,42 @@ public class utility extends property
    }
 
    @Override
-   public String [] getPossibleActions(player thePlayer)
+   public boolean [] getPossibleActions(player thePlayer)
    // PRE: player must be initialized
    // POST: FCTVAL == A string array representing all the actions
    //                 a player can currently perform is returned.
    {                
-       possibleActions = new String[5];    // Holds all possible actions
-       int utilitiesOwned;                  // Number of utilities owned by a 
-                                            //   the owner of this particular
-                                            //   utility box
-       
-       if(isOwned == false)         // This Location is not owned
+       double rent = caltUtilRent(owner.getNumberRailroad(), thePlayer.getDiceLand());
+       actionStatus[4] = true;
+       if(isOwned == false && thePlayer.getMoney() > purchaseCost)         // This Location is not owned
        {
-           possibleActions[0] = "'N'-> Do Nothing";
-           actionStatus[0] = true;
-           possibleActions[1] = "'B' -> Buy";
-           actionStatus[1] = true;
+           actionStatus[1] = true;  // buy
+           actionStatus[0] = true;  // Do nothing
        }
-       
-       else if(isOwned == true)    // This Location is already owned
+       else if(isOwned == true && this.owner == thePlayer
+               && thePlayer.canImprove(thePlayer.getImprovingLots()))    // This Location is already owned
        {
-           if (this.owner == thePlayer) // owned by the current player,
-           {
-               possibleActions[0] = "'N'-> Do Nothing";
-               actionStatus[0] = true;
-               possibleActions[2] =  "'I' -> Improve another Property";
-               actionStatus[2] = true;
-               if(actionStatus[2] == true)
-               {
-            	   thePlayer.canImprove(thePlayer.getImprovingLots());
-               }
-           }
+               actionStatus[3] = true;
        }
-           
-           else if (this.owner != thePlayer)      // owned by another player 
-           {               
-        	   thePlayer.addMoney(this.caltUtilRent(this.getOwner().getNumberUtilities(), thePlayer.getDiceLand())* -1);
-               this.getOwner().addMoney(this.caltUtilRent(this.getOwner().getNumberUtilities(), thePlayer.getDiceLand()));
-           }
-         
-       
-       if(thePlayer.getMoney() <= 0)
+       else if (this.owner != thePlayer 
+                && thePlayer.getMoney() > rent)     // owned by another player 
        {
-    	   if(thePlayer.sell(thePlayer.getMoney()*-1) == false)
-    	   {
-    		   System.out.println("Game has ended you lost");
-    		   System.exit(0);
-    	   }
+           thePlayer.payRent(owner, rent);
        }
-       return possibleActions;
+       else if(thePlayer.getMoney() <= 0
+               && thePlayer.hasSellableProperty())
+       {
+           actionStatus[2] = true;      // Sell
+       }
+
+       return actionStatus;
    }
+
+@Override
+public boolean performAction(player thePlayer, player theBank, char choice) {
+    // TODO Auto-generated method stub
+    return false;
+}
    
    
 }
