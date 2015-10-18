@@ -9,8 +9,11 @@ public abstract class boardLocation
 {
     
     protected String nameOfLocation;           // The name of the location.
-    protected String [] possibleActions; // All the possible actions 
-                                               // a player can have.   
+    protected static final String [] PACTIONS = {"Do Nothing", "Buy", 
+                                                 "Sell", "Improve Property", 
+                                                 "End Game"};    
+
+  
     
     public boolean [] actionStatus;                 // An array to hold which actions
                                                     //   are enabled and disabled
@@ -29,7 +32,7 @@ public abstract class boardLocation
         this("",0);
     }
     
-    boardLocation(String nameOfLocation, int spacesFromGo)
+    public boardLocation(String nameOfLocation, int spacesFromGo)
     // PRE: nameOfLocation and spacesFromGo must be initialized.
     // POST: A new board location is initialize.
     //       the class member nameOfLocation is set to nameOfLocation.
@@ -38,9 +41,8 @@ public abstract class boardLocation
     {
         this.nameOfLocation = nameOfLocation;
         this.spacesFromGo = spacesFromGo;        
-        possibleActions = new String[20];    
         
-        actionStatus = new boolean [20];
+        actionStatus = new boolean [5];
         
         for(boolean aStatus : actionStatus)
             aStatus = false;
