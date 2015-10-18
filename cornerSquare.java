@@ -109,34 +109,21 @@ public class cornerSquare extends boardLocation
    }
    
    @Override
-   public String[] getPossibleActions(player player)
+   public boolean [] getPossibleActions(player player)
    {
-       // 1) Populate a string array containing all possible actions.
-       
-       if (isJail == true)      // verify the case when our cornerSquare is a Jail
+       if(isGo)     // if on "Go" get $200
        {
-           super.possibleActions[0] = "1) Wait a turn.\n"; 
+           player.addMoney(200);
        }
-       
-       if (isGo == true)       // verify the case when our cornerSquare is a Free Space
+       else if(player.canImprove(player.getImprovingLots()))
+       // Has improvable property
        {
-           super.possibleActions[0] = "1) Wait a turn.";
-           super.possibleActions[1] = "2) Buy a hotel within your properties (unimplemented)";
-           super.possibleActions[2] = "3) Buy a house within your properties (unimplemented)" ;
-           super.possibleActions[3] = "4) End Game (unimplemented)";
+           actionStatus[3] = true;
        }
-       
-       if (isFreeSpace == true)
-       {
-           super.possibleActions[0] = "1) Wait a turn and recieve $200.00 reward.";
-           super.possibleActions[1] = "2) Buy a hotel within your properties and" +
-                                           "recieve $200.00 reward. (unimplemented)";
-           super.possibleActions[2] = "3) Buy a house within your properties" +
-                                           "and recieve $200.00 reward. (unimplemented)";
-           super.possibleActions[3] = "4) End Game (unimplemented)";
-       }
-       
-       return super.possibleActions;
+       // Do nothing
+       actionStatus[0] = true;
+       actionStatus[4] = true;  // End game
+       return actionStatus;
    }
 
     @Override
