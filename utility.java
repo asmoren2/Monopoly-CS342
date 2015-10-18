@@ -48,7 +48,7 @@ public class utility extends property
    // POST: FCTVAL == A string array representing all the actions
    //                 a player can currently perform is returned.
    {                
-       possibleActions = new String[20];    // Holds all possible actions
+       possibleActions = new String[5];    // Holds all possible actions
        int utilitiesOwned;                  // Number of utilities owned by a 
                                             //   the owner of this particular
                                             //   utility box
@@ -69,83 +69,30 @@ public class utility extends property
                actionStatus[0] = true;
                possibleActions[2] =  "'I' -> Improve another Property (not implemented)";
                actionStatus[2] = true;
+               if(actionStatus[2] == true)
+               {
+            	   thePlayer.canImprove(thePlayer.getImprovingLots());
+               }
            }
+       }
            
            else if (this.owner != thePlayer)      // owned by another player 
            {               
-               possibleActions[3] =  "'R' -> Pay Rent for this utility.";
-               actionStatus[3] = true;
+        	   thePlayer.addMoney(this.caltUtilRent(this.getOwner().getNumberUtilities(), thePlayer.getDiceLand())* -1);
+               this.getOwner().addMoney(this.caltUtilRent(this.getOwner().getNumberUtilities(), thePlayer.getDiceLand()));
            }
-           possibleActions[4] =  "'S' Sell Assets (not implemented)";
-           actionStatus[4] = true;
-           possibleActions[5] =  "'Q' End game (not implemented)";
-           actionStatus[5] = true;
-           
-       }
+         
        
+       if(thePlayer.getMoney() <= 0)
+       {
+    	   if(thePlayer.sell(thePlayer.getMoney()*-1) == false)
+    	   {
+    		   System.out.println("Game has ended you lost");
+    		   System.exit(0);
+    	   }
+       }
        return possibleActions;
    }
    
-   @Override
-   public boolean performAction(player thePlayer, player theBank, char choice) 
-   //PRE: thePlayer is the player that just threw the dice, and choice
-   //     corresponds to the choices given by getPossibleActions
-   //POST: - summons the functions necessary to perform actions by the user
-   //      - Resets actionStatuses to false for the next user iteration.
-   //      - FCTVAL = successFlag = true if the user picked a proper option
-   //                             = false if the user picked a wrong action
-   {
-       boolean successFlag;    // successFlag Determines whether the user made a proper
-                               //   choice or not
-
-       char upperChoice;       // upperChoice Reformats choice to upper case   
-      
-       int numberOfUtilities;  // numberOfUtilities holds the number of utilities 
-                               //   that the owner of this box has (a multiplier).
-       double amountDue;       // amountDue holds the amount that is due for payment
-       int diceValue;          // diceValue holds the dice value for this turn
-       
-       successFlag = false;
-       
-       upperChoice = Character.toUpperCase(choice);
-       
-       if (upperChoice == 'N' &&            //If the user enters character 'N', and this
-               actionStatus[0] == true)     //   Choice has been enabled, execute 
-       {            
-           //Perform nothing, simply end turn
-           
-           successFlag = true;
-       }
-       
-       else if (upperChoice == 'B' &&   //If the user enters character 'B', and this
-               actionStatus[1] == true) //   Choice has been enabled, execute 
-       {
-           this.buy(thePlayer);                               //Set the title to the player
-           thePlayer.addMoney(this.getPurcaseCost() * (-1));  //Deduce Money from the player
-           theBank.addMoney(this.getPurcaseCost());           //Transfer Money to the Bank
-          
-           successFlag = true;
-       }
-       
-       else if (upperChoice == 'I' &&   //If the user enters character 'I', and this
-               actionStatus[2] == true) //   Choice has been enabled, execute 
-       {
-        
-           // MUST IMPLEMENT
-           
-           successFlag = true;
-       }
-       
-       else if (upperChoice == 'R' &&   //If the user enters character 'R', and this
-               actionStatus[3] == true) //   Choice has been enabled, execute 
-       {
-           numberOfUtilities = this.getOwner().getNumberUtilities();
-           diceValue = thePlayer.getDiceLand();
-           amountDue = this.caltUtilRent(numberOfUtilities, diceValue);
-                      
-           successFlag = true;
-       }
-       
-       return successFlag;
-   }
+   
 }
