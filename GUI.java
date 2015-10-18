@@ -25,6 +25,18 @@ public class GUI extends JApplet implements ActionListener
         JPanel center = new JPanel();
         JPanel northCenter = new JPanel();
         JPanel southCenter = new JPanel();
+        JPanel east1L = new JPanel();
+        JPanel east2L = new JPanel();
+        JPanel east3L = new JPanel();
+        JPanel east4L = new JPanel();
+        JPanel east5L = new JPanel();
+        JPanel east1R = new JPanel();
+        JPanel east2R = new JPanel();
+        JPanel east3R = new JPanel();
+        JPanel east4R = new JPanel();
+        JPanel east5R = new JPanel();
+
+        
         BorderLayout layout;
         layout = new BorderLayout();
         turnCounter = 0;
@@ -38,7 +50,23 @@ public class GUI extends JApplet implements ActionListener
         northCenter.setBackground(Color.BLACK);
         southCenter.setBackground(Color.YELLOW);
         center.setLayout(new GridLayout(2,1));
+        east.setLayout(new GridLayout(5,2));
         center.setBackground(Color.CYAN);
+        east1L.setBackground(Color.ORANGE);
+        east2L.setBackground(Color.BLACK);
+        east3L.setBackground(Color.RED);
+        east4L.setBackground(Color.GRAY);
+        east5L.setBackground(Color.WHITE);
+        east1R.setBackground(Color.ORANGE);
+        east2R.setBackground(Color.BLACK);
+        east3R.setBackground(Color.RED);
+        east4R.setBackground(Color.GRAY);
+        east5R.setBackground(Color.WHITE);
+
+
+
+
+
 
         
         
@@ -57,6 +85,18 @@ public class GUI extends JApplet implements ActionListener
         south.add(nextTurn);
         center.add(northCenter);
         center.add(southCenter);
+        east.add(east1L);
+        east.add(east2L);
+        east.add(east3L);
+        east.add(east4L);
+        east.add(east5L);
+        east.add(east1R);
+        east.add(east2R);
+        east.add(east3R);
+        east.add(east4R);
+        east.add(east5R);
+
+
         add(BorderLayout.SOUTH, south);
         add(BorderLayout.NORTH, north);
         add(BorderLayout.EAST, east);
