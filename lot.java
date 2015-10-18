@@ -88,7 +88,7 @@ public class lot extends property
         isHotel = false;
         hasHotel = "does not";
         numHouses = 0;
-        return improveCost/2;
+        return (improveCost*5)/2;
     }
     
     public boolean getHotel()
