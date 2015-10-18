@@ -75,81 +75,20 @@ public int getDiceLand()
     return this.diceLand;
 }
 
-public boolean canImprove()
+public boolean canImprove(lot[] improvableLots)
 // PRE:  current player is initialized
-// POST: FCTVAL = false whenever the player: has no properties,
-//                       has all properties maxed out, or player has no money
-//                       to improve any of his/her properties
-//       FCTVAL = true whenever the player has at least one property AND, has
-//                       enough money to improve at least one property, AND has
-//                       at least one property not maxed out
+// POST: FCTVAL = false if a suitable property is found within the array of
+//                improvableLots
+//       FCTVAL = true whenever we find a suitable property within the array of
+//                improvableLots
 {
-    boolean ownsOneLot;    // ownsOneLot flags the fact that the user has at least one lot
-    boolean hasUnimproved; // hasUnimproved flags the fact that the user has at least one
-                           //   unimproved (therefore improvable) lot
-    boolean canAfford;     // canAfford flags the fact that the user can afford to
-                           //   improve at Least one of his/her lots
-
-    int propertyLength;    // propertyLength stores the length of the property array;
-    int oneProperty;       // oneProperty stores an index when traversing through propertis
-    double improvementCost;// improvementCost holds the cost of improvement for a given lot
-    double playerBalance;  // playerBalance holds the current balance for a player
-    boolean hotelStatus;   // holds the hotel status for a given property during iteration
-
-    ownsOneLot = false;
-    hasUnimproved = false;
-    canAfford = false;
-    playerBalance = this.money;
-
-    propertyLength = propertyList.length;
-
-    if (numLots > 0)  //Verify that the user owns at least one lot
-        ownsOneLot = true;
-
-    //Traverse through the list of properties and make sure that the user
-    for(oneProperty =0;
-       (oneProperty < propertyLength) && hasUnimproved == false;
-        oneProperty++)
+    for(lot aLot : improvableLots)
     {
-        if(propertyList[oneProperty] != null) //Make sure that the current property
-                                              //   cell is not empty
-        {
-           if(propertyList[oneProperty] instanceof lot)  //make sure that the property to
-                                                         //   be analyzed is a lot
-           {
-               hotelStatus = ((lot)propertyList[oneProperty]).getHotel();
-
-               if(hotelStatus == false)       //Make sure that this lot does not have
-                                              //   a hotel built already
-               {
-                   hasUnimproved = true;      //The user has a lot that can be
-                                              //   improved.
-               }
-           }
-        }
+        if (aLot != null)
+            return true;
     }
 
-    for(; (oneProperty < propertyLength) && canAfford == false;
-           oneProperty++)
-    {
-        if(propertyList[oneProperty] != null)
-        {
-            if(propertyList[oneProperty] instanceof lot)  //make sure that the property to
-                                                          //   be analyzed is a lot
-            {
-                hotelStatus = ((lot)propertyList[oneProperty]).getHotel();
-                improvementCost = ((lot) propertyList[oneProperty]).getImproveCost();
-
-                if((improvementCost < playerBalance)       //make sure that the property can
-                        && (hotelStatus == false))         //   be improved, and can be afforded
-                {
-                    canAfford = true;
-                }
-            }
-        }
-    }
-
-    return (ownsOneLot && hasUnimproved && canAfford);
+    return false;
 }
 
 public lot [] getImprovingLots()
@@ -187,7 +126,8 @@ public lot [] getImprovingLots()
                 if(hotelStatus == false)   //Make sure there is no hotel on
                                            //The property
                 {
-                    if(improvementCost < playerBalance)
+                    if(improvementCost < playerBalance) //Make sure that this property
+                                                        //   is affordable for player
                     {
                         canBeImproved[improveIndex] = canBeImproved[oneProperty];
                         improveIndex++;
