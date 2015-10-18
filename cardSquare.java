@@ -64,12 +64,30 @@ public class cardSquare extends boardLocation
     }
 
     @Override
-    public String[] getPossibleActions(player player) 
+    public boolean [] getPossibleActions(player player) 
     {       
-        super.possibleActions[0] = "1) Take a Chance Value and Apply to your Balance. (unimplemented)";
-        super.possibleActions[1] = "2) Build a House. (unimplemented)";       
-        super.possibleActions[2] = "3) Build a Hotel. (unimplemented)";
-        return possibleActions;
+       // give the money to the player.
+       player.addMoney(getChanceValue());
+       
+       // end game
+       actionStatus[4] = true;
+       // Do nothing
+       actionStatus[0] = true;
+       if(player.getMoney() > 0 
+          && player.canImprove(player.getImprovingLots()))
+       // if the player has money and can improve lots
+       {
+           actionStatus[3] = true;
+       }
+       else if(player.getMoney() < 0 
+               && player.hasSellableProperty())
+       // player has no money and can sell lots
+       {
+           // allow to sell
+           actionStatus[2] = true;
+       }
+       
+       return actionStatus;
     }
 
     @Override
