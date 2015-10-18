@@ -67,7 +67,7 @@ public class utility extends property
            {
                possibleActions[0] = "'N'-> Do Nothing";
                actionStatus[0] = true;
-               possibleActions[2] =  "'I' -> Improve another Property (not implemented)";
+               possibleActions[2] =  "'I' -> Improve another Property";
                actionStatus[2] = true;
                if(actionStatus[2] == true)
                {
