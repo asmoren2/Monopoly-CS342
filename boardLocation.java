@@ -48,15 +48,6 @@ public abstract class boardLocation
             aStatus = false;
     }
     
-    private void initializeAllActions()
-    // PRE: masterPossibleActions must be allocated
-    //      actionStatus must be allocated
-    // POST: Populates masterPossibleActions with all possible actions
-    //       Populates actionStatus as all false
-    {
-        
-        
-    }
     
     public void setSpacesFromGo (int numSpaces)
     // PRE: numSpaces must be initialized
@@ -79,6 +70,8 @@ public abstract class boardLocation
         return this.spacesFromGo;
     }
     
+    
+    
     public String getName()
     // POST: FCTVAL == The class member nameOfLocation, it represents
     //                 the name of the location.
@@ -88,7 +81,7 @@ public abstract class boardLocation
 
     public abstract boolean performAction(player thePlayer, player theBank, char choice); 
     
-    public abstract String[] getPossibleActions(player player);
+    public abstract boolean [] getPossibleActions(player player);
     
     @Override
     public String toString()
