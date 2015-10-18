@@ -1,4 +1,3 @@
-// harsh is editing
 // Programmer:  Harsh Patel
 // Assignment:  Monopoly
 // Date:        October, 14 2015
@@ -59,6 +58,37 @@ public class lot extends property
             aStatus = false;
         
         
+    }
+    
+    public double sellHouse()
+    // PRE: The lot must have a house to sell.
+    // POST:  decreases the number of houses a player has and returns the
+    //        amount of money it cost to sell a house to the bank.
+    {
+        numHouses--;
+        if(numHouses < 4)
+        {
+            isHotel = false;
+            hasHotel = "does not";
+        }
+        return improveCost/2;
+    }
+    
+    public int getNumHouses()
+    // POST: returns the number of houses this lot has.
+    {
+        return this.numHouses;
+    }
+    
+    public double sellHotel()
+    // PRE: the lot must have a hotel to sell.
+    // POST: gets rid of the hotel in the lot
+    //       returns half the money it cost to build the hotels.
+    {
+        isHotel = false;
+        hasHotel = "does not";
+        numHouses = 0;
+        return improveCost/2;
     }
     
     public boolean getHotel()
