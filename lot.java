@@ -132,50 +132,46 @@ public class lot extends property
     }
     
     @Override
-    public String [] getPossibleActions(player thePlayer)
+    public boolean [] getPossibleActions(player thePlayer)
     // PRE: player must be initialized
     // POST: FCTVAL == A string array representing all the actions
     //                 a player can currently perform is returned.
     {                
-        possibleActions = new String[20];
-
-        if(isOwned == false)                // The property is not owned.
+        /*
+         * PACTIONS = {0:"Do Nothing", 1:"Buy", 
+                       2:"Sell", 3:"Improve Property", 
+                       4:"End Game"};    */
+        double rent = rentStructure[thePlayer.getBoardLocation()];
+        actionStatus[4] = true;      // End game
+        if(isOwned == false)            // If un-owned
         {
-            possibleActions[0] = "'N'-> Do Nothing";
-            actionStatus[0] = true;
-            possibleActions[1] = "'B' -> Buy";
-            actionStatus[1] = true;
-
+           if(thePlayer.getMoney() > this.purchaseCost)
+           {
+               actionStatus[1] = true;      // Buy
+               actionStatus[0] = true;      // Do nothing
+           }
         }
-        else if (isOwned == true &&         // The property is owned
-                 this.owner == thePlayer &&    // by the current player,
-                 thePlayer.getMoney() > this.improveCost) // and the player has enough money
-                                                       // to buy the house.
+        else if (isOwned == true && this.owner != thePlayer
+                && thePlayer.getMoney() > rent) //  if you don't own it
         {
-            possibleActions[0] = "'N'-> Do Nothing";
-            actionStatus[0] = true;
-            possibleActions[2] =  "'H' -> Make a house";
+           // pay rent automatic
+           thePlayer.payRent(owner, rent);
+        }
+        else if (isOwned == true && this.owner != thePlayer // Can't pay rent
+                && thePlayer.getMoney() < rent
+                && thePlayer.hasSellableProperty())
+        {
+            // Force to sell
             actionStatus[2] = true;
-
-            if(numHouses >= 4)                          // If the player can build a hotel.
-            {
-                possibleActions[3] = "'O' -> Make a hotel";
-                actionStatus[3] = true;
-            }
         }
-        else if (isOwned == true && this.owner != thePlayer && thePlayer.getMoney() > this.rentStructure[numHouses])
+        else if(isOwned == true && this.owner == thePlayer // Current player owns it
+                && thePlayer.getMoney() > improveCost &&    // has money to improve
+                thePlayer.canImprove(thePlayer.getImprovingLots()))// has improvable lots
         {
-            possibleActions[4] = "'R' Pay rent";
-            actionStatus[4] = true;
+           actionStatus[3] = true;
         }
-
-        possibleActions[5] =  "'S' Sell Assets (not implemented)";
-        actionStatus[5] = true;
-        possibleActions[6] =  "'Q' End game (not implemented)";
-        actionStatus[6] = true;
-      
-        
-        return possibleActions;
+        return actionStatus;
+            
     }
     
     @Override
