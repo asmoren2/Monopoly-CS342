@@ -91,6 +91,12 @@ public boolean canImprove(lot[] improvableLots)
     return false;
 }
 
+public void payRent(player creditor, double rent)
+{
+    creditor.addMoney(rent); // give money
+    money-= rent;            // pay the rent
+}
+
 public lot [] getImprovingLots()
 //POST: FCTVAL = canBeImproved: lots that can Be Improved
 //      FCTVAL = null
@@ -201,7 +207,16 @@ public void buyProperty(property property)
    }
    property.isOwned = true;
 }
-
+public boolean hasSellableProperty()
+// POST: returns true if the player has sellable property
+{
+    for(property curr: propertyList)
+    {
+        if(curr instanceof lot && ((lot)curr).getNumHouses() > 0)
+            return true;
+    }
+    return false;
+}
 @Override
 public String toString()
 {
