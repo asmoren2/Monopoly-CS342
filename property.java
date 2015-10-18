@@ -64,12 +64,6 @@ public abstract class property extends boardLocation
         return this.owner;
     }
     
-    public double getRent(int numHouses)
-    // FCTVAL == The rent of the property, with numHouses houses on it.
-    {
-        return this.rentStructure[numHouses];
-    }
-    
     @Override
     public String [] getPossibleActions(player player)
     {   
