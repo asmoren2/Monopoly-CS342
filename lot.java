@@ -119,6 +119,12 @@ public class lot extends property
         return this.improveCost;
     }
     
+    public double getRent()
+    // FCTVAL == The rent of the property, with numHouses houses on it.
+    {
+        return this.rentStructure[numHouses];
+    }
+    
     public String getColor()
     // POST: FCTVAL == the color group this lot belongs to.
     {
