@@ -41,16 +41,39 @@ public class taxSquare extends boardLocation
 }
 
     @Override
-    public String[] getPossibleActions(player player) 
+    public boolean[] getPossibleActions(player player) 
     // POST: FCTVAL possibleActions
     {
+        double rent;
         if (taxMode == 1) //If taxMode == 1, then generate possibleActions for a
-            //   luxury tax
-            super.possibleActions[0] = "1) Pay 200$ to the bank due to income tax. (unimplemented)";
+        // Luxury tax
+        {
+            rent = 200;
+        }
         else
-            super.possibleActions[0] = "1) Pay 50$ to the bank to income tax. (unimplemented)";
-        
-        return possibleActions;
+        // income tax
+        {
+            rent = 75;
+        }
+        actionStatus[4] = true;     // end game
+        // pay rent automatically.
+        if(player.getMoney() > rent)
+        {
+            player.addMoney(-1*rent);
+            actionStatus[0] = true;
+        }
+        else if (player.getMoney() < rent 
+                && player.hasSellableProperty())
+        {
+            // sell
+            actionStatus[2] = true;
+        }
+        else if (player.canImprove(player.getImprovingLots()))
+        {
+            // improve
+            actionStatus[3] = true;
+        }
+        return actionStatus;
     }
 
     @Override
