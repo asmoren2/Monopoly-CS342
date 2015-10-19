@@ -151,9 +151,10 @@ public class GUI extends JApplet implements ActionListener
     @Override
     public void paint(Graphics g)
     {
+        super.paint(g);
+
         while(isNextTurn)
         {
-            super.paint(g);
             isNextTurn = false;         // Reset
             g.drawString("Player : " + turnCounter+ "\n", 250, 250);
             if(turnCounter >= playerList.length)
