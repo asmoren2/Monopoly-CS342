@@ -23,6 +23,13 @@ public class GUI extends JApplet implements ActionListener
     double tmpPlayerFunds;                 // An Integer to hold a player's fund on a
                                         //   given instant
 
+
+    private JButton improveProperty;    // Button to improve property
+    private JButton sellHouses;         // Sell houses when you have no money
+    private JButton nextPlayer;         // End turn go to next player
+    private JButton endGame;            // Player can choose to end game
+
+
     JPanel south;
     JPanel north;
     JPanel east ;
@@ -30,16 +37,6 @@ public class GUI extends JApplet implements ActionListener
     JPanel center;
     JPanel northCenter;
     JPanel southCenter;
-    JPanel east1L;
-    JPanel east2L;
-    JPanel east3L;
-    JPanel east4L;
-    JPanel east5L;
-    JPanel east1R;
-    JPanel east2R;
-    JPanel east3R;
-    JPanel east4R;
-    JPanel east5R;
 
     @Override
     public void init()
@@ -52,37 +49,19 @@ public class GUI extends JApplet implements ActionListener
         center = new JPanel();
         northCenter = new JPanel();
         southCenter = new JPanel();
-        east1L = new JPanel();
-        east2L = new JPanel();
-        east3L = new JPanel();
-        east4L = new JPanel();
-        east5L = new JPanel();
-        east1R = new JPanel();
-        east2R = new JPanel();
-        east3R = new JPanel();
-        east4R = new JPanel();
-        east5R = new JPanel();
 
-        //Test different colors
-        south.setBackground(Color.BLUE);
-        north.setBackground(Color.RED);
-        east.setBackground(Color.GRAY);
-        west.setBackground(Color.GREEN);
-        northCenter.setBackground(Color.BLACK);
-        southCenter.setBackground(Color.YELLOW);
+//        Test different colors
+//        south.setBackground(Color.BLUE);
+//        north.setBackground(Color.RED);
+//        east.setBackground(Color.GRAY);
+//        west.setBackground(Color.GREEN);
+//        northCenter.setBackground(Color.BLACK);
+//        southCenter.setBackground(Color.YELLOW);
+
         center.setLayout(new GridLayout(2,1));
-        east.setLayout(new GridLayout(5,2));
+        west.setLayout (new GridLayout (5,1,0,30));
+        east.setLayout(new GridLayout(5,2,0,30));
         center.setBackground(Color.CYAN);
-        east1L.setBackground(Color.ORANGE);
-        east2L.setBackground(Color.BLACK);
-        east3L.setBackground(Color.RED);
-        east4L.setBackground(Color.GRAY);
-        east5L.setBackground(Color.WHITE);
-        east1R.setBackground(Color.ORANGE);
-        east2R.setBackground(Color.BLACK);
-        east3R.setBackground(Color.RED);
-        east4R.setBackground(Color.GRAY);
-        east5R.setBackground(Color.WHITE);
 
         //Initialize the Get Player Property section and Player values section.
         playerProp = new JButton [5];       //Initialize the array itself
@@ -113,14 +92,29 @@ public class GUI extends JApplet implements ActionListener
                                          "\nFunds: "  + tmpPlayerFunds);
         }
 
-        east1L.add(playerProp[0]);
-        east2L.add(playerStatus[0]);
-        east3L.add(playerProp[1]);
-        east4L.add(playerStatus[1]);
-        east5L.add(playerProp[2]);
-        east1R.add(playerStatus[2]);
-        east2R.add(playerProp[3]);
-        east3R.add(playerStatus[3]);
+        east.add(playerProp[0]);
+        east.add(playerStatus[0]);
+        east.add(playerProp[1]);
+        east.add(playerStatus[1]);
+        east.add(playerProp[2]);
+        east.add(playerStatus[2]);
+        east.add(playerProp[3]);
+        east.add(playerStatus[3]);
+
+        //initializing the buttons
+        buyLocation = new JButton("Buy this Property");
+        improveProperty = new JButton("Improve this Property");
+        sellHouses = new JButton("Sell Houses");
+        nextPlayer = new JButton("End Turn");
+        endGame = new JButton("End Game");
+        nextTurn = new JButton("Next Turn");
+
+        west.add(buyLocation);
+        west.add(improveProperty);
+        west.add(sellHouses);
+        west.add(nextPlayer);
+        west.add(endGame);
+
 //        east4R.add(playerProp[4]);
 //        east5R.add(playerStatus[4]);
 
@@ -128,29 +122,29 @@ public class GUI extends JApplet implements ActionListener
         theBank = new player (9999,0, "Bank");
         theGame = new Monopoly(playerList);
 
+
         nextTurn = new JButton("Next Turn");
         nextTurn.addActionListener(this);
         south.add(nextTurn);
         center.add(northCenter);
         center.add(southCenter);
-        east.add(east1L);
-        east.add(east2L);
-        east.add(east3L);
-        east.add(east4L);
-        east.add(east5L);
-        east.add(east1R);
-        east.add(east2R);
-        east.add(east3R);
-        east.add(east4R);
-        east.add(east5R);
+
+        east.add(playerProp[0]);
+        east.add(playerStatus[0]);
+        east.add(playerProp[1]);
+        east.add(playerStatus[1]);
+        east.add(playerProp[2]);
+        east.add(playerStatus[2]);
+        east.add(playerProp[3]);
+        east.add(playerStatus[3]);
+
+
 
         add(layout.SOUTH, south);
         add(layout.NORTH, north);
         add(layout.EAST, east);
         add(layout.WEST, west);
         add(layout.CENTER, center);
-
-
 
     }
 
