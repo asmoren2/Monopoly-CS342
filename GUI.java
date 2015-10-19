@@ -28,6 +28,10 @@ public class GUI extends JApplet implements ActionListener
     private JButton sellHouses;         // Sell houses when you have no money
     private JButton nextPlayer;         // End turn go to next player
     private JButton endGame;            // Player can choose to end game
+    
+    //SouthCenter
+    private JTextArea textArea;
+    private JScrollPane scrollPane;
 
 
     JPanel south;
@@ -91,6 +95,12 @@ public class GUI extends JApplet implements ActionListener
             playerStatus[i] = new JLabel("Location: " + tmpPlayerLocation +
                                          "\nFunds: "  + tmpPlayerFunds);
         }
+        
+        //southCenter
+        textArea = new JTextArea(5,20);
+        scrollPane = new JScrollPane(textArea);
+        textArea.setEditable(false);
+        textArea.append("Harsh Just Paid 200 to Christian");
 
         east.add(playerProp[0]);
         east.add(playerStatus[0]);
@@ -118,6 +128,7 @@ public class GUI extends JApplet implements ActionListener
 //        east4R.add(playerProp[4]);
 //        east5R.add(playerStatus[4]);
 
+        southCenter.add(scrollPane); //southCenter
 
         theBank = new player (9999,0, "Bank");
         theGame = new Monopoly(playerList);
