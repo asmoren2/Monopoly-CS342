@@ -88,6 +88,10 @@ public abstract class boardLocation
     
     public abstract String [] getPossibleActions(player player);
     
+    public boolean [] getActionStatus()
+    {
+        return actionStatus;
+    }
     @Override
     public String toString()
     // POST:  returns a string representing the object of the board location
