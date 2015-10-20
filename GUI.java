@@ -38,6 +38,10 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private JButton nextPlayer;         // End turn go to next player
     private JButton endGame;            // Player can choose to end game
 
+    //SouthCenter
+    private JTextArea textArea;
+    private JScrollPane scrollPane;
+
     // Related to Layout and panels
     JPanel south;
     JPanel north;
@@ -78,6 +82,12 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                          "\nFunds: "  + tmpPlayerFunds);
         }
 
+        //southCenter
+        textArea = new JTextArea(5,20);
+        scrollPane = new JScrollPane(textArea);
+        textArea.setEditable(false);
+        textArea.append("Harsh Just Paid 200 to Christian");
+
         addToPanel();
 
 }
@@ -100,7 +110,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         west.add(sellHouses);
         west.add(nextPlayer);
         west.add(endGame);
-
         south.add(nextTurn);
         center.add(northCenter);
         center.add(southCenter);
@@ -143,6 +152,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     public void initializeMonopoly()
     // POST: Will initialize Players and the Monopoly Game
     {
+
         //Initialize the bank Player
         theBank = new player (9999,0, "Bank");
 
