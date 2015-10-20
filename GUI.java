@@ -146,6 +146,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         east.add(playerStatus[2]);
         east.add(playerProp[3]);
         east.add(playerStatus[3]);
+        east.add(getLocation);
+        east.add(allLocations);
 
         add(layout.SOUTH, south);
         add(layout.NORTH, north);
@@ -161,6 +163,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         //East Side
         playerProp = new JButton [5];       //Initialize the array itself
         playerStatus = new JLabel [5];
+        allLocations = new JComboBox();
+        getLocation = new JButton("This Location - Info");
 
         //West side
         nextTurn = new JButton("Next Turn");
