@@ -38,10 +38,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private JButton nextPlayer;         // End turn go to next player
     private JButton endGame;            // Player can choose to end game
 
-    //SouthCenter
-    private JTextArea textArea;
-    private JScrollPane scrollPane;
-
     // Related to Layout and panels
     JPanel south;
     JPanel north;
@@ -81,16 +77,43 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             playerStatus[i] = new JLabel("Location: " + tmpPlayerLocation +
                                          "\nFunds: "  + tmpPlayerFunds);
         }
-
-        //southCenter
-        textArea = new JTextArea(5,20);
-        scrollPane = new JScrollPane(textArea);
-        textArea.setEditable(false);
-        textArea.append("Harsh Just Paid 200 to Christian");
-
         addToPanel();
 
-}
+    }
+
+    @Override
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+
+        while(isNextTurn)
+        {
+            isNextTurn = false;         // Reset
+            g.drawString("Player : " + turnCounter+ "\n", 250, 250);
+            if(turnCounter >= playerList.length)
+            {
+                turnCounter  = 0;
+            }
+        }
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == nextTurn)
+        {
+            turnCounter++;
+            isNextTurn = true;
+        }
+
+        repaint();
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
 
     public void addToPanel()
     {
@@ -110,6 +133,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         west.add(sellHouses);
         west.add(nextPlayer);
         west.add(endGame);
+
         south.add(nextTurn);
         center.add(northCenter);
         center.add(southCenter);
@@ -152,7 +176,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     public void initializeMonopoly()
     // POST: Will initialize Players and the Monopoly Game
     {
-
         //Initialize the bank Player
         theBank = new player (9999,0, "Bank");
 
@@ -194,40 +217,4 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         west.setLayout (new GridLayout (5,1,0,30));
         east.setLayout(new GridLayout(5,2,0,30));
     }
-
-    @Override
-    public void paint(Graphics g)
-    {
-        super.paint(g);
-
-        while(isNextTurn)
-        {
-            isNextTurn = false;         // Reset
-            g.drawString("Player : " + turnCounter+ "\n", 250, 250);
-            if(turnCounter >= playerList.length)
-            {
-                turnCounter  = 0;
-            }
-        }
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == nextTurn)
-        {
-            turnCounter++;
-            isNextTurn = true;
-        }
-
-        repaint();
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-
 }
