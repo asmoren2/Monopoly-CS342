@@ -22,6 +22,7 @@ public class gamble extends boardLocation
     // POST: a gamble object is created with the class member gambleAmount
     //       initialized to gambleAmount.
     {
+        nameOfLocation = "Gamble";
         this.gambleAmount = gambleAmount;
     }
     
