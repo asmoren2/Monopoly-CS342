@@ -109,7 +109,7 @@ public class cornerSquare extends boardLocation
    }
    
    @Override
-   public boolean [] getPossibleActions(player player)
+   public String [] getPossibleActions(player player)
    {
        if(isGo)     // if on "Go" get $200
        {
@@ -119,11 +119,14 @@ public class cornerSquare extends boardLocation
        // Has improvable property
        {
            actionStatus[3] = true;
+           possibleActions[3] = PACTIONS[3];
        }
        // Do nothing
        actionStatus[0] = true;
+       possibleActions[0] = PACTIONS[0];
        actionStatus[4] = true;  // End game
-       return actionStatus;
+       possibleActions[4] = PACTIONS[4];
+       return possibleActions;
    }
 
     @Override
