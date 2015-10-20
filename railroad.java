@@ -62,22 +62,31 @@ public class railroad extends property
    }
 
    @Override
-   public boolean [] getPossibleActions(player thePlayer)
+   public String [] getPossibleActions(player thePlayer)
    // PRE: player must be initialized
    // POST: FCTVAL == A string array representing all the actions
    //                 a player can currently perform is returned.
    {
        double rent = calcRent(owner.getNumberRailroad());
+       
+       // End game
        actionStatus[4] = true;
+       possibleActions[4] = PACTIONS[4];
+       
        if(isOwned == false && thePlayer.getMoney() > purchaseCost)         // This Location is not owned
        {
            actionStatus[1] = true;  // buy
+           possibleActions[1] = PACTIONS[1];
+
            actionStatus[0] = true;  // Do nothing
+           possibleActions[0] = PACTIONS[0];
+
        }
        else if(isOwned == true && this.owner == thePlayer
                && thePlayer.canImprove(thePlayer.getImprovingLots()))    // This Location is already owned
        {
                actionStatus[3] = true;
+               possibleActions[3] = PACTIONS[3];
        }
        else if (this.owner != thePlayer 
                 && thePlayer.getMoney() > rent)     // owned by another player 
@@ -88,9 +97,10 @@ public class railroad extends property
                && thePlayer.hasSellableProperty())
        {
            actionStatus[2] = true;      // Sell
+           possibleActions[2] = PACTIONS[2];
        }
 
-       return actionStatus;
+       return possibleActions;
    }
 
 @Override
