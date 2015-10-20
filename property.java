@@ -65,9 +65,9 @@ public abstract class property extends boardLocation
     }
     
     @Override
-    public boolean[] getPossibleActions(player player)
+    public String[] getPossibleActions(player player)
     {   
-        return actionStatus;
+        return possibleActions;
     }
     
     @Override
