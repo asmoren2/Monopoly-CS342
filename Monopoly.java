@@ -17,8 +17,6 @@ public class Monopoly
                                                     //   players will throw
     
     
-    
-    
     public Monopoly()
     // POST : A default monopoly game is created with an initialized board,
     //        and two players.
@@ -36,6 +34,7 @@ public class Monopoly
         monopolyBoard = initializeBoard();
         this.playerArr = playerArr;
         numberOfPlayers = playerArr.length;
+        playerOrders = new int [numberOfPlayers];
     }
     
     public void printAllLocations()
@@ -58,7 +57,7 @@ public class Monopoly
         }
     }
     
-    public void getPlayerOrder ()
+    public int[] getPlayerOrder ()
     {
         int slotsLeft;        // To count how many player slots are left to be assigned
         int firstPlayerIndex; // To hold the index of the first player, generated 
@@ -96,6 +95,7 @@ public class Monopoly
                 playerOrders[aSlot] = aSlot - firstPlayerIndex; 
             }
         }
+        return playerOrders;
     }
     
     public void demoMode ()
@@ -203,4 +203,8 @@ public class Monopoly
         return monopolyBoard;
     }
 
+    public boardLocation getBoardLocate(player one)
+    {
+    	return monopolyBoard[one.getBoardLocation()];
+    }
 }
