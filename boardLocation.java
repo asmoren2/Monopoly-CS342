@@ -14,7 +14,7 @@ public abstract class boardLocation
                                                  "End Game"};    
 
   
-    
+    protected String [] possibleActions; 
     public boolean [] actionStatus;                 // An array to hold which actions
                                                     //   are enabled and disabled
                                                     //   for a given board location.
@@ -43,7 +43,12 @@ public abstract class boardLocation
         this.spacesFromGo = spacesFromGo;        
         
         actionStatus = new boolean [5];
-        
+        possibleActions = new String [5];
+        for(String pActions : possibleActions)
+        {
+            pActions = "";
+        }
+        // Initializing the aStatus boolean array
         for(boolean aStatus : actionStatus)
             aStatus = false;
     }
@@ -81,7 +86,7 @@ public abstract class boardLocation
 
     public abstract boolean performAction(player thePlayer, player theBank, char choice); 
     
-    public abstract boolean [] getPossibleActions(player player);
+    public abstract String [] getPossibleActions(player player);
     
     @Override
     public String toString()
