@@ -1,10 +1,12 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.*;
 
-public class GUI extends JApplet implements ActionListener
+public class GUI extends JApplet implements ActionListener, ItemListener
 {
     private player [] playerList;       // The list of players
     private player theBank;             // The bank
@@ -14,22 +16,29 @@ public class GUI extends JApplet implements ActionListener
     private int turnCounter;            // Counter for turn.
     private JButton nextTurn;
     private JButton buyLocation;
+
+    //For East side
     JButton playerProp [];              // playerInfo is an array of buttons
                                         //   to fetch  properties for players 1-4
-    JLabel  playerStatus[];             // A label to determine basic player infor
+    JLabel playerStatus[];              // A label to determine basic player infor
                                         //   like current position, and funds
+    JComboBox allLocations;             // A drop down list that contains all locations
+    JButton getLocation;                // getLocation will prompt the system to
+                                        //   fetch the information for a given location
+
+    // Common to all Functions
     int tmpPlayerLocation;              // An Integer to hold where a player's location
                                         //   at a given moment.
-    double tmpPlayerFunds;                 // An Integer to hold a player's fund on a
+    double tmpPlayerFunds;              // An Integer to hold a player's fund on a
                                         //   given instant
 
-
+    // Related to West Side
     private JButton improveProperty;    // Button to improve property
     private JButton sellHouses;         // Sell houses when you have no money
     private JButton nextPlayer;         // End turn go to next player
     private JButton endGame;            // Player can choose to end game
 
-
+    // Related to Layout and panels
     JPanel south;
     JPanel north;
     JPanel east ;
@@ -37,48 +46,25 @@ public class GUI extends JApplet implements ActionListener
     JPanel center;
     JPanel northCenter;
     JPanel southCenter;
+    BorderLayout layout;
 
     @Override
     public void init()
     {
-        //Set up all panels
-        south = new JPanel();
-        north = new JPanel();
-        east = new JPanel();
-        west = new JPanel();
-        center = new JPanel();
-        northCenter = new JPanel();
-        southCenter = new JPanel();
 
-//        Test different colors
-//        south.setBackground(Color.BLUE);
-//        north.setBackground(Color.RED);
-//        east.setBackground(Color.GRAY);
-//        west.setBackground(Color.GREEN);
-//        northCenter.setBackground(Color.BLACK);
-//        southCenter.setBackground(Color.YELLOW);
+        initializeMonopoly();
+        initializeWidgets();
+        initializePanels();
 
-        center.setLayout(new GridLayout(2,1));
-        west.setLayout (new GridLayout (5,1,0,30));
-        east.setLayout(new GridLayout(5,2,0,30));
-        center.setBackground(Color.CYAN);
+        //Set layout now that panels are set up
+        setLayout(layout);
 
-        //Initialize the Get Player Property section and Player values section.
-        playerProp = new JButton [5];       //Initialize the array itself
-        playerStatus = new JLabel [5];
-
-        BorderLayout layout;
-        layout = new BorderLayout();
         turnCounter = 0;
         isNextTurn = true;
 
-        setLayout(layout);
-      //  setSize(600,600);
-        playerList = new player[4];
-        playerList[0] = new player(1500, 0, "Harsh");
-        playerList[1] = new player(1500, 0, "Adolfo");
-        playerList[2] = new player(1500, 0, "Christian");
-        playerList[3] = new player(1500, 0, "Cortellano");
+
+
+        initializePanels();
 
         //Populate the players with their information.
         for(int i = 0; i < 4; i++)
@@ -92,6 +78,13 @@ public class GUI extends JApplet implements ActionListener
                                          "\nFunds: "  + tmpPlayerFunds);
         }
 
+        addToPanel();
+
+}
+
+    public void addToPanel()
+    {
+      //East side add components to panels
         east.add(playerProp[0]);
         east.add(playerStatus[0]);
         east.add(playerProp[1]);
@@ -101,30 +94,13 @@ public class GUI extends JApplet implements ActionListener
         east.add(playerProp[3]);
         east.add(playerStatus[3]);
 
-        //initializing the buttons
-        buyLocation = new JButton("Buy this Property");
-        improveProperty = new JButton("Improve this Property");
-        sellHouses = new JButton("Sell Houses");
-        nextPlayer = new JButton("End Turn");
-        endGame = new JButton("End Game");
-        nextTurn = new JButton("Next Turn");
-
+        //West side add components to panels
         west.add(buyLocation);
         west.add(improveProperty);
         west.add(sellHouses);
         west.add(nextPlayer);
         west.add(endGame);
 
-//        east4R.add(playerProp[4]);
-//        east5R.add(playerStatus[4]);
-
-
-        theBank = new player (9999,0, "Bank");
-        theGame = new Monopoly(playerList);
-
-
-        nextTurn = new JButton("Next Turn");
-        nextTurn.addActionListener(this);
         south.add(nextTurn);
         center.add(northCenter);
         center.add(southCenter);
@@ -138,14 +114,75 @@ public class GUI extends JApplet implements ActionListener
         east.add(playerProp[3]);
         east.add(playerStatus[3]);
 
-
-
         add(layout.SOUTH, south);
         add(layout.NORTH, north);
         add(layout.EAST, east);
         add(layout.WEST, west);
         add(layout.CENTER, center);
 
+    }
+
+    public void initializeWidgets()
+    // POST: Will initialize all the widgets in the applet
+    {
+        //East Side
+        playerProp = new JButton [5];       //Initialize the array itself
+        playerStatus = new JLabel [5];
+
+        //West side
+        nextTurn = new JButton("Next Turn");
+        nextTurn.addActionListener(this);
+        buyLocation = new JButton("Buy this Property");
+        improveProperty = new JButton("Improve this Property");
+        sellHouses = new JButton("Sell Houses");
+        nextPlayer = new JButton("End Turn");
+        endGame = new JButton("End Game");
+        nextTurn = new JButton("Next Turn");
+    }
+
+    public void initializeMonopoly()
+    // POST: Will initialize Players and the Monopoly Game
+    {
+        //Initialize the bank Player
+        theBank = new player (9999,0, "Bank");
+
+        //Initialize the player List
+        playerList = new player[4];
+        playerList[0] = new player(1500, 0, "Harsh");
+        playerList[1] = new player(1500, 0, "Adolfo");
+        playerList[2] = new player(1500, 0, "Christian");
+        playerList[3] = new player(1500, 0, "Cortellano");
+
+        //Initialize the monopoly Game
+        theGame = new Monopoly(playerList);
+    }
+
+    public void initializePanels()
+    // POST:  Will initialize all Panels and Layouts
+    {
+        //Set up Layout
+        layout = new BorderLayout();
+        //Set up all panels
+        south = new JPanel();
+        north = new JPanel();
+        east = new JPanel();
+        west = new JPanel();
+        center = new JPanel();
+        northCenter = new JPanel();
+        southCenter = new JPanel();
+
+//      Test different colors
+//      south.setBackground(Color.BLUE);
+//      north.setBackground(Color.RED);
+//      east.setBackground(Color.GRAY);
+//      west.setBackground(Color.GREEN);
+//      northCenter.setBackground(Color.BLACK);
+//      southCenter.setBackground(Color.YELLOW);
+//      center.setBackground(Color.CYAN);
+
+        center.setLayout(new GridLayout(2,1));
+        west.setLayout (new GridLayout (5,1,0,30));
+        east.setLayout(new GridLayout(5,2,0,30));
     }
 
     @Override
@@ -174,6 +211,12 @@ public class GUI extends JApplet implements ActionListener
         }
 
         repaint();
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent arg0) {
+        // TODO Auto-generated method stub
+
     }
 
 
