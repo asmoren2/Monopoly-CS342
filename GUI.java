@@ -62,11 +62,12 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         initializeWidgets();
         initializePanels();
         
-        ///////////////////CHANGED THIS///////////////////////////////////////
+        ///////////////////CHANGED THIS/////////////////////////////////////////
         playerOrder = theGame.getPlayerOrder();
         player cur = playerList[playerOrder[0]];
         String []a =  theGame.getBoardLocate(cur).getPossibleActions(cur);
         setButtonStatus(theGame.getBoardLocate(playerList[playerOrder[0]]).getActionStatus());
+        //////////////////END CHANGE///////////////////////////////////////////
 
         //Set layout now that panels are set up
         setLayout(layout);
@@ -100,6 +101,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
        
 
 }
+    ///////////////CHANGED THIS////////////////////
     public void setButtonStatus(boolean []status)
     {	
     	for(int i = 0; i < 5; i++){
@@ -116,6 +118,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     	endGame.setEnabled(status[4]);
 
     }
+    //////////////END CHANGE/////////////////////
     
     public void addActionListeners()
     {
@@ -273,6 +276,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         }
         if(e.getSource() == endGame)
         {
+        	System.exit(0);
         }
 
         repaint();
