@@ -52,20 +52,23 @@ public class gamble extends boardLocation
     }
     
     @Override
-    public boolean[] getPossibleActions(player player)
+    public String [] getPossibleActions(player player)
     {
        actionStatus[4] = true;  // end game
+       possibleActions[4] = PACTIONS[4];
        if(player.getMoney() < 0 && player.hasSellableProperty())
        // the player has no money and can sell
        {
            // sell
            actionStatus[2] = true;
+           possibleActions[2] = PACTIONS[2];
        }
        else if (player.canImprove(player.getImprovingLots()))
        {
            actionStatus[3] = true;
+           possibleActions[3] = PACTIONS[3];
        }
-       return actionStatus;
+       return possibleActions;
     }
     
     @Override
