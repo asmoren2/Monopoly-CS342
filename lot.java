@@ -132,7 +132,7 @@ public class lot extends property
     }
     
     @Override
-    public boolean [] getPossibleActions(player thePlayer)
+    public String [] getPossibleActions(player player)
     // PRE: player must be initialized
     // POST: FCTVAL == A string array representing all the actions
     //                 a player can currently perform is returned.
@@ -141,37 +141,41 @@ public class lot extends property
          * PACTIONS = {0:"Do Nothing", 1:"Buy", 
                        2:"Sell", 3:"Improve Property", 
                        4:"End Game"};    */
-        double rent = rentStructure[thePlayer.getBoardLocation()];
+        double rent = rentStructure[player.getBoardLocation()];
         actionStatus[4] = true;      // End game
+        possibleActions[4] = PACTIONS[4];
         if(isOwned == false)            // If un-owned
         {
-           if(thePlayer.getMoney() > this.purchaseCost)
+           if(player.getMoney() > this.purchaseCost)
            {
                actionStatus[1] = true;      // Buy
+               possibleActions[1] = PACTIONS[1];
                actionStatus[0] = true;      // Do nothing
+               possibleActions[0] = PACTIONS[0];
            }
         }
-        else if (isOwned == true && this.owner != thePlayer
-                && thePlayer.getMoney() > rent) //  if you don't own it
+        else if (isOwned == true && this.owner != player
+                && player.getMoney() > rent) //  if you don't own it
         {
            // pay rent automatic
-           thePlayer.payRent(owner, rent);
+           player.payRent(owner, rent);
         }
-        else if (isOwned == true && this.owner != thePlayer // Can't pay rent
-                && thePlayer.getMoney() < rent
-                && thePlayer.hasSellableProperty())
+        else if (isOwned == true && this.owner != player // Can't pay rent
+                && player.getMoney() < rent
+                && player.hasSellableProperty())
         {
             // Force to sell
             actionStatus[2] = true;
+            possibleActions[2] = PACTIONS[2];
         }
-        else if(isOwned == true && this.owner == thePlayer // Current player owns it
-                && thePlayer.getMoney() > improveCost &&    // has money to improve
-                thePlayer.canImprove(thePlayer.getImprovingLots()))// has improvable lots
+        else if(isOwned == true && this.owner == player // Current player owns it
+                && player.getMoney() > improveCost &&    // has money to improve
+                player.canImprove(player.getImprovingLots()))// has improvable lots
         {
            actionStatus[3] = true;
+           possibleActions[3] = PACTIONS[3];
         }
-        return actionStatus;
-            
+        return possibleActions;
     }
     
     @Override
