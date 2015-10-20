@@ -41,7 +41,7 @@ public class taxSquare extends boardLocation
 }
 
     @Override
-    public boolean[] getPossibleActions(player player) 
+    public String [] getPossibleActions(player player) 
     // POST: FCTVAL possibleActions
     {
         double rent;
@@ -56,24 +56,28 @@ public class taxSquare extends boardLocation
             rent = 75;
         }
         actionStatus[4] = true;     // end game
+        possibleActions[4] = PACTIONS[4];
         // pay rent automatically.
         if(player.getMoney() > rent)
         {
             player.addMoney(-1*rent);
             actionStatus[0] = true;
+            possibleActions[0] = PACTIONS[0];
         }
         else if (player.getMoney() < rent 
                 && player.hasSellableProperty())
         {
             // sell
             actionStatus[2] = true;
+            possibleActions[2] = PACTIONS[2];
         }
         else if (player.canImprove(player.getImprovingLots()))
         {
             // improve
             actionStatus[3] = true;
+            possibleActions[3] = PACTIONS[3];
         }
-        return actionStatus;
+        return possibleActions;
     }
 
     @Override
