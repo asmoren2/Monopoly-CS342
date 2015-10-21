@@ -43,8 +43,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private JScrollPane scrollPane;
     private String message;
     private int []playerOrder;
-    private JFrame frame; 				//JoptionPane
-    private String result; 				// Output message displayed in the window
+    private JFrame frame;               //JoptionPane
+    private String result;              // Output message displayed in the window
     private JTextArea area;             // Text area to hold the message
     private JScrollPane pane;           // Window pane with scrollbar containing text area
     // Related to Layout and panels
@@ -87,7 +87,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             tmpPlayerFunds = playerList[i].getMoney();
             //Initialize the actual buttons and labels with the expected
             //   information
-            playerProp[i] = new JButton("Player " + i + " Properties.");
+            playerProp[i] = new JButton("Player " + (i+1) + " Properties.");
             playerStatus[i] = new JLabel("Location: " + tmpPlayerLocation +
                                          "\nFunds: "  + tmpPlayerFunds);
         }
@@ -102,34 +102,41 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         addActionListeners();
         addToPanel();
 
+        for(int x : playerOrder)
+            System.out.println(x);
 
      }
     ///////////////CHANGED THIS////////////////////
     public void setButtonStatus(boolean []status)
     {
-       	for(int i = 0; i < 5; i++){
-       		if(status[i] == true){
-       			System.out.println("True");
-       		}
-       		else
-       			System.out.println("False");
-       	}
+        for(int i = 0; i < 5; i++){
+            if(status[i] == true){
+                System.out.println("True");
+            }
+            else
+                System.out.println("False");
+        }
 
-       	improveProperty.setEnabled(status[0]);
-       	sellHouses.setEnabled(status[1]);
-       	nextPlayer.setEnabled(status[2]);
-       	buyLocation.setEnabled(status[3]);
-       	endGame.setEnabled(status[4]);
+        improveProperty.setEnabled(status[0]);
+        sellHouses.setEnabled(status[1]);
+        nextPlayer.setEnabled(status[2]);
+        buyLocation.setEnabled(status[3]);
+        endGame.setEnabled(status[4]);
 
     }
 
     public void addActionListeners()
     {
       improveProperty.addActionListener(this);
-    	sellHouses.addActionListener(this);
-    	buyLocation.addActionListener(this);
-    	nextPlayer.addActionListener(this);
-    	endGame.addActionListener(this);
+        sellHouses.addActionListener(this);
+        buyLocation.addActionListener(this);
+        nextPlayer.addActionListener(this);
+        endGame.addActionListener(this);
+
+        playerProp[0].addActionListener(this);
+        playerProp[1].addActionListener(this);
+        playerProp[2].addActionListener(this);
+        playerProp[3].addActionListener(this);
     }
 
     @Override
@@ -188,12 +195,12 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         if(e.getSource() == buyLocation)
         {
-        	message = "Thank you, you just bought Illinois Ave.";
+            message = "Thank you, you just bought Illinois Ave.";
         }
 
         if(e.getSource() == sellHouses)
         {
-        	message = "We are now selling your houses";
+            message = "We are now selling your houses";
         }
         if(e.getSource() == nextPlayer)
         {
@@ -201,8 +208,27 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         }
         if(e.getSource() == endGame)
         {
-        	System.exit(0);
+            System.exit(0);
         }
+
+
+        if(e.getSource() == playerProp[0])
+        {
+            popUpPlayerInfo(playerList[playerOrder[0]]);
+        }
+        if(e.getSource() == playerProp[1])
+        {
+            popUpPlayerInfo(playerList[playerOrder[1]]);
+        }
+        if(e.getSource() == playerProp[2])
+        {
+            popUpPlayerInfo(playerList[playerOrder[2]]);
+        }
+        if(e.getSource() == playerProp[3])
+        {
+            popUpPlayerInfo(playerList[playerOrder[3]]);
+        }
+        repaint();
 
         repaint();
     }
@@ -322,6 +348,29 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         center.setLayout(new GridLayout(2,1));
         west.setLayout (new GridLayout (5,1,0,30));
         east.setLayout(new GridLayout(5,2,0,30));
+    }
+
+    public void popUpPlayerInfo(player player)
+    // PRE: player was initialized.
+    // POST: This method pops up a window with a scroll bar
+    //       it prints out all the player information.
+
+    // NOTE: Most of this method was taken from
+    // URL: http://www2.cs.uic.edu/~hogand/cs342/monopoly/food-for-thought.htm
+    // 10/20/2015 , by Harsh Patel
+    {
+       String result;                                  // Output message displayed in the window
+
+       JTextArea area;                                 // Text area to hold the message
+       JScrollPane pane;                               // Window pane with scrollbar containing text area
+
+       // You build the result message here...
+       result = player.toString();
+       area = new JTextArea(result);
+       area.setRows(10);
+       area.setColumns(10);
+       pane = new JScrollPane(area);
+       JOptionPane.showMessageDialog(null, pane, "Monopoly Board Info.", JOptionPane.PLAIN_MESSAGE);
     }
 }
 //
