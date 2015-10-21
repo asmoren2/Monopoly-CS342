@@ -195,9 +195,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
            System.exit(0);
          }
 
-
-
-
         if(e.getSource() == nextTurn)
         {
             turnCounter++;
@@ -227,7 +224,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         {
             System.exit(0);
         }
-
 
         if(e.getSource() == playerProp[0])
         {
@@ -393,4 +389,3 @@ public class GUI extends JApplet implements ActionListener, ItemListener
        JOptionPane.showMessageDialog(null, pane, "Monopoly Board Info.", JOptionPane.PLAIN_MESSAGE);
     }
 }
-//
