@@ -151,6 +151,35 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
+         if(e.getSource() == buyLocation)
+         {
+           message = "Thank you, you just bought Illinois Ave.";
+         }
+
+         if(e.getSource() == sellHouses)
+         {
+           message = "We are now selling your houses";
+           playerList[0].sell((playerList[0].getMoney()*-1));
+         }
+         if(e.getSource() == nextPlayer)
+         {
+           turnCounter++;
+              isNextTurn = true;
+         }
+         if(e.getSource() == endGame)
+         {
+           result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " + playerList[2].toString() +"\n " + playerList[3].toString();
+              area = new JTextArea(result);
+              area.setRows(30);
+              area.setColumns(40);
+              pane = new JScrollPane(area);
+              JOptionPane.showMessageDialog(null, pane, "End Game Info.", JOptionPane.PLAIN_MESSAGE);
+           System.exit(0);
+         }
+
+
+
+
         if(e.getSource() == nextTurn)
         {
             turnCounter++;
@@ -264,6 +293,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         //Initialize the monopoly Game
         theGame = new Monopoly(playerList);
+        theGame.demoMode();
     }
 
     public void initializePanels()
