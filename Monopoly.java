@@ -1,24 +1,22 @@
 public class Monopoly
 {
     public boardLocation [] monopolyBoard;          // The monopoly board.
-    public player [] playerArr;                     // The array of players.
+    public player [] playerArr;                     // The array of players.    
     public player theBank;
-
-    public int currentDiceValue;                    // currentDiceValue Holds the
+    
+    public int currentDiceValue;                    // currentDiceValue Holds the 
                                                     //   current dice value
-
+    
     public int currentPlayer;                       // currentPlayer holds the index
                                                     //   of the current player's turn
-
-    public int numberOfPlayers;                     // numberOfPlayers holds the
+    
+    public int numberOfPlayers;                     // numberOfPlayers holds the 
                                                     //   number of players for a given game
-
+    
     public int [] playerOrders;                     // an array to hold the order in which
                                                     //   players will throw
-
-    public String [] locationNames;                 // an array to hold the
-
-
+    
+    
     public Monopoly()
     // POST : A default monopoly game is created with an initialized board,
     //        and two players.
@@ -27,28 +25,28 @@ public class Monopoly
         playerArr     = initializeTwoPlayers();
         numberOfPlayers = playerArr.length;
     }
-
+    
     public Monopoly (player [] playerArr)
     // PRE: the player array must be initialized.
-    // POST: A new monopoly game is created with an initialized board and
+    // POST: A new monopoly game is created with an initialized board and 
     //       the class member playerArr set to playerArr.
     {
         monopolyBoard = initializeBoard();
         this.playerArr = playerArr;
         numberOfPlayers = playerArr.length;
-      playerOrders = new int [numberOfPlayers];
+        playerOrders = new int [numberOfPlayers];
     }
-
+    
     public void printAllLocations()
     // POST: This method prints out information about all board locations.
     {
-        for(boardLocation aLocation : monopolyBoard)
+        for(int i = 0; i < 40; i++)
         {
             System.out.println();
-            System.out.println(aLocation.toString());
+            System.out.println(monopolyBoard[i].toString());
         }
     }
-
+    
     public void printAllPlayers()
     // POST: This method prints out information about all players.
     {
@@ -58,75 +56,51 @@ public class Monopoly
             System.out.println(playerArr[i].toString());
         }
     }
-
-    public String [] getLocationNames()
-    //POST: will return a string containing the name of all the board locations.
-    {
-        int numberOfLocations = monopolyBoard.length;       // numberOfLocations will
-                                                            //   count the number
-                                                            //   of locations in the board
-
-        String [] allNames = new String [numberOfLocations];// allNames will hold
-                                                            //   all names for
-                                                            //   all Locations
-
-
-        for(int i = 0; i < numberOfLocations ; i++)
-        {
-            allNames[i] = (i + ") " + monopolyBoard[i].getName());
-        }
-
-        return allNames;
-    }
-
+    
     public int[] getPlayerOrder ()
-    //POST: Initializes playerOrders[] with player indexes, where the first
-    //      player is randomly chosen, and all subsequent players are in
-    //      ascending order, with wrap arround after the limit is crossed.
     {
         int slotsLeft;        // To count how many player slots are left to be assigned
-        int firstPlayerIndex; // To hold the index of the first player, generated
+        int firstPlayerIndex; // To hold the index of the first player, generated 
                               //    randomly
-
-
-        slotsLeft = numberOfPlayers;
+        
+        
+        slotsLeft = numberOfPlayers;    
         firstPlayerIndex = (int) (Math.random() * numberOfPlayers);
-
+        
         for(int aSlot = 0; aSlot < numberOfPlayers; aSlot ++)
         {
             //STEP 1: Randomly Generate the first player
-
+            
             if (aSlot == 0) // if aSlot == 0, the player index will be a randomly
                             //   firstPlayerIndex
             {
                 playerOrders[aSlot] = firstPlayerIndex;
             }
-
+            
             // STEP 2: "Assign turns by moving to the right."  This implies assigning
             //          player Indexes incrementally, and wrapping arround if we
             //          exceed the number of players.
-
+            
             else if (firstPlayerIndex + aSlot  // So long as the index of the currentPlayer
-                            < numberOfPlayers) //   does not exceed the number of players,
+                            < numberOfPlayers) //   does not exceed the number of players, 
                                                //   do not wrap arround player index
             {
                 playerOrders[aSlot] = firstPlayerIndex + aSlot;
-
+                            
             }
-
+            
             else    // If the index of the currentPlayer exceeds the number of players,
-                    //    wrap around and asing players left over.
+                    //    wrap around and asing players left over. 
             {
-                playerOrders[aSlot] = aSlot - firstPlayerIndex;
+                playerOrders[aSlot] = aSlot - firstPlayerIndex; 
             }
         }
-
-                return playerOrders;
+        return playerOrders;
     }
-
+    
     public void demoMode ()
     {
-      int propIndex;    //To hold the index of a given property
+      int propIndex;    //To hold the index of a given property     
          ((property) monopolyBoard[1]).buy(playerArr[0]);
          ((lot) monopolyBoard[1]).addNumHouses();
          ((lot) monopolyBoard[1]).addNumHouses();
@@ -154,11 +128,11 @@ public class Monopoly
          ((property) monopolyBoard[24]).buy(playerArr[0]);
          ((property) monopolyBoard[25]).buy(playerArr[0]);
          ((property) monopolyBoard[26]).buy(playerArr[0]);
-    }
-
+     }
+    
     private player [] initializeTwoPlayers()
     // POST: Initialized two default players,
-    //       FCTVL ==
+    //       FCTVL == 
     {
         playerArr = new player [2];
         playerArr[0] = new player();
@@ -167,7 +141,7 @@ public class Monopoly
     }
     private boardLocation [] initializeBoard()
     {
-        monopolyBoard = new boardLocation[42];
+        monopolyBoard = new boardLocation[40];
         monopolyBoard[0] = new cornerSquare("Go", 0, 2);//Go
         double []rent1 = {2,10,30,90,160};
         monopolyBoard[1] = new lot("MEDITERRANEAN AVE",1,"Dark Purple",60.0,50.0,0, rent1);
@@ -198,36 +172,34 @@ public class Monopoly
         monopolyBoard[18] = new lot("TENNESSEE AVE.",18,"Orange", 200, 100, 0, rent9);//Tennessee Ave
         double []rent10 = {16,80,220,600,800,1000};
         monopolyBoard[19] = new lot("NEW YORK AVE.",19,"Orange", 200, 100, 0,rent10);//New York Ave
-        monopolyBoard[20] = new gamble();
-        monopolyBoard[21] =  new cornerSquare("FREE PARKING",21,2);
+        monopolyBoard[20] =  new cornerSquare("FREE PARKING",20,2);
         double []rent11 = {18,90,250,700,875,1050};
-        monopolyBoard[22] = new lot("KENTUCKY AVE.",22,"Red", 220, 150, 0,rent11);//Kentucky Avenue
-        monopolyBoard[23] = new cardSquare("CHANCE",23,200);//chance
-        monopolyBoard[24] = new lot("INDIANA AVE.",24,"Red", 220, 150, 0,rent11);//Indiana Ave.
+        monopolyBoard[21] = new lot("KENTUCKY AVE.",21,"Red", 220, 150, 0,rent11);//Kentucky Avenue
+        monopolyBoard[22] = new cardSquare("CHANCE",22,200);//chance
+        monopolyBoard[23] = new lot("INDIANA AVE.",23,"Red", 220, 150, 0,rent11);//Indiana Ave.
         double []rent12 = {20,100,300,750,925,1100};
-        monopolyBoard[25] = new lot("ILLINOIS AVE.",25,"Red", 240, 150, 0, rent12);//Illinois Ave
-        monopolyBoard[26] = new railroad("B&O Railroad", 26);//B & O Railroad
+        monopolyBoard[24] = new lot("ILLINOIS AVE.",24,"Red", 240, 150, 0, rent12);//Illinois Ave
+        monopolyBoard[25] = new railroad("B&O Railroad", 25);//B & O Railroad
         double []rent13 = {22,110,330,800,975,1150};
-        monopolyBoard[27] = new lot("ATLANTIC AVE.",27,"Yellow", 260, 150, 0, rent13);//Atlantic Ave
-        monopolyBoard[28] = new lot("VENTNOR AVE.",28,"Yellow", 260, 150, 0, rent13);//Ventnor Ave
-        monopolyBoard[29] = new utility("WATER WORKS", 29);//Water Works
+        monopolyBoard[26] = new lot("ATLANTIC AVE.",26,"Yellow", 260, 150, 0, rent13);//Atlantic Ave
+        monopolyBoard[27] = new lot("VENTNOR AVE.",27,"Yellow", 260, 150, 0, rent13);//Ventnor Ave
+        monopolyBoard[28] = new utility("WATER WORKS", 28);//Water Works
         double []rent14 = {24,120,360,850,1025,1200};
-        monopolyBoard[30] = new lot("MARVIN GARDENS",30,"Yellow", 280, 150, 0, rent14);//Marvin Gardens
-        monopolyBoard[31] = new cornerSquare("GO TO JAIL",31,0);//Go to jail
+        monopolyBoard[29] = new lot("MARVIN GARDENS",29,"Yellow", 280, 150, 0, rent14);//Marvin Gardens
+        monopolyBoard[30] = new cornerSquare("GO TO JAIL",30,0);//Go to jail
         double []rent15 = {26,130,390,900,1100,1275};
-        monopolyBoard[32] = new lot("PACIFIC AVE.",32,"Green", 300, 200, 0, rent15);//Pacific Ave
-        monopolyBoard[33] = new lot("NO. CAROLINA AVE.",33,"Green", 300, 200, 0, rent15);//No. Carolina Ave
-        monopolyBoard[34] = new cardSquare("COMMUNITY CHEST",34,200);//Community chest
+        monopolyBoard[31] = new lot("PACIFIC AVE.",31,"Green", 300, 200, 0, rent15);//Pacific Ave
+        monopolyBoard[32] = new lot("NO. CAROLINA AVE.",32,"Green", 300, 200, 0, rent15);//No. Carolina Ave
+        monopolyBoard[33] = new cardSquare("COMMUNITY CHEST",33,200);//Community chest
         double []rent16 = {28,150,450,1000,1200,1400};
-        monopolyBoard[35] = new lot("PENNSYLVANIA AVE.",35,"Green", 320, 200, 0, rent16);//Penn Ave
-        monopolyBoard[36] = new railroad("Short Line Railroad", 36);//Short Line Railroad
-        monopolyBoard[37] = new cardSquare("CHANCE",37,200);//chance
+        monopolyBoard[34] = new lot("PENNSYLVANIA AVE.",34,"Green", 320, 200, 0, rent16);//Penn Ave
+        monopolyBoard[35] = new railroad("Short Line Railroad", 35);//Short Line Railroad
+        monopolyBoard[36] = new cardSquare("CHANCE",36,200);//chance
         double []rent17 = {35,175,500,1100,1300, 1500};
-        monopolyBoard[38] = new lot("PARK PLACE",38,"Dark Blue",350,200, 0, rent17);//Park Place
-        monopolyBoard[39] = new taxSquare("Luxury Tax", 39, 1);//Luxury Tax
+        monopolyBoard[37] = new lot("PARK PLACE",37,"Dark Blue",350,200, 0, rent17);//Park Place
+        monopolyBoard[38] = new taxSquare("Luxury Tax", 38, 1);//Luxury Tax
         double []rent18 = {50,200,600,1400,1700, 2000};
-        monopolyBoard[40] = new lot("BOARDWALK",40,"Dark Blue",400,200,0, rent18);//BoardWalk
-        monopolyBoard[41] = new gamble();
+        monopolyBoard[39] = new lot("BOARDWALK",39,"Dark Blue",400,200,0, rent18);//BoardWalk
         return monopolyBoard;
     }
 
