@@ -13,6 +13,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private Monopoly theGame;           // The monopoly game
     private boolean isNextTurn;         // This boolean represents if
                                         // the user pressed next turn.
+    private boolean [] isPlayerButton;  // An array of booleans representing the 
+                                        // clicking of player info buttons.
     private int turnCounter;            // Counter for turn.
     private JButton nextTurn;
     private JButton buyLocation;
@@ -153,15 +155,23 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         center.add(southCenter);
         
         southCenter.add(scrollPane);
-
-        east.add(playerProp[0]);
+//////////// HARSH CHANGE /////////////////
+        // THE COMMENTED OUT CODE IS REPETITIVE 
+        // IT IS NOT NEEDED.
+/*      east.add(playerProp[0]);
         east.add(playerStatus[0]);
         east.add(playerProp[1]);
         east.add(playerStatus[1]);
         east.add(playerProp[2]);
         east.add(playerStatus[2]);
         east.add(playerProp[3]);
-        east.add(playerStatus[3]);
+        east.add(playerStatus[3]);*/
+        // Adding action listener
+        playerProp[0].addActionListener(this);
+        playerProp[1].addActionListener(this);
+        playerProp[2].addActionListener(this);
+        playerProp[3].addActionListener(this);
+////////////HARSH CHANGE END /////////////////
 
         add(layout.SOUTH, south);
         add(layout.NORTH, north);
@@ -278,7 +288,10 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         {
         	System.exit(0);
         }
-
+        if(e.getSource() == playerProp[0])
+        {
+            
+        }
         repaint();
     }
 
