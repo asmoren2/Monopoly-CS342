@@ -42,7 +42,7 @@ public abstract class boardLocation
         this.nameOfLocation = nameOfLocation;
         this.spacesFromGo = spacesFromGo;        
         
-        actionStatus = new boolean [5];
+        this.actionStatus = new boolean [5];
         possibleActions = new String [5];
         for(String pActions : possibleActions)
         {
@@ -90,7 +90,7 @@ public abstract class boardLocation
     
     public boolean [] getActionStatus()
     {
-    	
+        
         return actionStatus;
     }
     @Override

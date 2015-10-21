@@ -150,6 +150,7 @@ public class lot extends property
         
         actionStatus[4] = true;      // End game
         possibleActions[4] = PACTIONS[4];
+        System.out.println("Location: " + nameOfLocation + isOwned);
         if(isOwned == false)            // If un-owned
         {
            if(player.getMoney() > this.purchaseCost)

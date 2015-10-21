@@ -125,11 +125,10 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             else
                 System.out.println("False");
         }
-
-        improveProperty.setEnabled(status[0]);
-        sellHouses.setEnabled(status[1]);
-        nextPlayer.setEnabled(status[2]);
-        buyLocation.setEnabled(status[3]);
+        buyLocation.setEnabled(status[1]);
+        improveProperty.setEnabled(status[3]);
+        sellHouses.setEnabled(status[2]);
+        nextPlayer.setEnabled(status[0]);
         endGame.setEnabled(status[4]);
 
     }
@@ -168,7 +167,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         {
             currentPlayer = playerOrder[i];
             tmpPlayerLocation = playerList[currentPlayer].getBoardLocation();
-            tmpPlayerFunds = playerList[currentPlayer].getMoney();
+            tmpPlayerFunds = Math.floor(playerList[currentPlayer].getMoney());
             
             //Initialize the actual buttons and labels with the expected
             //   information
@@ -210,6 +209,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             
             setButtonStatus(theGame.getBoardLocate(playerList[playerOrder[turnCounter]]).getActionStatus());
             g.drawString("Player : " + turnCounter+ "\n", 250, 250);
+            // if the turn counter is going off the array
             if(turnCounter > playerList.length-1)
             {
                 turnCounter  = 0;
@@ -397,6 +397,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         //Initialize the monopoly Game
         theGame = new Monopoly(playerList);
+        //theGame.demoMode();
     }
 
     public void initializePanels()

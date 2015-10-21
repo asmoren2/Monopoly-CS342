@@ -239,7 +239,7 @@ public property [] getPropertyList()
 @Override
 public String toString()
 {
-   return "Player: " + playerToken + "\n" + "Has $"+money +"\n"+ "Railroads owned: "+
+   return "Player: " + playerToken + "\n" + "Has $"+ Math.floor(money) +"\n"+ "Railroads owned: "+
          numRailroad + "\n" + "Utilities owned: " + numUtility + "\n" + "Board location: " +
          spaceFromGo + "\n" + "Properties Owned:" +"\n"+  getLocationsOnwed().toString();
 }
