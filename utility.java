@@ -1,7 +1,7 @@
 // Programmer:  Adolfo Moreno
 // Assignment:  Monopoly
 // Date:        October, 14 2015
-// Description: This class represents a utility on the board location. 
+// Description: This class represents a utility on the board location.
 
 
 public class utility extends property
@@ -19,7 +19,7 @@ public class utility extends property
    }//Default Constructor
 
    public utility(String nameOfLocation, int spacesFromGo)
-   // POST: a default utility is created with the name 
+   // POST: a default utility is created with the name
    //       nameOfLocation and it is spacesFromGo away from
    //       the go block.  It cost purchaseCost.
    {
@@ -38,7 +38,7 @@ public class utility extends property
       {
          rentCost = (10*diceNumber);
       }
-      
+
       return rentCost;
    }
 
@@ -47,12 +47,12 @@ public class utility extends property
    // PRE: player must be initialized
    // POST: FCTVAL == A string array representing all the actions
    //                 a player can currently perform is returned.
-   {                
+   {
        double rent = caltUtilRent(owner.getNumberRailroad(), thePlayer.getDiceLand());
        // End game
        actionStatus[4] = true;
        possibleActions[4] = PACTIONS[4];
-       
+
        if(isOwned == false && thePlayer.getMoney() > purchaseCost)         // This Location is not owned
        {
            actionStatus[1] = true;  // buy
@@ -67,8 +67,8 @@ public class utility extends property
                actionStatus[3] = true;
                possibleActions[3] = PACTIONS[3];
        }
-       else if (this.owner != thePlayer 
-                && thePlayer.getMoney() > rent)     // owned by another player 
+       else if (this.owner != thePlayer
+                && thePlayer.getMoney() > rent)     // owned by another player
        {
            thePlayer.payRent(owner, rent);
        }
@@ -87,6 +87,6 @@ public boolean performAction(player thePlayer, player theBank, char choice) {
     // TODO Auto-generated method stub
     return false;
 }
-   
-   
+
+
 }

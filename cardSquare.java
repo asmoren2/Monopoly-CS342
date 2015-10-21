@@ -51,7 +51,7 @@ public class cardSquare extends boardLocation
          return (Math.random() * bound) * (-1); //   negative random value
 
    }
-   
+
 
 
    public String toString()
@@ -64,26 +64,26 @@ public class cardSquare extends boardLocation
     }
 
     @Override
-    public String [] getPossibleActions(player player) 
-    {       
-       
+    public String [] getPossibleActions(player player)
+    {
+
        // give the money to the player.
        player.addMoney(getChanceValue());
-       
+
        // end game
        actionStatus[4] = true;
        possibleActions[4] = PACTIONS[4];
        // Do nothing
        actionStatus[0] = true;
        possibleActions[0] = PACTIONS[0];
-       if(player.getMoney() > 0 
+       if(player.getMoney() > 0
           && player.canImprove(player.getImprovingLots()))
        // if the player has money and can improve lots
        {
            actionStatus[3] = true;
            possibleActions[3] = PACTIONS[3];
        }
-       else if(player.getMoney() < 0 
+       else if(player.getMoney() < 0
                && player.hasSellableProperty())
        // player has no money and can sell lots
        {
@@ -91,7 +91,7 @@ public class cardSquare extends boardLocation
            actionStatus[2] = true;
            possibleActions[2] = PACTIONS[2];
        }
-       
+
        return possibleActions;
     }
 

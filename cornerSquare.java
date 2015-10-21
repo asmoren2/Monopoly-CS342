@@ -107,7 +107,7 @@ public class cornerSquare extends boardLocation
    {
       return isFreeSpace;
    }
-   
+
    @Override
    public String [] getPossibleActions(player player)
    {
@@ -130,7 +130,7 @@ public class cornerSquare extends boardLocation
    }
 
     @Override
-    public boolean performAction(player thePlayer, player theBank, char choice) 
+    public boolean performAction(player thePlayer, player theBank, char choice)
     {
         // TODO Auto-generated method stub
         return true;

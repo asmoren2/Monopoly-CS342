@@ -4,7 +4,7 @@
 // Description: This class acts as a super class to all the properties
 //              on the monopoly board.  It represents a property on the
 //              board, it can eventually be converted to a lot and other
-//              properties. 
+//              properties.
 public abstract class property extends boardLocation
 {
     protected player owner;             // The owner of the property.
@@ -17,7 +17,7 @@ public abstract class property extends boardLocation
     {
         super();
     }
-    
+
     public property(String nameOfLocation, int spacesFromGo)
     // POST: the class member nameOfLocation is set to nameOfLocation
     //       the class member spacesFromGo is set to spacesFromGo.
@@ -32,7 +32,7 @@ public abstract class property extends boardLocation
     {
         this.rentStructure[option] = rent;
     }
-    
+
     public void buy(player owner)
     // PRE: owner must be initialized.
     // POST: sets the class member owner to owner.
@@ -44,32 +44,32 @@ public abstract class property extends boardLocation
         //NOTE: MAKE SURE YOU ADD THE FUNCTIONALITY TO DEDUCT MONEY FROM THE
         //      PLAYER
     }
-    
+
     public boolean isOwned()
     // POST: FCTVAL == isOwned.  is the property owned or not?
     {
         return this.isOwned;
     }
-    
+
     public double getPurcaseCost()
     // FCTVAL == purchaseCost.  The purchase cost of the current
     //           property.
     {
         return this.purchaseCost;
     }
-    
+
     public player getOwner()
     // FCTVAL: The owner of this property.
     {
         return this.owner;
     }
-    
+
     @Override
     public String[] getPossibleActions(player player)
-    {   
+    {
         return possibleActions;
     }
-    
+
     @Override
     public String toString()
     // POST:  A string representing this property.

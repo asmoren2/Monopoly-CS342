@@ -12,7 +12,7 @@ public class lot extends property
     private double improveCost;     // Cost to build a house, or upgrade.
     private int numHouses;          // Number of houses in the lot.
     private boolean isHotel;        // Boolean representing if a hotel is created.
-    
+
     public lot()
     // POST: a default lot is created, with no district, 
     //       no color, and no name.  It is 0 spaces away from go,
@@ -23,8 +23,8 @@ public class lot extends property
     {
         this("",0,"",0.0,0.0,0,new double [7]);
     }
-    
-    public lot(String nameOfLocation, int spacesFromGo, String color, 
+
+    public lot(String nameOfLocation, int spacesFromGo, String color,
                double purchaseCost, double improveCost,
                int numHouses, double [] rentStructure)
     // PRE: district, color, nameOfLocation must be initialize.
@@ -32,13 +32,13 @@ public class lot extends property
     //      purchaseCost >= 0.0, improveCost >= 0.0
     //      rentStructure must be initialized.
     // POST: A lot object is initialized with the
-    //       class member district set to district, 
+    //       class member district set to district,
     //       class member color set to color,
     //       class member nameOfLocation set to nameOfLocation,
     //       class member spacesFromGo set to spacesFromGo,
     //       class member purchaseCost set to purchaseCost,
     //       class member improveCost set to improve cost,
-    //       class member rentStructure set to rentStructure, 
+    //       class member rentStructure set to rentStructure,
     //       class member hasHotel to "does not have a",
     //       and the class member isHotel set to false.
     //       the class member actionStatus is instantiated
@@ -52,14 +52,14 @@ public class lot extends property
         this.hasHotel = "does not";
         this.isHotel = false;
         actionStatus = new boolean[20];
-        
+
         // Initialize action Statuses to allFalse
         for(boolean aStatus : actionStatus)
             aStatus = false;
-        
-        
+
+
     }
-    
+
     public double sellHouse()
     // PRE: The lot must have a house to sell.
     // POST:  decreases the number of houses a player has and returns the
@@ -73,13 +73,13 @@ public class lot extends property
         }
         return improveCost/2;
     }
-    
+
     public int getNumHouses()
     // POST: returns the number of houses this lot has.
     {
         return this.numHouses;
     }
-    
+
     public double sellHotel()
     // PRE: the lot must have a hotel to sell.
     // POST: gets rid of the hotel in the lot
@@ -90,21 +90,21 @@ public class lot extends property
         numHouses = 0;
         return (improveCost*5)/2;
     }
-    
+
     public boolean getHotel()
     // POST: FCTVAL == does the lot have a hotel.
     {
         return isHotel;
     }
-    
+
     public void addNumHouses()
     // POST: adds one to the number of houses on this lot.
     {
         this.numHouses++;
     }
-    
+
     public void makeHotel()
-    // POST: resets the class member numHouses to 0 and 
+    // POST: resets the class member numHouses to 0 and
     //       sets the class member isHotel to be true.
     //       It also sets the class member hasHotel to "has one".
     {
@@ -112,34 +112,34 @@ public class lot extends property
         this.hasHotel = "has one";
         this.isHotel = true;
     }
-    
+
     public double getImproveCost()
     // POST: FCTVAL == the improve cost of this class.
     {
         return this.improveCost;
     }
-    
+
     public double getRent()
     // FCTVAL == The rent of the property, with numHouses houses on it.
     {
         return this.rentStructure[numHouses];
     }
-    
+
     public String getColor()
     // POST: FCTVAL == the color group this lot belongs to.
     {
         return this.color;
     }
-    
+
     @Override
     public String [] getPossibleActions(player player)
     // PRE: player must be initialized
     // POST: FCTVAL == A string array representing all the actions
     //                 a player can currently perform is returned.
-    {                
+    {
         /*
-         * PACTIONS = {0:"Do Nothing", 1:"Buy", 
-                       2:"Sell", 3:"Improve Property", 
+         * PACTIONS = {0:"Do Nothing", 1:"Buy",
+                       2:"Sell", 3:"Improve Property",
                        4:"End Game"};    */
         double rent = rentStructure[player.getBoardLocation()];
         actionStatus[4] = true;      // End game
@@ -177,12 +177,12 @@ public class lot extends property
         }
         return possibleActions;
     }
-    
+
     @Override
     public String toString()
     // FCTVAL == a string representation of this lot.
     {
-        return super.toString() + 
+        return super.toString() +
                "\nThis property belongs to the color group: " + color +
                ".\nThis property has " + numHouses + " houses." +
                "\nIt costs " + improveCost + " to make a house on this property."+
@@ -190,7 +190,7 @@ public class lot extends property
     }
 
     @Override
-    public boolean performAction(player thePlayer, player theBank, char choice) 
+    public boolean performAction(player thePlayer, player theBank, char choice)
    //PRE: thePlayer is the player that just threw the dice, and choice
    //     corresponds to the choices given by getPossibleActions
    //POST: - summons the functions necessary to perform actions by the user
@@ -200,73 +200,73 @@ public class lot extends property
     {
         boolean successFlag;    // successFlag Determines whether the user made a proper
                                 //   choice or not
-        
-        char upperChoice;       // upperChoice Reformats choice to upper case   
-        
+
+        char upperChoice;       // upperChoice Reformats choice to upper case
+
         successFlag = false;
         upperChoice = Character.toUpperCase(choice);
-        
+
         if (upperChoice == 'N' &&        //If the user enters character 'N', and this
-            actionStatus[0] == true)     //   Choice has been enabled, execute 
-        {            
+            actionStatus[0] == true)     //   Choice has been enabled, execute
+        {
             //Perform nothing, simply end turn
-            
+
             successFlag = true;
         }
-        
+
         else if (upperChoice == 'B' &&   //If the user enters character 'B', and this
-                actionStatus[1] == true) //   Choice has been enabled, execute 
+                actionStatus[1] == true) //   Choice has been enabled, execute
         {
             this.buy(thePlayer);                               //Set the title to the player
             thePlayer.addMoney(this.getPurcaseCost() * (-1));  //Deduce Money from the player
             theBank.addMoney(this.getPurcaseCost());           //Transfer Money to the Bank
             successFlag = true;
         }
-        
+
         else if (upperChoice == 'H' &&   //If the user enters character 'H', and this
-                actionStatus[2] == true) //   Choice has been enabled, execute 
+                actionStatus[2] == true) //   Choice has been enabled, execute
         {
             thePlayer.addMoney(this.getImproveCost() * (-1));  // Deduce Money from the player
             theBank.addMoney(this.getImproveCost());           // Transfer Money to the Bank
             this.addNumHouses();                               // Build house
-            
+
             successFlag = true;
         }
-        
+
         else if (upperChoice == 'O' &&   //If the user enters character 'O', and this
-                actionStatus[3] == true) //   Choice has been enabled, execute 
+                actionStatus[3] == true) //   Choice has been enabled, execute
         {
             thePlayer.addMoney(this.getImproveCost() * (-1));  // Deduce Money from the player
-            theBank.addMoney(this.getImproveCost());           // Transfer Money to the Bank    
+            theBank.addMoney(this.getImproveCost());           // Transfer Money to the Bank
             this.makeHotel();                                  // Build Hotel
             successFlag = true;
         }
-        
+
         else if (upperChoice == 'R' &&   //If the user enters character 'R', and this
-                 actionStatus[4] == true) //   Choice has been enabled, execute 
+                 actionStatus[4] == true) //   Choice has been enabled, execute
         {
             thePlayer.addMoney(this.getImproveCost() * (-1));  // Deduce Money from the player
             theBank.addMoney(this.getImproveCost());           // Transfer Money to the Bank
             successFlag = true;
         }
-        
+
         else if (upperChoice == 'Q' &&   //If the user enters character 'Q', and this
-                actionStatus[5] == true) //   Choice has been enabled, execute 
+                actionStatus[5] == true) //   Choice has been enabled, execute
         {
-                
+
             //FIND A WAY TO KILL THE GAME
             successFlag = true;
         }
         // RESET FOR NEXT ITERATION
-        
-        if (successFlag == true)   // Initialize actionStatus to all False whenever  
-        {                          //   the user makes a proper choice.  Else, keep 
+
+        if (successFlag == true)   // Initialize actionStatus to all False whenever
+        {                          //   the user makes a proper choice.  Else, keep
                                    //   the actionStatuses for a retry
             for(boolean aStatus : actionStatus)
                 aStatus = false;
         }
-        
+
         return successFlag;
     }
-    
+
 }

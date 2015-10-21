@@ -54,8 +54,8 @@ public class railroad extends property
       }
       return rentPayable;
    }//End calcRent
-   
-   @Override 
+
+   @Override
    public String toString()
    {
        return super.toString() + "\nThe purchase cost is : " + purchaseCost;
@@ -68,11 +68,11 @@ public class railroad extends property
    //                 a player can currently perform is returned.
    {
        double rent = calcRent(owner.getNumberRailroad());
-       
+
        // End game
        actionStatus[4] = true;
        possibleActions[4] = PACTIONS[4];
-       
+
        if(isOwned == false && thePlayer.getMoney() > purchaseCost)         // This Location is not owned
        {
            actionStatus[1] = true;  // buy
@@ -88,8 +88,8 @@ public class railroad extends property
                actionStatus[3] = true;
                possibleActions[3] = PACTIONS[3];
        }
-       else if (this.owner != thePlayer 
-                && thePlayer.getMoney() > rent)     // owned by another player 
+       else if (this.owner != thePlayer
+                && thePlayer.getMoney() > rent)     // owned by another player
        {
            thePlayer.payRent(owner, rent);
        }
@@ -109,5 +109,5 @@ public boolean performAction(player thePlayer, player theBank, char choice) {
     return false;
 }
 
-   
+
 }

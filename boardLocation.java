@@ -231,7 +231,7 @@ public String toString()
 }
 
 public String getLocationsOnwed(){
-	
+
 	String[] nameList = new String[numProperties];
 	String finString = "";
 	// Initializing the nameList
@@ -249,7 +249,7 @@ public String getLocationsOnwed(){
 		finString += nameList[i];
 	}
 	return finString;
-}  
+}
 
 public boolean sell (double amount)
 // PRE: amount >= 0

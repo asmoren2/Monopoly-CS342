@@ -30,7 +30,7 @@ public class taxSquare extends boardLocation
     {
         this.taxMode = taxMode;
     }
-    
+
     @Override
     public String toString()
 // POST:  returns a string representing the object of the cardSquare class
@@ -41,7 +41,7 @@ public class taxSquare extends boardLocation
 }
 
     @Override
-    public String [] getPossibleActions(player player) 
+    public String [] getPossibleActions(player player)
     // POST: FCTVAL possibleActions
     {
         double rent;
@@ -64,7 +64,7 @@ public class taxSquare extends boardLocation
             actionStatus[0] = true;
             possibleActions[0] = PACTIONS[0];
         }
-        else if (player.getMoney() < rent 
+        else if (player.getMoney() < rent
                 && player.hasSellableProperty())
         {
             // sell
