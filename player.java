@@ -205,6 +205,7 @@ public void buyProperty(property property)
    {                                        // add one to the numUtility.
        numUtility++;
    }
+   money -= property.getPurcaseCost();
    property.isOwned = true;
 }
 public boolean hasSellableProperty()
