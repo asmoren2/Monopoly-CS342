@@ -13,6 +13,10 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private Monopoly theGame;           // The monopoly game
     private boolean isNextTurn;         // This boolean represents if
                                         // the user pressed next turn.
+    // HARSH:--  REMOVE THE COMMENTED LINE
+    /*private boolean [] isPlayerButton;  // An array of booleans representing the 
+                                        // clicking of player info buttons.*/
+    ///
     private int turnCounter;            // Counter for turn.
     private JButton nextTurn;
     private JButton buyLocation;
@@ -43,10 +47,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private JScrollPane scrollPane;
     private String message;
     private int []playerOrder;
-    private JFrame frame; 				//JoptionPane
-    private String result; 				// Output message displayed in the window
-    private JTextArea area;             // Text area to hold the message
-    private JScrollPane pane;           // Window pane with scrollbar containing text area
+
     // Related to Layout and panels
     JPanel south;
     JPanel north;
@@ -64,11 +65,13 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         initializeMonopoly();
         initializeWidgets();
         initializePanels();
-
+        
+        ///////////////////CHANGED THIS/////////////////////////////////////////
         playerOrder = theGame.getPlayerOrder();
         player cur = playerList[playerOrder[0]];
         String []a =  theGame.getBoardLocate(cur).getPossibleActions(cur);
         setButtonStatus(theGame.getBoardLocate(playerList[playerOrder[0]]).getActionStatus());
+        //////////////////END CHANGE///////////////////////////////////////////
 
         //Set layout now that panels are set up
         setLayout(layout);
@@ -76,10 +79,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         turnCounter = 0;
         isNextTurn = true;
 
-
-
         initializePanels();
-
+        
         //Populate the players with their information.
         for(int i = 0; i < 4; i++)
         {
@@ -87,7 +88,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             tmpPlayerFunds = playerList[i].getMoney();
             //Initialize the actual buttons and labels with the expected
             //   information
-            playerProp[i] = new JButton("Player " + i + " Properties.");
+            playerProp[i] = new JButton("Player " + (i + 1) + " Properties.");
             playerStatus[i] = new JLabel("Location: " + tmpPlayerLocation +
                                          "\nFunds: "  + tmpPlayerFunds);
         }
@@ -101,118 +102,37 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         addActionListeners();
         addToPanel();
+       
 
-
-     }
+}
     ///////////////CHANGED THIS////////////////////
     public void setButtonStatus(boolean []status)
-    {
-       	for(int i = 0; i < 5; i++){
-       		if(status[i] == true){
-       			System.out.println("True");
-       		}
-       		else
-       			System.out.println("False");
-       	}
-
-       	improveProperty.setEnabled(status[0]);
-       	sellHouses.setEnabled(status[1]);
-       	nextPlayer.setEnabled(status[2]);
-       	buyLocation.setEnabled(status[3]);
-       	endGame.setEnabled(status[4]);
+    {	
+    	for(int i = 0; i < 5; i++){
+    		if(status[i] == true){
+    			System.out.println("True");
+    		}
+    		else
+    			System.out.println("False");
+    	}
+    	improveProperty.setEnabled(status[0]);
+    	sellHouses.setEnabled(status[1]);
+    	nextPlayer.setEnabled(status[2]);
+    	buyLocation.setEnabled(status[3]);
+    	endGame.setEnabled(status[4]);
 
     }
-
+    //////////////END CHANGE/////////////////////
+    
     public void addActionListeners()
     {
-      improveProperty.addActionListener(this);
+    	improveProperty.addActionListener(this);
     	sellHouses.addActionListener(this);
     	buyLocation.addActionListener(this);
     	nextPlayer.addActionListener(this);
     	endGame.addActionListener(this);
+    	
     }
-
-    @Override
-    public void paint(Graphics g)
-    {
-        super.paint(g);
-
-        while(isNextTurn)
-        {
-            isNextTurn = false;         // Reset
-            g.drawString("Player : " + turnCounter+ "\n", 250, 250);
-            if(turnCounter >= playerList.length)
-            {
-                turnCounter  = 0;
-            }
-        }
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-         if(e.getSource() == buyLocation)
-         {
-           message = "Thank you, you just bought Illinois Ave.";
-         }
-
-         if(e.getSource() == sellHouses)
-         {
-           message = "We are now selling your houses";
-           playerList[0].sell((playerList[0].getMoney()*-1));
-         }
-         if(e.getSource() == nextPlayer)
-         {
-           turnCounter++;
-              isNextTurn = true;
-         }
-         if(e.getSource() == endGame)
-         {
-           result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " + playerList[2].toString() +"\n " + playerList[3].toString();
-              area = new JTextArea(result);
-              area.setRows(30);
-              area.setColumns(40);
-              pane = new JScrollPane(area);
-              JOptionPane.showMessageDialog(null, pane, "End Game Info.", JOptionPane.PLAIN_MESSAGE);
-           System.exit(0);
-         }
-
-
-
-
-        if(e.getSource() == nextTurn)
-        {
-            turnCounter++;
-            isNextTurn = true;
-        }
-
-        if(e.getSource() == buyLocation)
-        {
-        	message = "Thank you, you just bought Illinois Ave.";
-        }
-
-        if(e.getSource() == sellHouses)
-        {
-        	message = "We are now selling your houses";
-        }
-        if(e.getSource() == nextPlayer)
-        {
-
-        }
-        if(e.getSource() == endGame)
-        {
-        	System.exit(0);
-        }
-
-        repaint();
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
 
     public void addToPanel()
     {
@@ -232,23 +152,28 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         west.add(sellHouses);
         west.add(nextPlayer);
         west.add(endGame);
-
         south.add(nextTurn);
         center.add(northCenter);
         center.add(southCenter);
-
+        
         southCenter.add(scrollPane);
-
-        east.add(playerProp[0]);
+//////////// HARSH CHANGE /////////////////
+        // THE COMMENTED OUT CODE IS REPETITIVE 
+        // IT IS NOT NEEDED.
+/*      east.add(playerProp[0]);
         east.add(playerStatus[0]);
         east.add(playerProp[1]);
         east.add(playerStatus[1]);
         east.add(playerProp[2]);
         east.add(playerStatus[2]);
         east.add(playerProp[3]);
-        east.add(playerStatus[3]);
-        east.add(getLocation);
-        east.add(allLocations);
+        east.add(playerStatus[3]);*/
+        // Adding action listener
+        playerProp[0].addActionListener(this);
+        playerProp[1].addActionListener(this);
+        playerProp[2].addActionListener(this);
+        playerProp[3].addActionListener(this);
+////////////HARSH CHANGE END /////////////////
 
         add(layout.SOUTH, south);
         add(layout.NORTH, north);
@@ -264,8 +189,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         //East Side
         playerProp = new JButton [5];       //Initialize the array itself
         playerStatus = new JLabel [5];
-        allLocations = new JComboBox(theGame.getLocationNames());
-        getLocation = new JButton("This Location - Info");
 
         //West side
         nextTurn = new JButton("Next Turn");
@@ -281,6 +204,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     public void initializeMonopoly()
     // POST: Will initialize Players and the Monopoly Game
     {
+
         //Initialize the bank Player
         theBank = new player (9999,0, "Bank");
 
@@ -293,7 +217,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         //Initialize the monopoly Game
         theGame = new Monopoly(playerList);
-        theGame.demoMode();
     }
 
     public void initializePanels()
@@ -323,5 +246,97 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         west.setLayout (new GridLayout (5,1,0,30));
         east.setLayout(new GridLayout(5,2,0,30));
     }
+
+    @Override
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        //g.drawString(message, 250,250);
+
+        while(isNextTurn)
+        {
+            isNextTurn = false;         // Reset
+            g.drawString("Player : " + turnCounter+ "\n", 250, 250);
+            if(turnCounter >= playerList.length)
+            {
+                turnCounter  = 0;
+            }
+        }
+        
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == nextTurn)
+        {
+            turnCounter++;
+            isNextTurn = true;
+        }
+        
+        if(e.getSource() == buyLocation)
+        {
+        	message = "Thank you, you just bought Illinois Ave.";
+        }
+        
+        if(e.getSource() == sellHouses)
+        {
+        	message = "We are now selling your houses";
+        }
+        if(e.getSource() == nextPlayer)
+        {
+        	
+        }
+        if(e.getSource() == endGame)
+        {
+        	System.exit(0);
+        }
+
+        if(e.getSource() == playerProp[0])
+        {
+            popUpPlayerInfo(playerList[playerOrder[0]]);
+        }
+        if(e.getSource() == playerProp[1])
+        {
+            popUpPlayerInfo(playerList[playerOrder[1]]);
+        }
+        if(e.getSource() == playerProp[2])
+        {
+            popUpPlayerInfo(playerList[playerOrder[2]]);
+        }
+        if(e.getSource() == playerProp[3])
+        {
+            popUpPlayerInfo(playerList[playerOrder[3]]);
+        }
+        repaint();
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
+    
+    public void popUpPlayerInfo(player player)
+    // PRE: player was initialized.
+    // POST: This method pops up a window with a scroll bar
+    //       it prints out all the player information.
+    
+    // NOTE: Most of this method was taken from
+    // URL: http://www2.cs.uic.edu/~hogand/cs342/monopoly/food-for-thought.htm
+    // 10/20/2015 , by Harsh Patel
+    {
+       String result;                                  // Output message displayed in the window
+     
+       JTextArea area;                                 // Text area to hold the message
+       JScrollPane pane;                               // Window pane with scrollbar containing text area
+
+       // You build the result message here...
+       result = player.toString();
+       area = new JTextArea(result); 
+       area.setRows(10); 
+       area.setColumns(10);
+       pane = new JScrollPane(area);
+       JOptionPane.showMessageDialog(null, pane, "Monopoly Board Info.", JOptionPane.PLAIN_MESSAGE);   
+    } 
+
 }
-//
