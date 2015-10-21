@@ -93,8 +93,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         }
 
         //southCenter
-        textArea = new JTextArea(5,20);
-        scrollPane = new JScrollPane(textArea);
+
         textArea.setEditable(false);
         textArea.append("Harsh paid $200 to Christian \n");
         textArea.append("Adolfo has passed go collected $200");
@@ -289,7 +288,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         center.add(northCenter);
         center.add(southCenter);
 
-        southCenter.add(scrollPane);
+        southCenter.add(scrollPane, BorderLayout.CENTER);
 
         east.add(playerProp[0]);
         east.add(playerStatus[0]);
@@ -319,16 +318,19 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         allLocations = new JComboBox(theGame.getLocationNames());
         getLocation = new JButton("This Location - Info");
 
-        //West side
+
         nextTurn = new JButton("Next Turn");
-
-
+        //West side
         buyLocation = new JButton("Buy this Property");
         improveProperty = new JButton("Improve this Property");
         sellHouses = new JButton("Sell Houses");
         nextPlayer = new JButton("End Turn");
         endGame = new JButton("End Game");
         nextTurn = new JButton("Next Turn");
+
+        //Center - South Side
+        textArea = new JTextArea();
+        scrollPane = new JScrollPane(textArea);
     }
 
     public void initializeMonopoly()
@@ -388,6 +390,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         center.setLayout(new GridLayout(2,1));
         west.setLayout (new GridLayout (5,1,0,30));
         east.setLayout(new GridLayout(5,2,0,30));
+        southCenter.setLayout(new BorderLayout());
     }
 
     public void popUpLocationInfo(boardLocation theLocation)
