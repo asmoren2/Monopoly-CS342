@@ -73,7 +73,7 @@ public class Monopoly
 
         for(int i = 0; i < numberOfLocations ; i++)
         {
-            allNames[i] = (i + ") " + monopolyBoard[i].getName());
+            allNames[i] = ((i + 1) + ") " + monopolyBoard[i].getName());
         }
 
         return allNames;
