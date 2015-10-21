@@ -75,7 +75,7 @@ public abstract class property extends boardLocation
     // POST:  A string representing this property.
     {
         return super.toString() +
-               "\nThe property is owned by: " + //owner.getToken() +
+               "\nThe property is owned by: " + owner.getToken() +
                "\nThe property costs: " + purchaseCost;
     }
 }

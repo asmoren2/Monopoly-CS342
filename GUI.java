@@ -83,8 +83,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         //Populate the players with their information.
         for(int i = 0; i < 4; i++)
         {
-            tmpPlayerLocation = playerList[i].getBoardLocation();
-            tmpPlayerFunds = playerList[i].getMoney();
+            tmpPlayerLocation = playerList[playerOrder[i]].getBoardLocation();
+            tmpPlayerFunds = playerList[playerOrder[i]].getMoney();
             //Initialize the actual buttons and labels with the expected
             //   information
             playerProp[i] = new JButton("Player " + (i+1) + " Properties.");
@@ -217,6 +217,13 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         if(e.getSource() == getLocation)
         {
+            int locationIndex;
+
+            //Fetch the location index fro the comboBox.
+            locationIndex = allLocations.getSelectedIndex();
+
+            if(locationIndex >= 0)           //Handle unseelected index case
+                popUpLocationInfo(theGame.monopolyBoard[locationIndex]);
 
         }
 
@@ -224,6 +231,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         {
             System.exit(0);
         }
+
 
         if(e.getSource() == playerProp[0])
         {
@@ -366,6 +374,29 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         east.setLayout(new GridLayout(5,2,0,30));
     }
 
+    public void popUpLocationInfo(boardLocation theLocation)
+    // PRE:  locations was initialized.
+    // POST: This method pops up a window with a scroll bar
+    //       it prints out the location information.
+
+    // NOTE: Most of this method was taken from
+    // URL: http://www2.cs.uic.edu/~hogand/cs342/monopoly/food-for-thought.htm
+    // 10/21/2015 , by Christian Valladares
+    {
+        String info;        //The information ofr a given location
+
+        JTextArea area;
+        JScrollPane pane;
+
+        info = theLocation.toString();
+        area = new JTextArea(info);
+        area.setRows(10);
+        area.setColumns(20);
+        pane = new JScrollPane(area);
+        JOptionPane.showMessageDialog(null, pane, "Monopoly Board Info.", JOptionPane.PLAIN_MESSAGE);
+
+    }
+
     public void popUpPlayerInfo(player player)
     // PRE: player was initialized.
     // POST: This method pops up a window with a scroll bar
@@ -384,8 +415,9 @@ public class GUI extends JApplet implements ActionListener, ItemListener
        result = player.toString();
        area = new JTextArea(result);
        area.setRows(10);
-       area.setColumns(10);
+       area.setColumns(20);
        pane = new JScrollPane(area);
        JOptionPane.showMessageDialog(null, pane, "Monopoly Board Info.", JOptionPane.PLAIN_MESSAGE);
     }
 }
+//
