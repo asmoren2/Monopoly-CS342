@@ -184,34 +184,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
            System.exit(0);
          }
 
-
-
-
-        if(e.getSource() == nextTurn)
-        {
-            turnCounter++;
-            isNextTurn = true;
-        }
-
-        if(e.getSource() == buyLocation)
-        {
-            message = "Thank you, you just bought Illinois Ave.";
-        }
-
-        if(e.getSource() == sellHouses)
-        {
-            message = "We are now selling your houses";
-        }
-        if(e.getSource() == nextPlayer)
-        {
-
-        }
-        if(e.getSource() == endGame)
-        {
-            System.exit(0);
-        }
-
-
         if(e.getSource() == playerProp[0])
         {
             popUpPlayerInfo(playerList[playerOrder[0]]);
@@ -373,4 +345,3 @@ public class GUI extends JApplet implements ActionListener, ItemListener
        JOptionPane.showMessageDialog(null, pane, "Monopoly Board Info.", JOptionPane.PLAIN_MESSAGE);
     }
 }
-//
