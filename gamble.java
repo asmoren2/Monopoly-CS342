@@ -14,7 +14,7 @@ public class gamble extends boardLocation
     // POST: a gamble object is created with the class member gambleAmount
     //       initialized to $0.0.
     {
-        this.gambleAmount = 0;
+        this(0.0);
     }
     
     public gamble(double gambleAmount)

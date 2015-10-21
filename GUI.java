@@ -13,13 +13,19 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private player currPlayer;          // The current player.
     private String [] actions;          // The possible actions.
     private Monopoly theGame;           // The monopoly game
+    
     private boolean isNextTurn;         // This boolean represents if
                                         // the user pressed next turn.
+    // Harsh
+    private boolean isBuyClicked;       // Turns to true when buy is clicked.
     
     private int turnCounter;            // Counter for turn.
     private int diceOne;                // The dice value, 1 < diceOne < 7
     private int diceTwo;                // The dice value, 1 < diceTwo < 7
+    // HARSH 
+    private int currentLocation;        // The current location
     
+    private boardLocation currentLot;   // the current lot
     private JButton nextTurn;
     private JButton buyLocation;
 
@@ -70,7 +76,9 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         initializeMonopoly();
         initializeWidgets();
         initializePanels();
-
+        
+        currentLocation = 0;
+        
         playerOrder = theGame.getPlayerOrder();
         currPlayer = playerList[playerOrder[0]];
         actions =  theGame.getBoardLocate(currPlayer).getPossibleActions(currPlayer);
@@ -174,8 +182,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             System.out.println("Location: " + tmpPlayerLocation);
             System.out.println("Funds: " + tmpPlayerFunds);
             playerProp[i].setText("Player " + (i+1) + " Properties.");
-            playerStatus[i].setText("Location: " + tmpPlayerLocation +
-                                         "\nFunds: "  + tmpPlayerFunds);
+            playerStatus[i].setText("Location: " + tmpPlayerLocation
+                                  + " Funds: "  + tmpPlayerFunds);
         }
     }
     @Override
@@ -183,46 +191,57 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     {
         
         super.paint(g);
-        int currentLocation;
-        while(isNextTurn)
+        
+        // turns and dice values.
+        turnCounter %= playerList.length;
+        diceOne = getDiceVal();
+        diceTwo = getDiceVal();
+        
+        if(isNextTurn)
         {
-            turnCounter %= playerList.length;
-            diceOne = getDiceVal();
-            diceTwo = getDiceVal();
             
             isNextTurn = false;         // Reset
-            currPlayer = playerList[playerOrder[turnCounter]];
-            currentLocation = currPlayer.getBoardLocation();
-            // if the player goes off the board, reset to 0.
-            if(currentLocation > 42)
-            {
-                // Start from 0 and move on.
-                currPlayer.setBoardLocation(currentLocation - 42);
-            }
-            else
-            {
-                // current location + dice rolls.
-                currPlayer.setBoardLocation(currentLocation + diceOne + diceTwo);
-            }
-            setLables();
-            actions =  theGame.getBoardLocate(currPlayer).getPossibleActions(currPlayer);
             
-            setButtonStatus(theGame.getBoardLocate(playerList[playerOrder[turnCounter]]).getActionStatus());
+            // Moving the players.
+            currPlayer = playerList[playerOrder[turnCounter]];
+            
+            // Calculating the current location
+            currentLocation = (currPlayer.getBoardLocation() + diceOne + diceTwo) % 42;
+            currPlayer.setBoardLocation(currentLocation);
+            currPlayer.setCurrentLocation(theGame.getBoardLocate(currPlayer));
+            actions =  theGame.getBoardLocate(currPlayer).getPossibleActions(currPlayer);
+            setButtonStatus(theGame.getBoardLocate(currPlayer).getActionStatus());
             g.drawString("Player : " + turnCounter+ "\n", 250, 250);
+            
             // if the turn counter is going off the array
             if(turnCounter > playerList.length-1)
             {
                 turnCounter  = 0;
             }
         }
-
+        // if buy is clicked.
+        if(isBuyClicked)
+        {
+            System.out.println("buy clicked");
+            isBuyClicked = false;       // Reset
+            currentLot = theGame.getBoardLocate(currPlayer);
+            currPlayer.buyProperty((property)currentLot);
+            message = currPlayer.getToken() + " Just bought "
+                      + currentLot.getName();
+            // so the user cannot buy anymore.
+            buyLocation.setEnabled(false);
+            isBuyClicked = false;
+        }
+        setLables();
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) 
+    {
          if(e.getSource() == buyLocation)
          {
-           message = "Thank you, you just bought Illinois Ave.";
+           isBuyClicked = true;
+           //message = "Thank you, you just bought Illinois Ave.";
          }
 
          if(e.getSource() == sellHouses)
@@ -280,6 +299,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         if(e.getSource() == buyLocation)
         {
+            
             message = "Thank you, you just bought Illinois Ave.";
         }
 
@@ -326,8 +346,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             popUpPlayerInfo(playerList[playerOrder[3]]);
         }
 
-
-        repaint();
 
         repaint();
     }
@@ -452,6 +470,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         center.setLayout(new GridLayout(2,1));
         west.setLayout (new GridLayout (5,1,0,30));
         east.setLayout(new GridLayout(5,2,0,30));
+        east.setLayout(new GridLayout(10,1,0,30));
         southCenter.setLayout(new BorderLayout());
     }
 

@@ -52,7 +52,13 @@ public class utility extends property
        // End game
        actionStatus[4] = true;
        possibleActions[4] = PACTIONS[4];
-
+           
+       // resetting the actoins.
+       for(boolean action: actionStatus)
+       {
+           action = false;
+       }
+       
        if(isOwned == false && thePlayer.getMoney() > purchaseCost)         // This Location is not owned
        {
            actionStatus[1] = true;  // buy

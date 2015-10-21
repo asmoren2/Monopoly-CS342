@@ -55,6 +55,11 @@ public class taxSquare extends boardLocation
         {
             rent = 75;
         }
+        // resetting the actoins.
+        for(boolean action: actionStatus)
+        {
+            action = false;
+        }
         actionStatus[4] = true;     // end game
         possibleActions[4] = PACTIONS[4];
         // pay rent automatically.

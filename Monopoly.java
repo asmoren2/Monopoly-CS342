@@ -36,7 +36,14 @@ public class Monopoly
         monopolyBoard = initializeBoard();
         this.playerArr = playerArr;
         numberOfPlayers = playerArr.length;
-      playerOrders = new int [numberOfPlayers];
+        playerOrders = new int [numberOfPlayers];
+        
+        // Setting board locations to 0
+        for(player curr : playerArr)
+        {
+            curr.setBoardLocation(0);
+            curr.setCurrentLocation(monopolyBoard[0]);
+        }
     }
 
     public void printAllLocations()

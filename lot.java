@@ -141,6 +141,12 @@ public class lot extends property
          * PACTIONS = {0:"Do Nothing", 1:"Buy",
                        2:"Sell", 3:"Improve Property",
                        4:"End Game"};    */
+        // resetting the actoins.
+        for(boolean action: actionStatus)
+        {
+            action = false;
+        }
+        
         boardLocation current = player.getCurrentLocation();
         double rent = 0.0;
         if(current instanceof lot)
@@ -160,11 +166,17 @@ public class lot extends property
                actionStatus[0] = true;      // Do nothing
                possibleActions[0] = PACTIONS[0];
            }
+           else
+           {
+               actionStatus[1] = false;
+           }
         }
+        
         else if (isOwned == true && this.owner != player
                 && player.getMoney() > rent) //  if you don't own it
         {
            // pay rent automatic
+           System.out.println(player.getToken() + "Paid rent:" + rent);
            player.payRent(owner, rent);
         }
         else if (isOwned == true && this.owner != player // Can't pay rent

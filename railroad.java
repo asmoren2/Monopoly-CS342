@@ -68,10 +68,15 @@ public class railroad extends property
    //                 a player can currently perform is returned.
    {
        double rent = 0;
+       // resetting the actoins.
+       for(boolean action: actionStatus)
+       {
+           action = false;
+       }
        // End game
        actionStatus[4] = true;
        possibleActions[4] = PACTIONS[4];
-
+       
        if(isOwned == false && thePlayer.getMoney() > purchaseCost)         // This Location is not owned
        {
            actionStatus[1] = true;  // buy
