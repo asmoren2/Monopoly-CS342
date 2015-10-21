@@ -90,6 +90,7 @@ public abstract class boardLocation
     
     public boolean [] getActionStatus()
     {
+    	
         return actionStatus;
     }
     @Override
