@@ -36,7 +36,7 @@ public class Monopoly
         monopolyBoard = initializeBoard();
         this.playerArr = playerArr;
         numberOfPlayers = playerArr.length;
-        playerOrders = new int [numberOfPlayers];
+      playerOrders = new int [numberOfPlayers];
     }
 
     public void printAllLocations()
@@ -58,8 +58,6 @@ public class Monopoly
             System.out.println(playerArr[i].toString());
         }
     }
-    
-    public int[] getPlayerOrder ()
 
     public String [] getLocationNames()
     //POST: will return a string containing the name of all the board locations.
@@ -81,7 +79,7 @@ public class Monopoly
         return allNames;
     }
 
-    public void getPlayerOrder ()
+    public int[] getPlayerOrder ()
     //POST: Initializes playerOrders[] with player indexes, where the first
     //      player is randomly chosen, and all subsequent players are in
     //      ascending order, with wrap arround after the limit is crossed.
@@ -122,7 +120,8 @@ public class Monopoly
                 playerOrders[aSlot] = aSlot - firstPlayerIndex;
             }
         }
-        return playerOrders;
+
+                return playerOrders;
     }
 
     public void demoMode ()
