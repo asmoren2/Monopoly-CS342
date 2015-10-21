@@ -246,6 +246,32 @@ public class GUI extends JApplet implements ActionListener, ItemListener
            System.exit(0);
          }
 
+        if(e.getSource() == improveProperty)
+        {
+       	
+        lot[]temp = playerList[playerOrder[0]].getImprovingLots();
+        String []temp2 = new String [temp.length]; 
+        int j = 0;
+        
+        if (playerList[playerOrder[0]].canImprove(temp))
+        {
+	        System.out.println("Length :" + temp.length);
+	        for(int i = 0; i < temp.length; i++){
+	        	System.out.println(temp[i].toString());
+	        	if(temp[i] != null){
+	        		temp2[j] = temp[i].getName();
+	        		
+	        		j++;
+	        	}
+	        }
+        }
+        
+       	 String[] choices = {"dog", "cat"};
+       	 String input = (String) JOptionPane.showInputDialog(null, "Choose a lot",
+       		        "Lots you can improve", JOptionPane.QUESTION_MESSAGE, null,temp2, // Array of choices
+       		        temp2[1]); // Initial choice
+       	    System.out.println(input);
+        }
         if(e.getSource() == nextTurn)
         {
             turnCounter++;
