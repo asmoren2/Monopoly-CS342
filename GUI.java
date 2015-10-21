@@ -99,6 +99,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         textArea.append("Harsh paid $200 to Christian \n");
         textArea.append("Adolfo has passed go collected $200");
 
+
         addActionListeners();
         addToPanel();
 
@@ -125,7 +126,14 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
     }
 
+    public void addItemListeners()
+    {
+        allLocations.addItemListener(this);
+    }
+
+
     public void addActionListeners()
+    //POST:  Adds the action listerner to all widgets that will perform actions.
     {
       improveProperty.addActionListener(this);
         sellHouses.addActionListener(this);
@@ -137,6 +145,9 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         playerProp[1].addActionListener(this);
         playerProp[2].addActionListener(this);
         playerProp[3].addActionListener(this);
+
+        nextTurn.addActionListener(this);
+        getLocation.addActionListener(this);
     }
 
     @Override
@@ -206,6 +217,12 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         {
 
         }
+
+        if(e.getSource() == getLocation)
+        {
+
+        }
+
         if(e.getSource() == endGame)
         {
             System.exit(0);
@@ -228,6 +245,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         {
             popUpPlayerInfo(playerList[playerOrder[3]]);
         }
+
+
         repaint();
 
         repaint();
@@ -295,7 +314,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         //West side
         nextTurn = new JButton("Next Turn");
-        nextTurn.addActionListener(this);
+
+
         buyLocation = new JButton("Buy this Property");
         improveProperty = new JButton("Improve this Property");
         sellHouses = new JButton("Sell Houses");
