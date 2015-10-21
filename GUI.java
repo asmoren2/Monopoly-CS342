@@ -61,19 +61,19 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         initializeMonopoly();
         initializeWidgets();
         initializePanels();
-        
-        ///////////////////CHANGED THIS/////////////////////////////////////////
+
         playerOrder = theGame.getPlayerOrder();
         player cur = playerList[playerOrder[0]];
         String []a =  theGame.getBoardLocate(cur).getPossibleActions(cur);
         setButtonStatus(theGame.getBoardLocate(playerList[playerOrder[0]]).getActionStatus());
-        //////////////////END CHANGE///////////////////////////////////////////
 
         //Set layout now that panels are set up
         setLayout(layout);
 
         turnCounter = 0;
         isNextTurn = true;
+
+
 
         initializePanels();
 
@@ -98,37 +98,89 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         addActionListeners();
         addToPanel();
-       
 
-}
+
+     }
     ///////////////CHANGED THIS////////////////////
     public void setButtonStatus(boolean []status)
-    {	
-    	for(int i = 0; i < 5; i++){
-    		if(status[i] == true){
-    			System.out.println("True");
-    		}
-    		else
-    			System.out.println("False");
-    	}
-    	improveProperty.setEnabled(status[0]);
-    	sellHouses.setEnabled(status[1]);
-    	nextPlayer.setEnabled(status[2]);
-    	buyLocation.setEnabled(status[3]);
-    	endGame.setEnabled(status[4]);
+    {
+       	for(int i = 0; i < 5; i++){
+       		if(status[i] == true){
+       			System.out.println("True");
+       		}
+       		else
+       			System.out.println("False");
+       	}
+
+       	improveProperty.setEnabled(status[0]);
+       	sellHouses.setEnabled(status[1]);
+       	nextPlayer.setEnabled(status[2]);
+       	buyLocation.setEnabled(status[3]);
+       	endGame.setEnabled(status[4]);
 
     }
-    //////////////END CHANGE/////////////////////
-    
+
     public void addActionListeners()
     {
-    	improveProperty.addActionListener(this);
+      improveProperty.addActionListener(this);
     	sellHouses.addActionListener(this);
     	buyLocation.addActionListener(this);
     	nextPlayer.addActionListener(this);
     	endGame.addActionListener(this);
-    	
     }
+
+    @Override
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+
+        while(isNextTurn)
+        {
+            isNextTurn = false;         // Reset
+            g.drawString("Player : " + turnCounter+ "\n", 250, 250);
+            if(turnCounter >= playerList.length)
+            {
+                turnCounter  = 0;
+            }
+        }
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == nextTurn)
+        {
+            turnCounter++;
+            isNextTurn = true;
+        }
+
+        if(e.getSource() == buyLocation)
+        {
+        	message = "Thank you, you just bought Illinois Ave.";
+        }
+
+        if(e.getSource() == sellHouses)
+        {
+        	message = "We are now selling your houses";
+        }
+        if(e.getSource() == nextPlayer)
+        {
+
+        }
+        if(e.getSource() == endGame)
+        {
+        	System.exit(0);
+        }
+
+        repaint();
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
 
     public void addToPanel()
     {
@@ -148,10 +200,11 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         west.add(sellHouses);
         west.add(nextPlayer);
         west.add(endGame);
+
         south.add(nextTurn);
         center.add(northCenter);
         center.add(southCenter);
-        
+
         southCenter.add(scrollPane);
 
         east.add(playerProp[0]);
@@ -162,6 +215,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         east.add(playerStatus[2]);
         east.add(playerProp[3]);
         east.add(playerStatus[3]);
+        east.add(getLocation);
+        east.add(allLocations);
 
         add(layout.SOUTH, south);
         add(layout.NORTH, north);
@@ -177,6 +232,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         //East Side
         playerProp = new JButton [5];       //Initialize the array itself
         playerStatus = new JLabel [5];
+        allLocations = new JComboBox(theGame.getLocationNames());
+        getLocation = new JButton("This Location - Info");
 
         //West side
         nextTurn = new JButton("Next Turn");
@@ -192,7 +249,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     public void initializeMonopoly()
     // POST: Will initialize Players and the Monopoly Game
     {
-
         //Initialize the bank Player
         theBank = new player (9999,0, "Bank");
 
@@ -234,59 +290,4 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         west.setLayout (new GridLayout (5,1,0,30));
         east.setLayout(new GridLayout(5,2,0,30));
     }
-
-    @Override
-    public void paint(Graphics g)
-    {
-        super.paint(g);
-        //g.drawString(message, 250,250);
-
-        while(isNextTurn)
-        {
-            isNextTurn = false;         // Reset
-            g.drawString("Player : " + turnCounter+ "\n", 250, 250);
-            if(turnCounter >= playerList.length)
-            {
-                turnCounter  = 0;
-            }
-        }
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == nextTurn)
-        {
-            turnCounter++;
-            isNextTurn = true;
-        }
-        
-        if(e.getSource() == buyLocation)
-        {
-        	message = "Thank you, you just bought Illinois Ave.";
-        }
-        
-        if(e.getSource() == sellHouses)
-        {
-        	message = "We are now selling your houses";
-        }
-        if(e.getSource() == nextPlayer)
-        {
-        	
-        }
-        if(e.getSource() == endGame)
-        {
-        	System.exit(0);
-        }
-
-        repaint();
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-
 }
