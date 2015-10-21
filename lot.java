@@ -141,7 +141,13 @@ public class lot extends property
          * PACTIONS = {0:"Do Nothing", 1:"Buy",
                        2:"Sell", 3:"Improve Property",
                        4:"End Game"};    */
-        double rent = rentStructure[player.getBoardLocation()];
+        boardLocation current = player.getCurrentLocation();
+        double rent = 0.0;
+        if(current instanceof lot)
+        {
+            rent = rentStructure[((lot) current).getNumHouses()];
+        }
+        
         actionStatus[4] = true;      // End game
         possibleActions[4] = PACTIONS[4];
         if(isOwned == false)            // If un-owned

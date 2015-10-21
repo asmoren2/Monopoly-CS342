@@ -67,8 +67,7 @@ public class railroad extends property
    // POST: FCTVAL == A string array representing all the actions
    //                 a player can currently perform is returned.
    {
-       double rent = calcRent(owner.getNumberRailroad());
-
+       double rent = 0;
        // End game
        actionStatus[4] = true;
        possibleActions[4] = PACTIONS[4];
@@ -91,6 +90,7 @@ public class railroad extends property
        else if (this.owner != thePlayer
                 && thePlayer.getMoney() > rent)     // owned by another player
        {
+           rent = calcRent(owner.getNumberRailroad());
            thePlayer.payRent(owner, rent);
        }
        else if(thePlayer.getMoney() <= 0

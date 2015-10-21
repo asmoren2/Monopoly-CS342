@@ -13,6 +13,7 @@ public class player
   private int spaceFromGo; //Number of spaces the player is from Go tile
   private String playerToken; //Differentiates the player from
   private int diceLand;      // The value of the dice as it lands.
+  private boardLocation current;    // The current board location.
   private property [] propertyList;
 
 public player()
@@ -33,7 +34,17 @@ public player(double money,int spaceGo, String token)
   this.numRailroad = 0;
   this.numUtility = 0;
 }
-
+public void setCurrentLocation(boardLocation current)
+// PRE: current must be initialized
+// POST: sets the class member current to current.
+{
+    this.current = current;
+}
+public boardLocation getCurrentLocation()
+// POST: FCTVAL == current location of the player
+{
+    return this.current;
+}
 public void setBoardLocation(int location)
 //PRE: Assume 0 < location < 41, location is in block
 //POST: Set a new board location for the specific player.
@@ -72,6 +83,7 @@ public int getNumberUtilities()
 public int getDiceLand()
 //POST: FCTVAL == The value of the dice for the latest turn.
 {
+    throwDice();
     return this.diceLand;
 }
 
@@ -192,7 +204,7 @@ public void buyProperty(property property)
 {
    propertyList[numProperties] = property;
    numProperties++;
-
+   property.owner = this;
    if(property instanceof lot)              // if the property is a lot
    {                                        // add one to numLots.
        numLots++;
@@ -207,6 +219,7 @@ public void buyProperty(property property)
    }
    money -= property.getPurcaseCost();
    property.isOwned = true;
+   
 }
 public boolean hasSellableProperty()
 // POST: returns true if the player has sellable property
@@ -221,7 +234,7 @@ public boolean hasSellableProperty()
 public property [] getPropertyList()
 // POST: FCTVAL == the list of properties a player owns.
 {
-	return this.propertyList;
+    return this.propertyList;
 }
 @Override
 public String toString()
@@ -232,24 +245,24 @@ public String toString()
 }
 
 public String getLocationsOnwed(){
-	
-	String[] nameList = new String[numProperties];
-	String finString = "";
-	// Initializing the nameList
-	for(int i = 0; i < numProperties; i++)
-	{
-		nameList[i] = "";
-	}
-	for(int i = 0; i < numProperties; i++)
-	{
-		nameList[i] = propertyList[i].nameOfLocation + "\n";
-	}
-	// Making a string
-	for(int i = 0; i < numProperties; i++)
-	{
-		finString += nameList[i];
-	}
-	return finString;
+    
+    String[] nameList = new String[numProperties];
+    String finString = "";
+    // Initializing the nameList
+    for(int i = 0; i < numProperties; i++)
+    {
+        nameList[i] = "";
+    }
+    for(int i = 0; i < numProperties; i++)
+    {
+        nameList[i] = propertyList[i].nameOfLocation + "\n";
+    }
+    // Making a string
+    for(int i = 0; i < numProperties; i++)
+    {
+        finString += nameList[i];
+    }
+    return finString;
 }  
 
 public boolean sell (double amount)

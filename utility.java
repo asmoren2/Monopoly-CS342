@@ -48,7 +48,7 @@ public class utility extends property
    // POST: FCTVAL == A string array representing all the actions
    //                 a player can currently perform is returned.
    {
-       double rent = caltUtilRent(owner.getNumberRailroad(), thePlayer.getDiceLand());
+       double rent = 0; 
        // End game
        actionStatus[4] = true;
        possibleActions[4] = PACTIONS[4];
@@ -67,9 +67,10 @@ public class utility extends property
                actionStatus[3] = true;
                possibleActions[3] = PACTIONS[3];
        }
-       else if (this.owner != thePlayer
+       else if (isOwned == true && this.owner != thePlayer
                 && thePlayer.getMoney() > rent)     // owned by another player
        {
+           rent = caltUtilRent(owner.getNumberRailroad(), thePlayer.getDiceLand());
            thePlayer.payRent(owner, rent);
        }
        else if(thePlayer.getMoney() <= 0
