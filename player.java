@@ -217,13 +217,39 @@ public boolean hasSellableProperty()
     }
     return false;
 }
+public property [] getPropertyList()
+// POST: FCTVAL == the list of properties a player owns.
+{
+	return this.propertyList;
+}
 @Override
 public String toString()
 {
-   return "Player: " + playerToken + "Has $"+money + "Railroads owned: "+
-         numRailroad + "Utilities owned" + numUtility + "Board location: " +
-         spaceFromGo;
+   return "Player: " + playerToken + "\n" + "Has $"+money +"\n"+ "Railroads owned: "+
+         numRailroad + "\n" + "Utilities owned: " + numUtility + "\n" + "Board location: " +
+         spaceFromGo + "\n" + "Properties Owned:" +"\n"+  getLocationsOnwed().toString();
 }
+
+public String getLocationsOnwed(){
+	
+	String[] nameList = new String[numProperties];
+	String finString = "";
+	// Initializing the nameList
+	for(int i = 0; i < numProperties; i++)
+	{
+		nameList[i] = "";
+	}
+	for(int i = 0; i < numProperties; i++)
+	{
+		nameList[i] = propertyList[i].nameOfLocation + "\n";
+	}
+	// Making a string
+	for(int i = 0; i < numProperties; i++)
+	{
+		finString += nameList[i];
+	}
+	return finString;
+}  
 
 public boolean sell (double amount)
 // PRE: amount >= 0
