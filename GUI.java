@@ -291,3 +291,4 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         east.setLayout(new GridLayout(5,2,0,30));
     }
 }
+//
