@@ -81,13 +81,13 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         initializePanels();
 
         //Populate the players with their information.
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < playerList.length; i++)
         {
             tmpPlayerLocation = playerList[playerOrder[i]].getBoardLocation();
             tmpPlayerFunds = playerList[playerOrder[i]].getMoney();
             //Initialize the actual buttons and labels with the expected
             //   information
-            playerProp[i] = new JButton("Player " + (i+1) + " Properties.");
+            playerProp[i] = new JButton("Player " + i + " Properties.");
             playerStatus[i] = new JLabel("Location: " + tmpPlayerLocation +
                                          "\nFunds: "  + tmpPlayerFunds);
         }
@@ -194,6 +194,9 @@ public class GUI extends JApplet implements ActionListener, ItemListener
               JOptionPane.showMessageDialog(null, pane, "End Game Info.", JOptionPane.PLAIN_MESSAGE);
            System.exit(0);
          }
+
+
+
 
         if(e.getSource() == nextTurn)
         {
@@ -344,6 +347,19 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         //Initialize the monopoly Game
         theGame = new Monopoly(playerList);
         theGame.demoMode();
+    }
+
+    public void updateUserLabels()
+    {
+        for(int i = 0; i < playerList.length; i++)
+        {
+            tmpPlayerLocation = playerList[playerOrder[i]].getBoardLocation();
+            tmpPlayerFunds = playerList[playerOrder[i]].getMoney();
+            //Initialize the actual buttons and labels with the expected
+            //   information
+            playerStatus[i].setText("Location: " + tmpPlayerLocation +
+                                    "\nFunds: "  + tmpPlayerFunds);
+        }
     }
 
     public void initializePanels()

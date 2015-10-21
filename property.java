@@ -74,8 +74,14 @@ public abstract class property extends boardLocation
     public String toString()
     // POST:  A string representing this property.
     {
-        return super.toString() +
-               "\nThe property is owned by: " + owner.getToken() +
+        if (isOwned == false)             //Handle the case when the property is not owned
+               return super.toString() +
+               "\nThe property is not owned yet." +
                "\nThe property costs: " + purchaseCost;
+
+        else                              //Handle the case when the property is owned
+                return super.toString() +
+                "\nThe property is owned by: " + owner.getToken() +
+                "\nThe property costs: " + purchaseCost;
     }
 }
