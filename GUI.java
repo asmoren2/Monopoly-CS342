@@ -86,7 +86,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     @Override
     public void init()
     {
-
+    JPanel northRightCenter;			//Place where the dice resides
         initializeMonopoly();
         initializeWidgets();
         initializePanels();
@@ -149,7 +149,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         improveProperty.setEnabled(canImprove);
         sellHouses.setEnabled(status[2]);
         endGame.setEnabled(status[4]);
-
     }
 
     public void addItemListeners()
@@ -197,6 +196,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                   + " Funds: "  + tmpPlayerFunds);
         }
     }
+    
     public void gambleLogic(gamble location, player player)
     // PRE: location and player must be initialized
     {
@@ -309,7 +309,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             {
                 turnCounter  = 0;
             }
-            drawMonopolyCard(g, 250, 350, theGame.getBoardLocate(currPlayer));
+            //drawMonopolyCard(g, 250, 350, theGame.getBoardLocate(currPlayer));
 
         }
         // if buy is clicked.
@@ -512,7 +512,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
   {
 	  g.drawString("Rent: $" + (((lot) current).getRent()), panelWidth-15, panelHeight+100);
   }
-
  
     @Override
     public void actionPerformed(ActionEvent e) 
@@ -674,7 +673,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             if (currPlayer.canImprove(improvableLots))  //Make sure there exists a lot
                                                         //  that can be improved
             {
-    	        
     	        for(int i = 0; i < numberOfLots; i++)
     	        {
     	        	
@@ -684,7 +682,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     	        		System.out.println(lotNames[j]);
     	        		j++;
     	        	}
-    	        	
     	        }
     	        
                 //Catch the user input When selecting a lot to improve
@@ -726,7 +723,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                     }
                     
                 }
-                
                 
                 lotSelectionFound = false;  // lot selection for next iteration
                 improveLotIndex = 0; // Reset for next iteration

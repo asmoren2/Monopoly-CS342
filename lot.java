@@ -51,7 +51,7 @@ public class lot extends property
         this.rentStructure = rentStructure;
         this.hasHotel = "does not";
         this.isHotel = false;
-        actionStatus = new boolean[20];
+       // actionStatus = new boolean[20];
 
         // Initialize action Statuses to allFalse
         for(boolean aStatus : actionStatus)

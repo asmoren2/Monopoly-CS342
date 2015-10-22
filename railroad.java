@@ -89,17 +89,20 @@ public class railroad extends property
        else if(isOwned == true && this.owner == thePlayer
                && thePlayer.canImprove(thePlayer.getImprovingLots()))    // This Location is already owned
        {
+               actionStatus[1] = false;  // do not buy a pre-Owned railRoad
+               possibleActions[1] = PACTIONS[1];
                actionStatus[3] = true;
                possibleActions[3] = PACTIONS[3];
        }
        else if (this.owner != thePlayer
                 && thePlayer.getMoney() > rent)     // owned by another player
        {
+           actionStatus[1] = false;  // do not buy a pre-Owned railRoad
+           possibleActions[1] = PACTIONS[1];
            rent = calcRent(owner.getNumberRailroad());
            thePlayer.payRent(owner, rent);
        }
-       else if(thePlayer.getMoney() <= 0
-               && thePlayer.hasSellableProperty())
+       else if(thePlayer.hasSellableProperty())
        {
            actionStatus[2] = true;      // Sell
            possibleActions[2] = PACTIONS[2];
