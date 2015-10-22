@@ -18,6 +18,8 @@ public class player
 
   lot [] canBeImproved;  //An array to be populated with the properties that are
                          //   available for improvement.
+  lot [] canBeSold;      //An array to be populated with the properties that are
+                         //   available for liquidation.
 
 public player()
 // POST: Sets a new board location for the specific player.
@@ -90,21 +92,6 @@ public int getDiceLand()
     return this.diceLand;
 }
 
-public boolean canImprove(lot[] improvableLots)
-// PRE:  current player is initialized
-// POST: FCTVAL = false if a suitable property is found within the array of
-//                improvableLots
-//       FCTVAL = true whenever we find a suitable property within the array of
-//                improvableLots
-{
-    for(lot aLot : improvableLots)
-    {
-        if (aLot != null)
-            return true;
-    }
-
-    return false;
-}
 
 public void payRent(player creditor, double rent)
 {
@@ -149,7 +136,7 @@ public lot [] getImprovingLots()
                                                         //   is affordable for player
                     {
                         canBeImproved[improveIndex] = ((lot)propertyList[oneProperty]);
-                        System.out.println(canBeImproved[improveIndex].toString());
+                      //  System.out.println(canBeImproved[improveIndex].toString());
                         improveIndex++;
                     }
                 }
@@ -160,6 +147,99 @@ public lot [] getImprovingLots()
 
     return canBeImproved;
 }
+
+
+public boolean canImprove(lot[] improvableLots)
+// PRE:  current player is initialized
+// POST: FCTVAL = false if a suitable property is not found within the array of
+//                improvableLots
+//       FCTVAL = true whenever we find a suitable property within the array of
+//                improvableLots
+{
+    for(lot aLot : improvableLots)
+    {
+        if (aLot != null)
+            return true;
+    }
+
+    return false;
+}
+
+public lot [] getSellableLots()
+//POST: FCTVAL = canBeSold: lots that can Be Sold
+//      FCTVAL = canBeSold = null for all locations when no location meets the
+//                           sellable case
+{
+  int propertyLength;    // propertyLength stores the length of the property array;
+  int oneProperty;       // oneProperty stores an index when traversing through properties
+  int sellingIndex;      // sellingIndex is the index for populating our array of
+                         //   sell enabled lots
+  
+  double sellPrice;      
+  double numHouses;      // improvementCost holds the cost of improvement for a given lot
+  double playerBalance;  // playerBalance holds the current balance for a player
+  boolean hotelStatus;   // holds the hotel status for a given property during iteration
+  
+  property singleProperty;
+
+  sellingIndex = 0;                           
+  canBeSold = new lot [28];       //Reset the canBeImproved array by reallocating
+  playerBalance = this.money;         
+  propertyLength = this.propertyList.length;
+
+  for(oneProperty = 0; oneProperty < propertyLength; oneProperty++)
+  {
+      singleProperty = this.propertyList[oneProperty];  //Get reference to the 
+                                                        //   current property
+
+      if(singleProperty != null)                 //verify that the current property
+                                                 //   is not null
+      {
+          if (singleProperty instanceof lot)     //make sure that this
+                                                 //   property is a lot
+          {
+              
+              //Update whether this place has a hotel, and the sell price, which will
+              //    be half of the buy price.
+              
+              hotelStatus = ((lot) singleProperty).getHotel();
+              sellPrice = ((lot) singleProperty).getImproveCost();
+              numHouses = ((lot) singleProperty).getNumHouses();
+              
+              if(hotelStatus == true || numHouses > 0)  //Make sure that singleProperty
+                                                        //   has some houses or a hotel
+              {
+                  
+                  canBeSold[sellingIndex] = (lot) singleProperty;   // Populate the sellable  
+                                                                    //    location
+                  System.out.println(canBeSold[sellingIndex].toString());
+                  sellingIndex++;
+              }
+ 
+          }
+      }
+  }
+
+
+  return canBeSold;
+}
+
+public boolean canSell(lot[] sellableLots)
+//PRE:  current player is initialized
+//POST: FCTVAL = false if a suitable property is not found within the array of
+//               sellableLots
+//    FCTVAL = true whenever we find a suitable property within the array of
+//             sellableLots
+{
+ for(lot aLot : sellableLots)
+ {
+     if (aLot != null)
+         return true;
+ }
+
+ return false;
+}
+
 
 public void addMoney(double amount)
 // PRE: money must be initialized, money is in dollars.

@@ -87,7 +87,7 @@ public class lot extends property
     {
         isHotel = false;
         hasHotel = "does not";
-        numHouses = 0;
+        numHouses = 4;
         return (improveCost*5)/2;
     }
 

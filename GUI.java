@@ -15,10 +15,13 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private Monopoly theGame;           // The monopoly game;
     private boolean canImprove;         // Flag to enable or disable the improve
                                         //    button.
+    private boolean canSell;            // Flag to enable or disable the sell
+                                        //    button.
     int numberOfLots;                   // integer to hold the number of upgradable 
                                         //    lots
     
-    lot[]improvableLots;                // To hold an array of improvable lots 
+    lot[]improvableLots;                // improvableLots holds an array of improvable lots 
+    lot[]sellableLots;                  // sellableLats holds an array of sellable lots 
     
     private boolean isNextTurn;         // This boolean represents if
                                         // the user pressed next turn.
@@ -131,7 +134,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     {
         return 1 + (int)(Math.random() * (6-1)) + 1;
     }
-    ///////////////CHANGED THIS////////////////////
+
     public void setButtonStatus(boolean []status)
     {
         for(int i = 0; i < 5; i++){
@@ -332,6 +335,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         }
         
         verifyImprove();
+        verifySell();
+        
         // for setting the news feed.
         if(textArea.getText().toString() != null)
         {
@@ -347,7 +352,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             textArea.setText("");
             textArea.setText(message);
         }
-
+        
         drawMonopolyCard(g, 250, 350, theGame.getBoardLocate(currPlayer));
         setLables();
     }
@@ -453,10 +458,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 		 g.drawString("Has %i Houses"+ ((lot) current).getNumHouses(), panelWidth+10, panelHeight+10);
 	 }
   }
-    
-  
-  
- /////////////////////////////////////////////////END CHANGE////////////////////////////////////////////// 
+
+ 
     @Override
     public void actionPerformed(ActionEvent e) 
     {
@@ -464,6 +467,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                      //   property to improve
          int improveLotIndex;        // improveLotIndex will hold the index of the lot
                                      //   to be improved
+         int sellableLotIndex;       // sellableLotIndex will hold the index of the lot
+                                     //   to be sold
          boolean lotSelectionFound;  // stopSearch determines when the user will stop
                                      //   searching for its input within the array of
                                      //   choices.
@@ -475,14 +480,18 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
          
          lot lotToImprove;           //lotToImprove holds the lot to be improved
-        
+         lot lotToBeSold;            //lotToBeSold holds the lo
+         
+         
          lotSelectionFound = false;
          improveLotIndex = -1;  //Initialized to -1 to signify that no lot can
-                                //   be improved
+                                //   be improved or sold
+         sellableLotIndex = -1;
          input = "";
          
          
          verifyImprove();
+         verifySell();
          
          if(e.getSource() == buyLocation)
          {
@@ -492,6 +501,81 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
          if(e.getSource() == sellHouses)
          {
+           sellableLots = currPlayer.getSellableLots();  
+           numberOfLots = sellableLots.length;
+           lotNames = new String [numberOfLots]; 
+           
+           int j = 0;
+           
+           if (currPlayer.canSell(sellableLots))  //Make sure there exists a lot
+                                                  //  that can be sold
+           {
+               for(int i = 0; i < numberOfLots; i++)
+               {
+                   
+                   if(sellableLots[i] != null)  //Make sure the current lot is not null
+                   {
+                       lotNames[j] = sellableLots[i].getName();
+                       System.out.println(lotNames[j]);
+                       j++;
+                   }
+                   
+               }
+               
+               //Catch the user input When selecting a lot to sell from
+               input = (String) JOptionPane.showInputDialog(null, "Choose a lot",
+                   "Lots you can sell on", JOptionPane.QUESTION_MESSAGE, null,lotNames, // Array of choices
+                   lotNames[1]); // Initial choice
+               
+               //Search the user input within the array of possibe choices
+               for(int i = 0; i < numberOfLots && lotSelectionFound == false; i++)
+               {
+                   if(lotNames[i] != null && input != null)  //Make sure the current choice not null
+                   {
+                       if(input.equals(lotNames[i]))
+                       {
+                           sellableLotIndex = i;
+                           lotSelectionFound = true;      //Kill the loop once we find the index
+                       }
+                   }
+               }
+               
+               if (lotSelectionFound == true)
+               {
+                   //Fetch a reference to the lot we intend to sell from
+                   lotToBeSold = (lot) currPlayer.canBeSold[sellableLotIndex];
+                   
+                   //increase money by half the improvement cost
+                   currPlayer.addMoney(lotToBeSold.getImproveCost()/2);;
+                   
+                   if(lotToBeSold.getHotel() == true)     //Handle the case when the
+                                                          //   current location is a
+                                                          //   hotel
+                   {
+                       lotToBeSold.sellHotel();
+                   }
+                   
+                   else //Handle the case when doesn't have any hotels
+                   {
+                       lotToBeSold.sellHouse();
+                   }
+                   
+               }
+               
+               else
+               {
+                    // Disable sellHouses button on failure to find a suitable
+                    //   location
+                    canSell = false;
+                    sellHouses.setEnabled(canSell);
+                    
+               }
+               
+               
+               
+           }
+           
+           
            message = "We are now selling your houses";
            playerList[0].sell((playerList[0].getMoney()*-1));
          }
@@ -508,7 +592,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
               area.setColumns(40);
               pane = new JScrollPane(area);
               JOptionPane.showMessageDialog(null, pane, "End Game Info.", JOptionPane.PLAIN_MESSAGE);
-           System.exit(0);
+              System.exit(0);
          }
 
         if(e.getSource() == improveProperty)
@@ -591,9 +675,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                  improveProperty.setEnabled(canImprove);
                  
             }
-
-
-
         }
         if(e.getSource() == nextTurn)
         {
@@ -829,6 +910,29 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         {
             canImprove = false;
             improveProperty.setEnabled(canImprove);
+        }
+    }
+    
+    
+    public void verifySell()
+    //POST: will enable or disable the sell button based on whether the
+    //      player has sellable properties
+    {
+        //Verify whether the current player has a lot that can be 
+        //  sold and enable or disable the sell button accordingly
+        sellableLots = currPlayer.getSellableLots();
+        int numberOfLots = sellableLots.length;
+        
+        if (currPlayer.canSell(sellableLots)) //check if the user can Improve
+        {
+            canSell = true;
+            sellHouses.setEnabled(canSell);
+        }
+        
+        else
+        {
+            canSell = false;
+            sellHouses.setEnabled(canSell);
         }
     }
 }
