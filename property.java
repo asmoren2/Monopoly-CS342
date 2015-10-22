@@ -67,7 +67,7 @@ public abstract class property extends boardLocation
     public String[] getPossibleActions(player player)
     // PRE: player must be initialized.
     // POST: FCTVAL == possibleActions, an array of Strings containing all
-    //                 the possible actions a player can perform at a property
+    //                 the possible actions a player can  at a property
     //                 is returned.  
     {
         return possibleActions;

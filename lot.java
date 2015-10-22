@@ -176,11 +176,13 @@ public class lot extends property
                actionStatus[1] = false;
            }
         }
-        else if (isOwned == true && this.owner != player
+        else if (isOwned == true && this.owner != player)
+        {
             actionStatus[1] = false;         //Do not allow someone els to buy
                                              //   an owned property
            player.payRent(owner, rent);
         }
+        
         else if (isOwned == true                    // Can't pay rent
                 && this.owner != player
                 && player.getMoney() < rent

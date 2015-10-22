@@ -5,25 +5,26 @@
 //              The player holds money, and property information.
 public class player
 {
-  private double money;             // The amount of money that the player has
-  private int numRailroad;          // Number of railroads that the player owns
-  private int numUtility;           // Number of utilities that the player owns
-  private int numLots;              // Number of lots a player owns.
-  private int numProperties;        // The number of property a player owns.
-  private int spaceFromGo;          // Number of spaces the player is from Go tile
-  private String playerToken;       // Differentiates the player from
-  private int diceLand;             // The value of the dice as it lands.
-  private boardLocation current;    // The current board location.
-  
-  private boolean inDebt;           // isBankrupt determines whether a player is 
-                                    //    in debt 
-  
-  private property [] propertyList; // List of the properties the player owns.
+    private double money;             // The amount of money that the player has
+    private int numRailroad;          // Number of railroads that the player owns
+    private int numUtility;           // Number of utilities that the player owns
+    private int numLots;              // Number of lots a player owns.
+    private int numProperties;        // The number of property a player owns.
+    private int spaceFromGo;          // Number of spaces the player is from Go tile
+    private String playerToken;       // Differentiates the player from
+    private int diceLand;             // The value of the dice as it lands.
+    private boardLocation current;    // The current board location.
+    
+    private boolean inDebt;           // isBankrupt determines whether a player is 
+                                      //    in debt 
+    
+    private property [] propertyList; // propertyList contains all properties
+                                      //    a player owns  
 
-  lot [] canBeSold;      //An array to be populated with the properties that are
-                         //   available for liquidation.
-  lot [] canBeImproved;              // An array to be populated with the properties 
-                                     // that are available for improvement.
+    lot [] canBeImproved;  //An array to be populated with the properties that are
+                           //   available for improvement.
+    lot [] canBeSold;      //An array to be populated with the properties that are
+                           //   available for liquidation.
 
     public player()
     // POST: Sets a new board location for the specific player.
@@ -187,6 +188,65 @@ public class player
         return canBeImproved;
     }
     
+    public lot [] getSellableLots()
+  //POST: FCTVAL = canBeSold: lots that can Be Sold
+//        FCTVAL = canBeSold = null for all locations when no location meets the
+//                             sellable case
+  {
+    int propertyLength;    // propertyLength stores the length of the property array;
+    int oneProperty;       // oneProperty stores an index when traversing through properties
+    int sellingIndex;      // sellingIndex is the index for populating our array of
+                           //   sell enabled lots
+    
+    double sellPrice;      
+    double numHouses;      // improvementCost holds the cost of improvement for a given lot
+    double playerBalance;  // playerBalance holds the current balance for a player
+    boolean hotelStatus;   // holds the hotel status for a given property during iteration
+    
+    property singleProperty;
+
+    sellingIndex = 0;                           
+    canBeSold = new lot [28];       //Reset the canBeImproved array by reallocating
+    playerBalance = this.money;         
+    propertyLength = this.propertyList.length;
+
+    for(oneProperty = 0; oneProperty < propertyLength; oneProperty++)
+    {
+        singleProperty = this.propertyList[oneProperty];  //Get reference to the 
+                                                          //   current property
+
+        if(singleProperty != null)                 //verify that the current property
+                                                   //   is not null
+        {
+            if (singleProperty instanceof lot)     //make sure that this
+                                                   //   property is a lot
+            {
+                
+                //Update whether this place has a hotel, and the sell price, which will
+                //    be half of the buy price.
+                
+                hotelStatus = ((lot) singleProperty).getHotel();
+                sellPrice = ((lot) singleProperty).getImproveCost();
+                numHouses = ((lot) singleProperty).getNumHouses();
+                
+                if(hotelStatus == true || numHouses > 0)  //Make sure that singleProperty
+                                                          //   has some houses or a hotel
+                {
+                    
+                    canBeSold[sellingIndex] = (lot) singleProperty;   // Populate the sellable  
+                                                                      //    location
+                    System.out.println(canBeSold[sellingIndex].toString());
+                    sellingIndex++;
+                }
+   
+            }
+        }
+    }
+
+
+    return canBeSold;
+  }
+    
     public void addMoney(double amount)
     // PRE: money must be initialized, money is in dollars.
     // POST: adds money to member variable money. If money is a
@@ -194,87 +254,19 @@ public class player
     {
        this.money += amount;
     }
-public lot [] getSellableLots()
-//POST: FCTVAL = canBeSold: lots that can Be Sold
-//      FCTVAL = canBeSold = null for all locations when no location meets the
-//                           sellable case
-{
-  int propertyLength;    // propertyLength stores the length of the property array;
-  int oneProperty;       // oneProperty stores an index when traversing through properties
-  int sellingIndex;      // sellingIndex is the index for populating our array of
-                         //   sell enabled lots
-  
-  double sellPrice;      
-  double numHouses;      // improvementCost holds the cost of improvement for a given lot
-  double playerBalance;  // playerBalance holds the current balance for a player
-  boolean hotelStatus;   // holds the hotel status for a given property during iteration
-  
-  property singleProperty;
-
-  sellingIndex = 0;                           
-  canBeSold = new lot [28];       //Reset the canBeImproved array by reallocating
-  playerBalance = this.money;         
-  propertyLength = this.propertyList.length;
-
-  for(oneProperty = 0; oneProperty < propertyLength; oneProperty++)
-  {
-      singleProperty = this.propertyList[oneProperty];  //Get reference to the 
-                                                        //   current property
-
-      if(singleProperty != null)                 //verify that the current property
-                                                 //   is not null
-      {
-          if (singleProperty instanceof lot)     //make sure that this
-                                                 //   property is a lot
-          {
-              
-              //Update whether this place has a hotel, and the sell price, which will
-              //    be half of the buy price.
-              
-              hotelStatus = ((lot) singleProperty).getHotel();
-              sellPrice = ((lot) singleProperty).getImproveCost();
-              numHouses = ((lot) singleProperty).getNumHouses();
-              
-              if(hotelStatus == true || numHouses > 0)  //Make sure that singleProperty
-                                                        //   has some houses or a hotel
-              {
-                  
-                  canBeSold[sellingIndex] = (lot) singleProperty;   // Populate the sellable  
-                                                                    //    location
-                  System.out.println(canBeSold[sellingIndex].toString());
-                  sellingIndex++;
-              }
- 
-          }
-      }
-  }
-
-
-  return canBeSold;
-}
-
-public boolean canContinue(lot[] sellableLots)
-// 
-{
-    int lotBound;
     
-    lotBound = sellableLots.length;
     public void addNumRailroad()
     // POST: adds one to the class member numRailroad.
     {
        this.numRailroad += 1;
     }
     
-    if(this.money < 0)           // Verify the user balance to check if he/she is in debt
-        inDebt = true;      
     public void addNumUtility()
     //POST: Adds one to the class member numUtilities.
     {
        this.numUtility += 1;
     }
     
-    else                    // If balance is not negative,  player is not in debt
-        return true;
     public void bankrupt()
     // POST: Will reduce the amount of money a player has to $0.
     {
@@ -290,38 +282,9 @@ public boolean canContinue(lot[] sellableLots)
     public String getToken()
     // POST: FCTVAL ==  the token of the player.
     {
-        for(int i = 0;i < lotBound; i++)
-        {
-           if(sellableLots[i] != null)  // If the current lot is not null
-           {
-               return true;             // return true if we have at least on
-                                        //   one sellable lot that is not null
-           }
-        }
         return this.playerToken;
     }
     
-    return false;                       // If the player is not in debt, then
-                                        //    he/she may continue without issue
-   
-}
-
-public boolean canSell(lot[] sellableLots)
-//PRE:  current player is initialized
-//POST: FCTVAL = false if a suitable property is not found within the array of
-//               sellableLots
-//    FCTVAL = true whenever we find a suitable property within the array of
-//             sellableLots
-{
- for(lot aLot : sellableLots)
- {
-     if (aLot != null)
-         return true;
- }
-
- return false;
-}
-
     public void buyProperty(property property)
     // PRE:  property must be initialized
     // POST: adds the property to the list of property a player owns.
@@ -347,8 +310,6 @@ public boolean canSell(lot[] sellableLots)
        property.isOwned = true;
        
     }
-    return false;
-}
     
     public boolean hasSellableProperty()
     // POST: returns true if the player has sellable property
@@ -393,7 +354,52 @@ public boolean canSell(lot[] sellableLots)
         }
         return finString;
     }  
+    public boolean canContinue(lot[] sellableLots)
+     // 
+     {
+         int lotBound;
+         
+         lotBound = sellableLots.length;
+         
+         if(this.money < 0)           // Verify the user balance to check if he/she is in debt
+             inDebt = true;      
+         
+         else                    // If balance is not negative,  player is not in debt
+             return true;
+         
+         
+         if(inDebt == true)        // Handle the case where the player is currently in debt 
+         {
+             for(int i = 0;i < lotBound; i++)
+             {
+                if(sellableLots[i] != null)  // If the current lot is not null
+                {
+                    return true;             // return true if we have at least on
+                                             //   one sellable lot that is not null
+                }
+             }
+         }
+         
+         return false;                       // If the player is not in debt, then
+                                             //    he/she may continue without issue
+        
+     }
     
+     public boolean canSell(lot[] sellableLots)
+     //PRE:  current player is initialized
+     //POST: FCTVAL = false if a suitable property is not found within the array of
+    //                sellableLots
+    //     FCTVAL = true whenever we find a suitable property within the array of
+    //              sellableLots
+     {
+      for(lot aLot : sellableLots)
+      {
+          if (aLot != null)
+              return true;
+      }
+
+  return false;
+ }   
     public boolean sell (double amount)
     // PRE: amount >= 0
     // POST: FCTVAL == returns true, if the user has sold enough houses

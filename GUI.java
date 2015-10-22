@@ -81,6 +81,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     JPanel center;
     JPanel northCenter;
     JPanel southCenter;
+    JPanel northRightCenter;
+    
     BorderLayout layout;
 
     @Override
@@ -309,7 +311,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             {
                 turnCounter  = 0;
             }
-            //drawMonopolyCard(g, 250, 350, theGame.getBoardLocate(currPlayer));
+
 
         }
         // if buy is clicked.
