@@ -32,7 +32,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private int currentLocation;        // The current location
     
     private boardLocation currentLot;   // the current lot
-    private boardLocation current;      // The current location.
     private JButton nextTurn;
     private JButton buyLocation;
 
@@ -95,10 +94,10 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         //Set layout now that panels are set up
         setLayout(layout);
-        canImprove = false;
+
         turnCounter = 0;
         isNextTurn = true;
-
+        canImprove = false;
 
 
         initializePanels();
@@ -287,10 +286,9 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             // Calculating the current location
             currentLocation = (currPlayer.getBoardLocation() + diceOne + diceTwo) % 42;
             currPlayer.setBoardLocation(currentLocation);
-            //current = theGame.getBoardLocate(currPlayer);
-            currPlayer.setCurrentLocation(current);
-            actions =  current.getPossibleActions(currPlayer);
-            setButtonStatus(current.getActionStatus());
+            currPlayer.setCurrentLocation(theGame.getBoardLocate(currPlayer));
+            actions =  theGame.getBoardLocate(currPlayer).getPossibleActions(currPlayer);
+            setButtonStatus(theGame.getBoardLocate(currPlayer).getActionStatus());
             g.drawString("Player : " + turnCounter+ "\n", 250, 250);
             
             // if the turn counter is going off the array
@@ -298,7 +296,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             {
                 turnCounter  = 0;
             }
-
+            
+          
         }
         // if buy is clicked.
         if(isBuyClicked)
@@ -467,6 +466,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         }
         if(e.getSource() == nextTurn)
         {
+            
+            
             turnCounter++;
             isNextTurn = true;
         }
