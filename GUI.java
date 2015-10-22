@@ -296,8 +296,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             {
                 turnCounter  = 0;
             }
-            
-          
+            drawMonopolyCard(g, 250, 350, theGame.getBoardLocate(currPlayer));
+
         }
         // if buy is clicked.
         if(isBuyClicked)
@@ -325,6 +325,111 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         
     }
 
+    
+    public void drawMonopolyCard(Graphics g, int panelWidth, int panelHeight, boardLocation current )
+  //PRE: g is the graphic instance sent from paint()
+//       panelWidth is the width of the Center-North Panel, Which changes on resize
+//       panelHeight is the height of the Center-North Panel, Which changes on resize
+  //POST:  Will draw a monopoly Card according to the position in which the player resides
+  {
+      g.setColor(Color.WHITE);
+      g.fillRect(east.getWidth()+ panelWidth/32,north.getHeight()+ panelHeight/32,
+                   panelWidth - panelWidth*2/32, panelHeight - panelHeight*2/32);
+      
+      
+      if(current instanceof lot){
+    	  drawCardTop(g, panelWidth, (panelHeight/5), ((lot) current).getColor(), current);
+      }
+      else
+    	  drawCardTop(g, panelWidth, (panelHeight/5), "White", current);
+  }
+
+  public void drawCardTop(Graphics g, int panelWidth, int panelHeight, String tileColor, boardLocation current)
+  {
+	  
+	String temp = tileColor.toUpperCase();
+	if(temp.equals("ORANGE"))
+	{
+		g.setColor(Color.ORANGE);
+	}
+	else if(temp.equals("RED"))
+	{
+		g.setColor(Color.RED);
+	}
+	else if(temp.equals("YELLOW"))
+	{
+		g.setColor(Color.YELLOW);
+	}	
+	else if(temp.equals("GREEN"))
+	{
+		g.setColor(Color.GREEN);
+	}
+	else if(temp.equals("DARK BLUE"))
+	{
+		g.setColor(new Color(0,87,158));
+	}
+	else if(temp.equals("LIGHT PURPLE"))
+	{
+		g.setColor(new Color(191,101,247));	
+	}
+	else if (temp.equals("DARK PURPLE"))
+	{
+		g.setColor(new Color(107,25,148));
+	}
+	else if(temp.equals("LIGHT BLUE"))
+	{
+		g.setColor(new Color(105,187,255));
+	}
+	else
+		g.setColor(Color.WHITE);
+	
+  	g.fillRect(east.getWidth()+ panelWidth/32,north.getHeight() + panelHeight/32,
+  			panelWidth - panelWidth*2/32, panelHeight-panelHeight*2/32);
+  	
+  	g.setColor(Color.BLACK);
+  	g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+  	drawName(g, panelWidth, panelHeight, current);
+  }
+  
+  public void drawName(Graphics g, int panelWidth, int panelHeight, boardLocation current)
+  {
+	  String Name = current.getName();
+	  g.drawString(Name, panelWidth, panelHeight);
+	  
+	  if(current instanceof property)
+	  {
+		  drawCurrOwner(g, panelWidth, panelHeight, current);
+	  }
+	  else return;
+  }
+    
+  public void drawCurrOwner(Graphics g, int panelWidth, int panelHeight, boardLocation current)
+  {
+	  if(((property) current).isOwned() == true){
+		  String owner = ((property) current).getOwner().getToken();
+		  
+		  g.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		  g.drawString("Current Owner: " + owner, panelWidth, panelHeight/2);
+		  drawHouses(g, panelWidth,panelHeight, current);
+	  } else
+		  return;
+  }
+  
+  public void drawHouses(Graphics g, int panelWidth, int panelHeight, boardLocation current)
+  {
+	 if(((lot) current).getHotel() == true)
+	 {
+		 g.drawString("Has Hotel", panelWidth, panelHeight);
+	 }
+	 if(((lot) current).getNumHouses() > 0)
+	 {
+		 g.drawString("Has %i Houses"+ ((lot) current).getNumHouses(), panelWidth+10, panelHeight+10);
+	 }
+  }
+    
+  
+  
+ /////////////////////////////////////////////////END CHANGE////////////////////////////////////////////// 
     @Override
     public void actionPerformed(ActionEvent e) 
     {
@@ -351,7 +456,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          
          
          verifyImprove();
-         
          
          if(e.getSource() == buyLocation)
          {
@@ -472,20 +576,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             isNextTurn = true;
         }
 
-        if(e.getSource() == buyLocation)
-        {
-            
-            message = "Thank you, you just bought Illinois Ave.";
-        }
-
-        if(e.getSource() == sellHouses)
-        {
-            message = "We are now selling your houses";
-        }
-        if(e.getSource() == nextPlayer)
-        {
-
-        }
 
         if(e.getSource() == getLocation)
         {
