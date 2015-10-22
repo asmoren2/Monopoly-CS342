@@ -16,6 +16,9 @@ public class player
   private boardLocation current;    // The current board location.
   private property [] propertyList;
 
+  lot [] canBeImproved;  //An array to be populated with the properties that are
+                         //   available for improvement.
+
 public player()
 // POST: Sets a new board location for the specific player.
 {
@@ -121,25 +124,23 @@ public lot [] getImprovingLots()
     double playerBalance;  // playerBalance holds the current balance for a player
     boolean hotelStatus;   // holds the hotel status for a given property during iteration
 
-    lot [] canBeImproved;  //An array to be populated with the properties that are
-                           //   available for improvement.
 
-    improveIndex = 0;
-    canBeImproved = new lot [28];
-    playerBalance = this.money;
-    propertyLength = propertyList.length;
+    improveIndex = 0;                           
+    canBeImproved = new lot [28];       //Reset the canBeImproved array by reallocating
+    playerBalance = this.money;         
+    propertyLength = this.propertyList.length;
 
     for(oneProperty = 0; oneProperty < propertyLength; oneProperty++)
     {
 
-        if(canBeImproved[oneProperty] != null) //verify that the current property
+        if(this.propertyList[oneProperty] != null) //verify that the current property
                                                //   is not null
         {
-            if (canBeImproved[oneProperty] instanceof lot) //make sure that this
+            if (this.propertyList[oneProperty] instanceof lot) //make sure that this
                                                            //   property is a lot
             {
-                hotelStatus = ((lot)propertyList[oneProperty]).getHotel();
-                improvementCost = ((lot) propertyList[oneProperty]).getImproveCost();
+                hotelStatus = ((lot)this.propertyList[oneProperty]).getHotel();
+                improvementCost = ((lot) this.propertyList[oneProperty]).getImproveCost();
 
                 if(hotelStatus == false)   //Make sure there is no hotel on
                                            //The property
@@ -147,7 +148,8 @@ public lot [] getImprovingLots()
                     if(improvementCost < playerBalance) //Make sure that this property
                                                         //   is affordable for player
                     {
-                        canBeImproved[improveIndex] = canBeImproved[oneProperty];
+                        canBeImproved[improveIndex] = ((lot)propertyList[oneProperty]);
+                        System.out.println(canBeImproved[improveIndex].toString());
                         improveIndex++;
                     }
                 }

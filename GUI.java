@@ -12,7 +12,13 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private player theBank;             // The bank
     private player currPlayer;          // The current player.
     private String [] actions;          // The possible actions.
-    private Monopoly theGame;           // The monopoly game
+    private Monopoly theGame;           // The monopoly game;
+    private boolean canImprove;         // Flag to enable or disable the improve
+                                        //    button.
+    int numberOfLots;                   // integer to hold the number of upgradable 
+                                        //    lots
+    
+    lot[]improvableLots;                // To hold an array of improvable lots 
     
     private boolean isNextTurn;         // This boolean represents if
                                         // the user pressed next turn.
@@ -30,6 +36,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private JButton nextTurn;
     private JButton buyLocation;
 
+    //For improving Locations
+    JOptionPane improvePanel;
     //For East side
     JButton playerProp [];              // playerInfo is an array of buttons
                                         //   to fetch  properties for players 1-4
@@ -87,7 +95,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         //Set layout now that panels are set up
         setLayout(layout);
-
+        canImprove = false;
         turnCounter = 0;
         isNextTurn = true;
 
@@ -135,7 +143,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                 System.out.println("False");
         }
         buyLocation.setEnabled(status[1]);
-        improveProperty.setEnabled(status[3]);
+        improveProperty.setEnabled(canImprove);
         sellHouses.setEnabled(status[2]);
         nextPlayer.setEnabled(status[0]);
         endGame.setEnabled(status[4]);
@@ -313,11 +321,39 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         }
 
         setLables();
+        
+        verifyImprove();
+        
     }
 
     @Override
     public void actionPerformed(ActionEvent e) 
     {
+         String input;               // input catches the user input when deciding which
+                                     //   property to improve
+         int improveLotIndex;        // improveLotIndex will hold the index of the lot
+                                     //   to be improved
+         boolean lotSelectionFound;  // stopSearch determines when the user will stop
+                                     //   searching for its input within the array of
+                                     //   choices.
+         int numberOfLots;           // numberOfLots determines the number of 
+                                     //   improvable lots
+         
+         String []lotNames;          // an array to hold the name of the lots 
+                                     //     to be improved
+
+         
+         lot lotToImprove;           //lotToImprove holds the lot to be improved
+        
+         lotSelectionFound = false;
+         improveLotIndex = -1;  //Initialized to -1 to signify that no lot can
+                                //   be improved
+         input = "";
+         
+         
+         verifyImprove();
+         
+         
          if(e.getSource() == buyLocation)
          {
            isBuyClicked = true;
@@ -336,7 +372,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          }
          if(e.getSource() == endGame)
          {
-           result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " + playerList[2].toString() +"\n " + playerList[3].toString();
+              result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " + playerList[2].toString() +"\n " + playerList[3].toString();
               area = new JTextArea(result);
               area.setRows(30);
               area.setColumns(40);
@@ -346,30 +382,88 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          }
 
         if(e.getSource() == improveProperty)
-        {
-       	
-        lot[]temp = playerList[playerOrder[0]].getImprovingLots();
-        String []temp2 = new String [temp.length]; 
-        int j = 0;
-        
-        if (playerList[playerOrder[0]].canImprove(temp))
-        {
-	        System.out.println("Length :" + temp.length);
-	        for(int i = 0; i < temp.length; i++){
-	        	System.out.println(temp[i].toString());
-	        	if(temp[i] != null){
-	        		temp2[j] = temp[i].getName();
-	        		
-	        		j++;
-	        	}
-	        }
-        }
-        
-       	 String[] choices = {"dog", "cat"};
-       	 String input = (String) JOptionPane.showInputDialog(null, "Choose a lot",
-       		        "Lots you can improve", JOptionPane.QUESTION_MESSAGE, null,temp2, // Array of choices
-       		        temp2[1]); // Initial choice
-       	    System.out.println(input);
+        {      
+            //Update improvable lots on every instance we try to improve a 
+            //   property
+            improvableLots = currPlayer.getImprovingLots();
+            numberOfLots = improvableLots.length;
+            
+            lotNames = new String [numberOfLots]; 
+            
+            int j = 0;
+            
+            if (currPlayer.canImprove(improvableLots))  //Make sure there exists a lot
+                                                        //  that can be improved
+            {
+    	        
+    	        for(int i = 0; i < numberOfLots; i++)
+    	        {
+    	        	
+    	            if(improvableLots[i] != null)  //Make sure the current lot is not null
+    	        	{
+    	        		lotNames[j] = improvableLots[i].getName();
+    	        		System.out.println(lotNames[j]);
+    	        		j++;
+    	        	}
+    	        	
+    	        }
+    	        
+                //Catch the user input When selecting a lot to improve
+                input = (String) JOptionPane.showInputDialog(null, "Choose a lot",
+                    "Lots you can improve", JOptionPane.QUESTION_MESSAGE, null,lotNames, // Array of choices
+                    lotNames[1]); // Initial choice
+                   
+                //Search the user input within the array of possibe choices
+                for(int i = 0; i < numberOfLots && lotSelectionFound == false; i++)
+                {
+                    if(lotNames[i] != null && input != null)  //Make sure the current choice not null
+                    {
+                        if(input.equals(lotNames[i]))
+                        {
+                            improveLotIndex = i;
+                            lotSelectionFound = true;      //Kill the loop once we find the index
+                        }
+                    }
+                }
+                
+                if (lotSelectionFound == true)
+                {
+                    //Fetch a reference to the lot we intend to improve
+                    lotToImprove = (lot) currPlayer.canBeImproved[improveLotIndex];
+                    
+                    //Deduce the cost of improvement from the user
+                    currPlayer.payRent(theBank, lotToImprove.getImproveCost());
+                    
+                    if(lotToImprove.getNumHouses() == 4)   //Handle the case when the
+                                                           //   player has 4 houses and
+                                                           //   must improve to hotel
+                    {
+                        lotToImprove.makeHotel();
+                    }
+                    
+                    else //Handle the case when the player has less than 4 houses
+                    {
+                        lotToImprove.addNumHouses();
+                    }
+                    
+                }
+                
+                
+                lotSelectionFound = false;  // lot selection for next iteration
+                improveLotIndex = 0; // Reset for next iteration
+            }
+            
+            else
+            {
+                 // Disable improveProperty button on failure to find a suitable
+                 //   location
+                 canImprove = false;
+                 improveProperty.setEnabled(canImprove);
+                 
+            }
+
+
+
         }
         if(e.getSource() == nextTurn)
         {
@@ -492,8 +586,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         //West side
         nextTurn = new JButton("Next Turn");
-
-
         buyLocation = new JButton("Buy this Property");
         improveProperty = new JButton("Improve this Property");
         sellHouses = new JButton("Sell Houses");
@@ -598,5 +690,27 @@ public class GUI extends JApplet implements ActionListener, ItemListener
        area.setColumns(10);
        pane = new JScrollPane(area);
        JOptionPane.showMessageDialog(null, pane, "Monopoly Board Info.", JOptionPane.PLAIN_MESSAGE);
+    }
+    
+    public void verifyImprove()
+    //POST: will enable or disable the improve button based on whether the
+    //      player has improvable properties
+    {
+        //Verify whether the current player has a lot that can be 
+        //  improved and enable or disable the improve button accordingly
+        improvableLots = currPlayer.getImprovingLots();
+        int numberOfLots = improvableLots.length;
+        
+        if (currPlayer.canImprove(improvableLots)) //check if the user can Improve
+        {
+            canImprove = true;
+            improveProperty.setEnabled(canImprove);
+        }
+        
+        else
+        {
+            canImprove = false;
+            improveProperty.setEnabled(canImprove);
+        }
     }
 }
