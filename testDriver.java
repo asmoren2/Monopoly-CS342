@@ -20,8 +20,6 @@ public class testDriver {
         //      mode
         //theGame.demoMode();
         
-        theGame.printAllLocations();
-        theGame.printAllPlayers();
         
 
         
@@ -37,16 +35,13 @@ public class testDriver {
             System.out.println("\n Type in the appropriate option");            
             choice = in.nextLine();
             
-            while(!theGame.monopolyBoard[i].performAction(playerList[1], theBank, choice.charAt(0)))
+/*            while(!theGame.monopolyBoard[i].performAction(playerList[1], theBank, choice.charAt(0)))
             {
                 System.out.println("\n Type in the appropriate option");
                 choice = in.nextLine();
-            }
+            }*/
         }
         
-        //PRINT ALL INFO AFTER TRAVERSING        
-        theGame.printAllLocations();
-        theGame.printAllPlayers();
     }
 
 }
