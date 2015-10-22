@@ -352,8 +352,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             textArea.setText("");
             textArea.setText(message);
         }
-        
-        drawMonopolyCard(g, 250, 350, theGame.getBoardLocate(currPlayer));
+
+        drawMonopolyCard(g, 250, northCenter.getHeight(), theGame.getBoardLocate(currPlayer));
         setLables();
     }
 
@@ -377,6 +377,9 @@ public class GUI extends JApplet implements ActionListener, ItemListener
   }
 
   public void drawCardTop(Graphics g, int panelWidth, int panelHeight, String tileColor, boardLocation current)
+  //PRE: take in the graphics object, the width and height of the panel and and a tile color as
+  //		well as the current board Location.
+  //POST://Draw the top rectangle of the monopoly card with the corresponding color.
   {
 	  
 	String temp = tileColor.toUpperCase();
@@ -424,9 +427,38 @@ public class GUI extends JApplet implements ActionListener, ItemListener
   }
   
   public void drawName(Graphics g, int panelWidth, int panelHeight, boardLocation current)
+  //PRE: take in the graphics object, the width and height of the panel and the current board
+  //		location.
+  //POST: Draw a string with the name of the current boardLocation as well as the 
+  //		current location rent if there is any.
   {
 	  String Name = current.getName();
 	  g.drawString(Name, panelWidth, panelHeight);
+	  g.setFont(new Font("SansSerif", Font.PLAIN, 15));
+	  
+	  if(current instanceof lot)
+	  {
+		  drawRent(g, panelWidth, panelHeight, current);
+	  }
+	  else if(current instanceof taxSquare && ((taxSquare) current).getTaxMode() == 1)
+	  {
+		  g.drawString("Rent: $200.0", panelWidth-15, panelHeight+100);
+	  }
+	  else if(current instanceof taxSquare && ((taxSquare) current).getTaxMode() == 0)
+	  {
+		  g.drawString("Rent: $75.0", panelWidth-15, panelHeight+100);
+	  }
+	  else if(current instanceof railroad)
+	  {
+		  g.drawString("Rent: $" + ((railroad) current).calcRent(currPlayer.getNumberRailroad())
+				  					,panelWidth-15, panelHeight+100);
+	  }
+	  else if(current instanceof utility)
+	  {
+		 int diceval = diceOne+diceTwo;
+		  g.drawString("Rent: $" +  ((utility) current).caltUtilRent(currPlayer.getNumberUtilities()
+				  					,diceval), panelWidth-15, panelHeight+100);
+	  }
 	  
 	  if(current instanceof property)
 	  {
@@ -436,27 +468,49 @@ public class GUI extends JApplet implements ActionListener, ItemListener
   }
     
   public void drawCurrOwner(Graphics g, int panelWidth, int panelHeight, boardLocation current)
+  //PRE: take in the graphics object, the width and height of the panel and the current board
+  //		location.
+  //POST: Draws a string with the name of the owner who owns the specific lot.
   {
-	  if(((property) current).isOwned() == true){
+	  if(((property) current).isOwned() == true)
+	  {
 		  String owner = ((property) current).getOwner().getToken();
-		  
 		  g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		  g.drawString("Current Owner: " + owner, panelWidth, panelHeight/2);
+		  g.drawString("Current Owner: " + owner, panelWidth-15, panelHeight+50);
 		  drawHouses(g, panelWidth,panelHeight, current);
 	  } else
-		  return;
+		  g.drawString("Current Owner: NONE", panelWidth-15, panelHeight+50);
+
   }
   
   public void drawHouses(Graphics g, int panelWidth, int panelHeight, boardLocation current)
+  //PRE: take in the graphics object, the width and height of the panel and the current board
+  //		location.
+  //POST: Draws a string with the number of houses or hotels on a specified lot.
+  
   {
-	 if(((lot) current).getHotel() == true)
+	 if(current instanceof lot)
 	 {
-		 g.drawString("Has Hotel", panelWidth, panelHeight);
+		 if(((lot) current).getHotel() == true)
+		 {
+			 g.drawString("Has Hotel", panelWidth-15, panelHeight+75);
+		 }
+		 else if(((lot) current).getNumHouses() >= 0)
+		 {
+			 g.drawString("Has "+ ((lot) current).getNumHouses() + " Houses", panelWidth-15, panelHeight+75);
+		 }
+		 
 	 }
-	 if(((lot) current).getNumHouses() > 0)
-	 {
-		 g.drawString("Has %i Houses"+ ((lot) current).getNumHouses(), panelWidth+10, panelHeight+10);
-	 }
+	 else
+		 return;
+  }
+  
+  public void drawRent(Graphics g, int panelWidth, int panelHeight, boardLocation current)
+  //PRE: take in the graphics object, the width and height of the panel and the current board
+  //		location.
+  //POST: Draws a string with the rent value of a specified lot.
+  {
+	  g.drawString("Rent: $" + (((lot) current).getRent()), panelWidth-15, panelHeight+100);
   }
 
  
@@ -596,7 +650,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
          if(e.getSource() == endGame)
          {
-              result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " + playerList[2].toString() +"\n " + playerList[3].toString();
+              result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " 
+            		  		+ playerList[2].toString() +"\n " + playerList[3].toString();
               area = new JTextArea(result);
               area.setRows(30);
               area.setColumns(40);
@@ -687,13 +742,10 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             }
         }
         if(e.getSource() == nextTurn)
-        {
-            
-            
+        {   
             turnCounter++;
             isNextTurn = true;
         }
-
 
         if(e.getSource() == getLocation)
         {
@@ -729,7 +781,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             popUpPlayerInfo(playerList[playerOrder[3]]);
         }
 
-
         repaint();
     }
 
@@ -738,8 +789,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         // TODO Auto-generated method stub
 
     }
-
-
+    
     public void addToPanel()
     {
       //East side add components to panels
@@ -761,6 +811,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         south.add(nextTurn);
         center.add(northCenter);
         center.add(southCenter);
+        
+        northCenter.add(BorderLayout.EAST,northRightCenter);
 
         southCenter.add(scrollPane, BorderLayout.CENTER);
 
@@ -828,6 +880,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     {
         //Set up Layout
         layout = new BorderLayout();
+        
         //Set up all panels
         south = new JPanel();
         north = new JPanel();
@@ -836,6 +889,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         center = new JPanel();
         northCenter = new JPanel();
         southCenter = new JPanel();
+        northRightCenter = new JPanel();
 
 //      Test different colors
 //      south.setBackground(Color.BLUE);
@@ -845,11 +899,13 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 //      northCenter.setBackground(Color.BLACK);
 //      southCenter.setBackground(Color.YELLOW);
 //      center.setBackground(Color.CYAN);
+//      northRightCenter.setBackground(Color.BLACK);
 
         center.setLayout(new GridLayout(2,1));
         west.setLayout (new GridLayout (5,1,0,30));
         east.setLayout(new GridLayout(5,2,0,30));
         east.setLayout(new GridLayout(10,1,0,30));
+        northCenter.setLayout(new GridLayout(1,2));
         southCenter.setLayout(new BorderLayout());
     }
 
