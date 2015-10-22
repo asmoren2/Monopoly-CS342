@@ -14,7 +14,7 @@ public class lot extends property
     private boolean isHotel;        // Boolean representing if a hotel is created.
 
     public lot()
-    // POST: a default lot is created, with no district, 
+    // POST: a default lot is created, with no district,
     //       no color, and no name.  It is 0 spaces away from go,
     //       it has a cost of 0.0 and an improve cost of 0.0.
     //       It has 0 houses on it, and it is also not a hotel.
@@ -122,7 +122,10 @@ public class lot extends property
     public double getRent()
     // FCTVAL == The rent of the property, with numHouses houses on it.
     {
-        return this.rentStructure[numHouses];
+        if(isHotel == false)
+            return this.rentStructure[numHouses];
+        else
+            return this.rentStructure[5];
     }
 
     public String getColor()
@@ -146,14 +149,14 @@ public class lot extends property
         {
             action = false;
         }
-        
+
         boardLocation current = player.getCurrentLocation();
         double rent = 0.0;
         if(current instanceof lot)
         {
             rent = rentStructure[((lot) current).getNumHouses()];
         }
-        
+
         actionStatus[4] = true;      // End game
         possibleActions[4] = PACTIONS[4];
         System.out.println("Location: " + nameOfLocation + isOwned);
@@ -172,7 +175,7 @@ public class lot extends property
                                                 //   an owned property
            }
         }
-        
+
         else if (isOwned == true && this.owner != player
                 && player.getMoney() > rent) //  if you don't own it
         {
