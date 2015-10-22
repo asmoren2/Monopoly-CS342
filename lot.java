@@ -168,7 +168,8 @@ public class lot extends property
            }
            else
            {
-               actionStatus[1] = false;
+               actionStatus[1] = false;         //Do not allow someone els to buy
+                                                //   an owned property
            }
         }
         
@@ -176,6 +177,8 @@ public class lot extends property
                 && player.getMoney() > rent) //  if you don't own it
         {
            // pay rent automatic
+            actionStatus[1] = false;         //Do not allow someone els to buy
+                                             //   an owned property
            System.out.println(player.getToken() + "Paid rent:" + rent);
            player.payRent(owner, rent);
         }
@@ -183,6 +186,8 @@ public class lot extends property
                 && player.getMoney() < rent
                 && player.hasSellableProperty())
         {
+            actionStatus[1] = false;         //Do not allow someone els to buy
+                                             //   an owned property
             // Force to sell
             actionStatus[2] = true;
             possibleActions[2] = PACTIONS[2];
@@ -191,6 +196,8 @@ public class lot extends property
                 && player.getMoney() > improveCost &&    // has money to improve
                 player.canImprove(player.getImprovingLots()))// has improvable lots
         {
+            actionStatus[1] = false;         //Do not allow the same person to
+                                             //   re-buy this house
            actionStatus[3] = true;
            possibleActions[3] = PACTIONS[3];
         }
