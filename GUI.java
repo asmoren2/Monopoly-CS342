@@ -103,6 +103,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     @Override
     public void init()
     {
+    	   setSize(600,600);
         JPanel northRightCenter;			//Place where the dice resides
         initializeMonopoly();
         initializeWidgets();
@@ -299,8 +300,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         textArea.setText(message);
         // turns and dice values.
         turnCounter %= playerList.length;
-        diceOne = getDiceVal();
-        diceTwo = getDiceVal();
         
         if(isNextTurn)
         {
@@ -324,17 +323,21 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             {
                 turnCounter  = 0;
             }
+                       
+            // prepaing the message for the turn
+            message = currPlayer.getToken() + " just rolled " + (diceOne + diceTwo)
+                    + " and moved on to " + current.getName() +"\n\n"; 
 
 
         }
         // if buy is clicked.
         if(isBuyClicked)
         {
-            System.out.println("buy clicked");
+
             isBuyClicked = false;       // Reset
             currentLot = theGame.getBoardLocate(currPlayer);
             currPlayer.buyProperty((property)currentLot);
-            message = currPlayer.getToken() + " Just bought "
+            message = currPlayer.getToken() + " just bought "
                       + currentLot.getName() + " for "
                       + ((property) currentLot).getPurcaseCost() + "\n";
             
@@ -364,6 +367,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         // only write if the message is different.
         if(message != textArea.getText().toString())
         {
+       	    // drawing the card
             textArea.setText("");
             textArea.setText(message);
         }
@@ -374,22 +378,23 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
     
     public void drawMonopolyCard(Graphics g, int panelWidth, int panelHeight, boardLocation current )
-  //PRE: g is the graphic instance sent from paint()
-//       panelWidth is the width of the Center-North Panel, Which changes on resize
-//       panelHeight is the height of the Center-North Panel, Which changes on resize
-  //POST:  Will draw a monopoly Card according to the position in which the player resides
-  {
-      g.setColor(Color.WHITE);
-      g.fillRect(east.getWidth()+ panelWidth/32,north.getHeight()+ panelHeight/32,
-                   panelWidth - panelWidth*2/32, panelHeight - panelHeight*2/32);
+    // PRE: g is the graphic instance sent from paint()
+    //      panelWidth is the width of the Center-North Panel, Which changes on resize
+    //      panelHeight is the height of the Center-North Panel, Which changes on resize
+    // POST: Will draw a monopoly Card according to the position in which the player
+    //       resides
+   {
+       g.setColor(Color.WHITE);
+       g.fillRect(east.getWidth()+ panelWidth/32,north.getHeight()+ panelHeight/32,
+                    panelWidth - panelWidth*2/32, panelHeight - panelHeight*2/32);
       
       
-      if(current instanceof lot){
-    	  drawCardTop(g, panelWidth, (panelHeight/5), ((lot) current).getColor(), current);
-      }
-      else
-    	  drawCardTop(g, panelWidth, (panelHeight/5), "White", current);
-  }
+       if(current instanceof lot){
+     	  drawCardTop(g, panelWidth, (panelHeight/5), ((lot) current).getColor(), current);
+       }
+       else
+     	  drawCardTop(g, panelWidth, (panelHeight/5), "White", current);
+   }
 
   public void drawCardTop(Graphics g, int panelWidth, int panelHeight, String tileColor, boardLocation current)
   //PRE: take in the graphics object, the width and height of the panel and and a tile color as
@@ -546,6 +551,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          String []lotNames;          // an array to hold the name of the lots 
                                      //     to be improved
 
+         String propVal;             // hotel when selling hotel, else house.
          
          lot lotToImprove;           //lotToImprove holds the lot to be improved
          lot lotToBeSold;            //lotToBeSold holds the lo
@@ -557,6 +563,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          sellableLotIndex = -1;
          input = "";
          
+         propVal = "house";
          
          //Verify whether: game continues,  can improve, or can sell
          verifyImprove();
@@ -578,7 +585,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          if(e.getSource() == buyLocation)
          {
            isBuyClicked = true;
-           //message = "Thank you, you just bought Illinois Ave.";
+
          }
 
          if(e.getSource() == sellHouses)
@@ -627,6 +634,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                    //Fetch a reference to the lot we intend to sell from
                    lotToBeSold = (lot) currPlayer.canBeSold[sellableLotIndex];
                    
+                   
                    //increase money by half the improvement cost
                    currPlayer.addMoney(lotToBeSold.getImproveCost()/2);;
                    
@@ -635,12 +643,20 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                                           //   hotel
                    {
                        lotToBeSold.sellHotel();
+                       propVal = "hotel";
                    }
+                   
+                   
                    
                    else //Handle the case when doesn't have any hotels
                    {
                        lotToBeSold.sellHouse();
+                       propVal = "house";
                    }
+                   
+                                      // updating the message.
+                   message = currPlayer.getToken() + " just sold a " + propVal
+                           + " on " + lotToBeSold.getName();
                    
                }
                
@@ -648,6 +664,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                {
                     // Disable sellHouses button on failure to find a suitable
                     //   location
+                    message = currPlayer.getToken() + " cannot sell any property.\n";
                     canSell = false;
                     sellHouses.setEnabled(canSell);
                     
@@ -658,12 +675,13 @@ public class GUI extends JApplet implements ActionListener, ItemListener
            }
            
            
-           message = "We are now selling your houses";
+
            playerList[0].sell((playerList[0].getMoney()*-1));
          }
 
          if(e.getSource() == endGame)
          {
+	      message = "game is ended.\n";
               result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " 
             		  		+ playerList[2].toString() +"\n " + playerList[3].toString();
               area = new JTextArea(result);
@@ -754,7 +772,20 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         }
         if(e.getSource() == nextTurn)
         {   
-            turnCounter++;
+            diceOne = getDiceVal();
+            diceTwo = getDiceVal();
+            
+            if(diceOne == diceTwo)
+            {
+                message = "just rolled a double current player gets another"
+                        + "turn!\n";
+                message = message + textArea.getText().toString();
+            }
+            else
+            {
+                turnCounter++;
+            }
+            
             isNextTurn = true;
         }
 
@@ -790,6 +821,22 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         if(e.getSource() == playerProp[3])
         {
             popUpPlayerInfo(playerList[playerOrder[3]]);
+        }
+        
+              // for setting the news feed.
+        if(textArea.getText().toString() != null)
+        {
+            if(!message.equals(textArea.getText().toString()))
+            {
+                message = message + textArea.getText().toString();
+            }
+        }
+        
+        // only write if the message is different.
+        if(message != textArea.getText().toString())
+        {
+            textArea.setText("");
+            textArea.setText(message);
         }
 
         repaint();
