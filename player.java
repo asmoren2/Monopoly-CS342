@@ -186,28 +186,14 @@ public class player
         }
         return canBeImproved;
     }
-
-
-    return canBeImproved;
-}
-
-
-public boolean canImprove(lot[] improvableLots)
-// PRE:  current player is initialized
-// POST: FCTVAL = false if a suitable property is not found within the array of
-//                improvableLots
-//       FCTVAL = true whenever we find a suitable property within the array of
-//                improvableLots
-{
-    for(lot aLot : improvableLots)
+    
+    public void addMoney(double amount)
+    // PRE: money must be initialized, money is in dollars.
+    // POST: adds money to member variable money. If money is a
+    //    negative value, then we subtract from the member variable money.
     {
-        if (aLot != null)
-            return true;
+       this.money += amount;
     }
-
-    return false;
-}
-
 public lot [] getSellableLots()
 //POST: FCTVAL = canBeSold: lots that can Be Sold
 //      FCTVAL = canBeSold = null for all locations when no location meets the
@@ -273,15 +259,36 @@ public boolean canContinue(lot[] sellableLots)
     int lotBound;
     
     lotBound = sellableLots.length;
+    public void addNumRailroad()
+    // POST: adds one to the class member numRailroad.
+    {
+       this.numRailroad += 1;
+    }
     
     if(this.money < 0)           // Verify the user balance to check if he/she is in debt
         inDebt = true;      
+    public void addNumUtility()
+    //POST: Adds one to the class member numUtilities.
+    {
+       this.numUtility += 1;
+    }
     
     else                    // If balance is not negative,  player is not in debt
         return true;
+    public void bankrupt()
+    // POST: Will reduce the amount of money a player has to $0.
+    {
+       this.money = 0;
+    }
     
+    public int throwDice()
+    // POST: returns a random number between 1 and 12.
+    {
+        return (int)Math.random()*13;
+    }
     
-    if(inDebt == true)        // Handle the case where the player is currently in debt 
+    public String getToken()
+    // POST: FCTVAL ==  the token of the player.
     {
         for(int i = 0;i < lotBound; i++)
         {
@@ -291,6 +298,7 @@ public boolean canContinue(lot[] sellableLots)
                                         //   one sellable lot that is not null
            }
         }
+        return this.playerToken;
     }
     
     return false;                       // If the player is not in debt, then
@@ -314,142 +322,108 @@ public boolean canSell(lot[] sellableLots)
  return false;
 }
 
-
-public void addMoney(double amount)
-// PRE: money must be initialized, money is in dollars.
-// POST: adds money to member variable money. If money is a
-//    negative value, then we subtract from the member variable money.
-{
-   this.money += amount;
-}
-
-public void addNumRailroad()
-// POST: adds one to the class member numRailroad.
-{
-   this.numRailroad += 1;
-}
-
-public void addNumUtility()
-//POST: Adds one to the class member numUtilities.
-{
-   this.numUtility += 1;
-}
-
-public void bankrupt()
-// POST: Will reduce the amount of money a player has to $0.
-{
-   this.money = 0;
-}
-
-public int throwDice()
-// POST: returns a random number between 1 and 12.
-{
-    return (int)Math.random()*13;
-}
-
-public String getToken()
-// POST: FCTVAL ==  the token of the player.
-{
-    return this.playerToken;
-}
-
-public void buyProperty(property property)
-// PRE:  property must be initialized
-// POST: adds the property to the list of property a player owns.
-//       increments the property counters as needed.
-{
-    System.out.println("In buyProperty()");
-   propertyList[numProperties] = property;
-   numProperties++;
-   property.owner = this;
-   if(property instanceof lot)              // if the property is a lot
-   {                                        // add one to numLots.
-       numLots++;
-   }
-   else if (property instanceof railroad)   // if the property is a railroad
-   {                                        // add one to numRailroad.
-       numRailroad++;
-   }
-   else if (property instanceof utility)    // if the property is a utility
-   {                                        // add one to the numUtility.
-       numUtility++;
-   }
-   money -= property.getPurcaseCost();
-   property.isOwned = true;
-   
-}
-public boolean hasSellableProperty()
-// POST: returns true if the player has sellable property
-{
-    for(property curr: propertyList)
+    public void buyProperty(property property)
+    // PRE:  property must be initialized
+    // POST: adds the property to the list of property a player owns.
+    //       increments the property counters as needed.
     {
-        if(curr instanceof lot && ((lot)curr).getNumHouses() > 0)
-            return true;
+        System.out.println("In buyProperty()");
+       propertyList[numProperties] = property;
+       numProperties++;
+       property.owner = this;
+       if(property instanceof lot)              // if the property is a lot
+       {                                        // add one to numLots.
+           numLots++;
+       }
+       else if (property instanceof railroad)   // if the property is a railroad
+       {                                        // add one to numRailroad.
+           numRailroad++;
+       }
+       else if (property instanceof utility)    // if the property is a utility
+       {                                        // add one to the numUtility.
+           numUtility++;
+       }
+       money -= property.getPurcaseCost();      // recalculate money and ownership.
+       property.isOwned = true;
+       
     }
     return false;
 }
-public property [] getPropertyList()
-// POST: FCTVAL == the list of properties a player owns.
-{
-    return this.propertyList;
-}
-@Override
-public String toString()
-{
-   return "Player: " + playerToken + "\n" + "Has $"+ Math.floor(money) +"\n"+ "Railroads owned: "+
-         numRailroad + "\n" + "Utilities owned: " + numUtility + "\n" + "Board location: " +
-         current.nameOfLocation + "\n" + "Properties Owned:" +"\n"+  getLocationsOnwed().toString();
-}
-
-public String getLocationsOnwed(){
     
-    String[] nameList = new String[numProperties];
-    String finString = "";
-    // Initializing the nameList
-    for(int i = 0; i < numProperties; i++)
+    public boolean hasSellableProperty()
+    // POST: returns true if the player has sellable property
     {
-        nameList[i] = "";
+        for(property curr: propertyList)
+        {
+            if(curr instanceof lot && ((lot)curr).getNumHouses() > 0)
+                return true;
+        }
+        return false;
     }
-    for(int i = 0; i < numProperties; i++)
+    public property [] getPropertyList()
+    // POST: FCTVAL == the list of properties a player owns.
     {
-        nameList[i] = propertyList[i].nameOfLocation + "\n";
+        return this.propertyList;
     }
-    // Making a string
-    for(int i = 0; i < numProperties; i++)
+    @Override
+    public String toString()
     {
-        finString += nameList[i];
+       return "Player: " + playerToken + "\n" + "Has $"+ Math.floor(money) +"\n"+ "Railroads owned: "+
+             numRailroad + "\n" + "Utilities owned: " + numUtility + "\n" + "Board location: " +
+             current.nameOfLocation + "\n" + "Properties Owned:" +"\n"+  getLocationsOnwed().toString();
     }
-    return finString;
-}  
-
-public boolean sell (double amount)
-// PRE: amount >= 0
-// POST: FCTVAL == returns true, if the user has sold enough houses
-//       to pay the amount, else return false.
-{
-    double recoveredMoney = 0;
-    for(property currProperty: propertyList)            // Go through the properties
+    
+    public String getLocationsOnwed(){
+        
+        String[] nameList = new String[numProperties];
+        String finString = "";
+        // Initializing the nameList
+        for(int i = 0; i < numProperties; i++)
+        {
+            nameList[i] = "";
+        }
+        for(int i = 0; i < numProperties; i++)
+        {
+            nameList[i] = propertyList[i].nameOfLocation + "\n";
+        }
+        // Making a string
+        for(int i = 0; i < numProperties; i++)
+        {
+            finString += nameList[i];
+        }
+        return finString;
+    }  
+    
+    public boolean sell (double amount)
+    // PRE: amount >= 0
+    // POST: FCTVAL == returns true, if the user has sold enough houses
+    //       to pay the amount, else return false.
     {
-        if(currProperty instanceof lot)                 // for each lot check if there
-        {                                               // you can build a house.
-            if(((lot)currProperty).getHotel() == true)
-            {
-                recoveredMoney += ((lot)currProperty).sellHotel();
-            }
-            else if (((lot)currProperty).getNumHouses() > 0)
-            {
-                // keep selling houses until you have enough money to pay off the creditor.
-                while(recoveredMoney <= amount && ((lot)currProperty).getNumHouses() > 0)
+        double recoveredMoney = 0;
+        for(property currProperty: propertyList)            // Go through the properties
+        {
+            if(currProperty instanceof lot)                 // for each lot check if there
+            {                                               // you can build a house.
+                if(((lot)currProperty).getHotel() == true)
                 {
-                    recoveredMoney += ((lot)currProperty).sellHouse();
+                    recoveredMoney += ((lot)currProperty).sellHotel();
+                }
+                else if (((lot)currProperty).getNumHouses() > 0)
+                {
+                    // keep selling houses until you have enough money to 
+                    // pay off the creditor.
+                    while(recoveredMoney <= amount 
+                          && ((lot)currProperty).getNumHouses() > 0)
+                    {
+                        recoveredMoney += ((lot)currProperty).sellHouse();
+                    }
+                }
+                if(recoveredMoney > amount)
+                {
+                    return true;
                 }
             }
-            if(recoveredMoney > amount)
-            {
-                return true;
-            }
         }
+        return false;
     }
-    return false;
 }
-}//End Player Class
