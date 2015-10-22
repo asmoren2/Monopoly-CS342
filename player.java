@@ -1,4 +1,4 @@
-// Programmer:  Adolfo Moreno
+// Programmer:  Adolfo Moreno, Harsh Patel, Christian Valaderas
 // Assignment:  Monopoly
 // Date:        October, 14 2015
 // Description: This class represents a player in the game.
@@ -18,135 +18,173 @@ public class player
   private boolean inDebt;           // isBankrupt determines whether a player is 
                                     //    in debt 
   
-  private property [] propertyList; // propertyList contains all properties
-                                    //    a player owns  
+  private property [] propertyList; // List of the properties the player owns.
 
-  lot [] canBeImproved;  //An array to be populated with the properties that are
-                         //   available for improvement.
   lot [] canBeSold;      //An array to be populated with the properties that are
                          //   available for liquidation.
+  lot [] canBeImproved;              // An array to be populated with the properties 
+                                     // that are available for improvement.
 
-public player()
-// POST: Sets a new board location for the specific player.
-{
-  this(1500, 0," ");
-}
-
-public player(double money,int spaceGo, String token)
-//PRE : 0 < location < 41; location is in block.
-{
-  this.money = money;
-  this.spaceFromGo = spaceGo;
-  this.playerToken = token;
-  this.propertyList = new property [28];
-  this.numProperties = 0;
-  this.numLots = 0;
-  this.numRailroad = 0;
-  this.numUtility = 0;
-}
-public void setCurrentLocation(boardLocation current)
-// PRE: current must be initialized
-// POST: sets the class member current to current.
-{
-    this.current = current;
-}
-public boardLocation getCurrentLocation()
-// POST: FCTVAL == current location of the player
-{
-    return this.current;
-}
-public void setBoardLocation(int location)
-//PRE: Assume 0 < location < 41, location is in block
-//POST: Set a new board location for the specific player.
-{
-   this.spaceFromGo = location;
-}
-public int getNumLots()
-// POST: FCTVAL == The number of lots a player owns.
-{
-    return this.numLots;
-}
-public double getMoney()
-// POST: FCTVAL == The amount of money a player has.
-{
-  return this.money;
-}
-
-public int getBoardLocation()
-//POST: FCTVAL == The current location of the player.
-{
-   return this.spaceFromGo;
-}
-
-public int getNumberRailroad()
-// POST: FCTVAL == The number of railroads a player owns.
-{
-  return this.numRailroad;
-}
-
-public int getNumberUtilities()
-// POST: FCTVAL == The number of utilities a player has.
-{
-  return this.numUtility;
-}
-
-public int getDiceLand()
-//POST: FCTVAL == The value of the dice for the latest turn.
-{
-    throwDice();
-    return this.diceLand;
-}
-
-
-public void payRent(player creditor, double rent)
-{
-    creditor.addMoney(rent); // give money
-    money-= rent;            // pay the rent
-}
-
-public lot [] getImprovingLots()
-//POST: FCTVAL = canBeImproved: lots that can Be Improved
-//      FCTVAL = null
-{
-    int propertyLength;    // propertyLength stores the length of the property array;
-    int oneProperty;       // oneProperty stores an index when traversing through propertis
-    int improveIndex;      // improveIndex is the index for populating our array of
-                           //   improve enabled lots
-    double improvementCost;// improvementCost holds the cost of improvement for a given lot
-    double playerBalance;  // playerBalance holds the current balance for a player
-    boolean hotelStatus;   // holds the hotel status for a given property during iteration
-
-
-    improveIndex = 0;                           
-    canBeImproved = new lot [28];       //Reset the canBeImproved array by reallocating
-    playerBalance = this.money;         
-    propertyLength = this.propertyList.length;
-
-    for(oneProperty = 0; oneProperty < propertyLength; oneProperty++)
+    public player()
+    // POST: Sets a new board location for the specific player.
     {
-
-        if(this.propertyList[oneProperty] != null) //verify that the current property
-                                               //   is not null
+      this(1500, 0," ");
+    }
+    
+    public player(double money,int spaceGo, String token)
+    // PRE : 0 < location < 41; location is in block.
+    // POST: sets class member money to money
+    //       sets class member spaceFromGo to spaceGo
+    //       sets class member playerToken to token
+    //       initializes class member propertyList
+    //       sets class member numProperties to 0
+    //       sets class member numLots to 0
+    //       sets class member numRailroad to 0
+    //       sets class member numUtility to 0
+    {
+      this.money = money;
+      this.spaceFromGo = spaceGo;
+      this.playerToken = token;
+      this.propertyList = new property [28];
+      this.numProperties = 0;
+      this.numLots = 0;
+      this.numRailroad = 0;
+      this.numUtility = 0;
+    }
+    
+    public void setCurrentLocation(boardLocation current)
+    // PRE: current must be initialized
+    // POST: sets the class member current to current.
+    {
+        this.current = current;
+    }
+    
+    public boardLocation getCurrentLocation()
+    // POST: FCTVAL == current location of the player
+    {
+        return this.current;
+    }
+    
+    public void setBoardLocation(int location)
+    //PRE: Assume 0 < location < 41, location is in block
+    //POST: Set a new board location for the specific player.
+    {
+       this.spaceFromGo = location;
+    }
+    
+    public int getNumLots()
+    // POST: FCTVAL == The number of lots a player owns.
+    {
+        return this.numLots;
+    }
+    
+    public double getMoney()
+    // POST: FCTVAL == The amount of money a player has.
+    {
+      return this.money;
+    }
+    
+    public int getBoardLocation()
+    //POST: FCTVAL == The current location of the player.
+    {
+       return this.spaceFromGo;
+    }
+    
+    public int getNumberRailroad()
+    // POST: FCTVAL == The number of railroads a player owns.
+    {
+      return this.numRailroad;
+    }
+    
+    public int getNumberUtilities()
+    // POST: FCTVAL == The number of utilities a player has.
+    {
+      return this.numUtility;
+    }
+    
+    public int getDiceLand()
+    //POST: FCTVAL == The value of the dice for the latest turn.
+    {
+        throwDice();
+        return this.diceLand;
+    }
+    
+    public boolean canImprove(lot[] improvableLots)
+    // PRE:  current player is initialized
+    // POST: FCTVAL = false if a suitable property is found within the array of
+    //                improvableLots
+    //       FCTVAL = true whenever we find a suitable property within the array of
+    //                improvableLots
+    {
+        for(lot aLot : improvableLots)          // finding the improvable lots.
         {
-            if (this.propertyList[oneProperty] instanceof lot) //make sure that this
-                                                           //   property is a lot
+            if (aLot != null)
+                return true;
+        }
+    
+        return false;
+    }
+    
+    public void payRent(player creditor, double rent)
+    // PRE: creditor and rent must be initialized.
+    // POST: pays the rent to creditor and re-calculates 
+    //       the money in the players account.
+    {
+        creditor.addMoney(rent); // give money
+        money-= rent;            // pay the rent
+    }
+    
+    public lot [] getImprovingLots()
+    //POST: FCTVAL = canBeImproved: lots that can Be Improved
+    {
+        int propertyLength;    // propertyLength stores the length of the 
+                               // property array
+        int oneProperty;       // oneProperty stores an index when traversing
+                               // through propertis
+        int improveIndex;      // improveIndex is the index for populating our 
+                               // array of improve properties.
+        double improvementCost;// improvementCost holds the cost of improvement 
+                               // for a given lot
+        double playerBalance;  // playerBalance holds the current balance for a player
+        boolean hotelStatus;   // holds the hotel status for a given property during
+                               // iteration
+    
+    
+        improveIndex = 0;                           
+        canBeImproved = new lot [28];       //Reset the canBeImproved array by reallocating
+        playerBalance = this.money;         
+        propertyLength = this.propertyList.length;
+    
+        // going through the lots and finding the improvable lots.
+        for(oneProperty = 0; oneProperty < propertyLength; oneProperty++)
+        {
+    
+            if(this.propertyList[oneProperty] != null) //verify that the current property
+                                                       //   is not null
             {
-                hotelStatus = ((lot)this.propertyList[oneProperty]).getHotel();
-                improvementCost = ((lot) this.propertyList[oneProperty]).getImproveCost();
-
-                if(hotelStatus == false)   //Make sure there is no hotel on
-                                           //The property
+                if (this.propertyList[oneProperty] instanceof lot) 
+                                                        // make sure that this
+                                                        // property is a lot
                 {
-                    if(improvementCost < playerBalance) //Make sure that this property
-                                                        //   is affordable for player
+                    hotelStatus = ((lot)this.propertyList[oneProperty]).getHotel();
+                    improvementCost = ((lot) this.propertyList[oneProperty]).
+                                        getImproveCost();
+    
+                    if(hotelStatus == false)            //Make sure there is no hotel on
+                                                        //The property
                     {
-                        canBeImproved[improveIndex] = ((lot)propertyList[oneProperty]);
-                      //  System.out.println(canBeImproved[improveIndex].toString());
-                        improveIndex++;
+                        if(improvementCost < playerBalance) //Make sure that this property
+                                                            //is affordable for player
+                        {
+                            canBeImproved[improveIndex] = ((lot)propertyList[oneProperty]);
+                            System.out.println(canBeImproved[improveIndex].toString());
+                            improveIndex++;
+                        }
                     }
                 }
             }
         }
+        return canBeImproved;
     }
 
 
