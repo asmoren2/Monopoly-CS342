@@ -26,6 +26,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private int currentLocation;        // The current location
     
     private boardLocation currentLot;   // the current lot
+    private boardLocation current;      // The current location.
     private JButton nextTurn;
     private JButton buyLocation;
 
@@ -186,6 +187,76 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                   + " Funds: "  + tmpPlayerFunds);
         }
     }
+    public void gambleLogic(gamble location, player player)
+    // PRE: location and player must be initialized
+    {
+        JPanel gamblePanel;         // A panel to store all the gamble GUI.
+        JTextField gambleAmtTxt;    // A text field that has gamble amount.
+        JTextField gambleDiceNum;   // A text field for the next dice value.
+        JTextArea gambleArea;       // A text area will give the user a promp
+                                    // about the gamble class.
+        JLabel gambleInfo;          // A label that tells the user about the class.
+        double gambleAmount = 10;   // The money the user wants to gamble.
+        double gambleOutcome = 0;   // The result of the gamble operation.
+        
+        int diceVal = 20;           // The dice value the user wants to bet on.
+        gamblePanel = new JPanel(); // Initializing the pane and its components.
+        gambleAmtTxt = new JTextField(4);
+        gambleDiceNum = new JTextField(2);
+       /* gambleInfo = new JLabel("This is the gamble square, \n"
+                + "are allowed to gamble your\nfortune on the roling of a dice!\n"
+                + "Gambeling can be addictive.. be careful..\n");
+        
+        gamblePanel.add(gambleInfo); // Adding to the panel.*/
+        gambleArea = new JTextArea("This is the gamble square, \n"
+                + "you are allowed to gamble your\nfortune on the rolling of a dice!\n"
+                + "Gambeling can be addictive.. be careful..\n",10,10);
+        gambleArea.setEditable(false);
+        gamblePanel.add(gambleArea);
+        gamblePanel.add(new JLabel("Gamble Amount: "));
+        gamblePanel.add(gambleAmtTxt);
+        gamblePanel.add(new JLabel("Dice Number: "));
+        gamblePanel.add(gambleDiceNum);
+                                    // Popping the box.
+        JOptionPane.showMessageDialog(null, gamblePanel,
+                                      "The Gamble Square", 
+                                      JOptionPane.OK_CANCEL_OPTION); 
+        // Getting the value and parsing them.
+        if(gambleAmtTxt.getText().toString() != null)
+        {
+            gambleAmount = Double.parseDouble(gambleAmtTxt.getText().toString());
+        }
+        if(gambleDiceNum.getText().toString() != null)
+        {
+            diceVal = Integer.parseInt(gambleDiceNum.getText().toString());
+        }
+        // getting the result of the gamble operation.
+        diceOne = getDiceVal();
+        diceTwo = getDiceVal();
+        gambleOutcome = location.gambleMoney(gambleAmount, diceVal,diceOne+diceTwo);
+        
+        if(gambleOutcome < 0)
+        {
+            JOptionPane.showMessageDialog(null, 
+                    "Dice Value: " + (diceOne + diceTwo) + 
+                    " You picked: " + diceVal +
+                    " You lost " + (-1*gambleOutcome)+
+                    "! HAHAH! good luck next time\n",
+                    "The Gamble Square", 
+                    JOptionPane.PLAIN_MESSAGE); 
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, 
+                    "Dice Value: " + (diceOne + diceTwo) + 
+                    " You picked: " + diceVal +
+                    " You Won " + gambleOutcome+
+                    "! \n",
+                    "The Gamble Square", 
+                    JOptionPane.PLAIN_MESSAGE); 
+        }
+        player.addMoney(gambleOutcome);
+    }
     @Override
     public void paint(Graphics g)
     {
@@ -208,9 +279,10 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             // Calculating the current location
             currentLocation = (currPlayer.getBoardLocation() + diceOne + diceTwo) % 42;
             currPlayer.setBoardLocation(currentLocation);
-            currPlayer.setCurrentLocation(theGame.getBoardLocate(currPlayer));
-            actions =  theGame.getBoardLocate(currPlayer).getPossibleActions(currPlayer);
-            setButtonStatus(theGame.getBoardLocate(currPlayer).getActionStatus());
+            //current = theGame.getBoardLocate(currPlayer);
+            currPlayer.setCurrentLocation(current);
+            actions =  current.getPossibleActions(currPlayer);
+            setButtonStatus(current.getActionStatus());
             g.drawString("Player : " + turnCounter+ "\n", 250, 250);
             
             // if the turn counter is going off the array
@@ -218,6 +290,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             {
                 turnCounter  = 0;
             }
+
         }
         // if buy is clicked.
         if(isBuyClicked)
@@ -232,6 +305,13 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             buyLocation.setEnabled(false);
             isBuyClicked = false;
         }
+        
+        // on gamble
+        if(currentLocation == 20 || currentLocation == 41)
+        {
+            gambleLogic((gamble)current, currPlayer);
+        }
+
         setLables();
     }
 
