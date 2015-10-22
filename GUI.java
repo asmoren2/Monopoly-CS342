@@ -8,6 +8,20 @@ import javax.swing.*;
 
 public class GUI extends JApplet implements ActionListener, ItemListener
 {
+    
+    private static final int NUM_PLAYERS = 2;      // integer to hold the number 
+                                                   //    of players for the monopoly
+                                                   //    Game (from 2 to 4 players)
+                                                   //    due to GUI constraints
+    
+    //An array to hold the player names for thi
+    private static final String [] PLAYER_NAMES =    // array to hold the name of
+                                     {"Christian",   //   all 4 possible players
+                                      "Harsh",       //   for the game
+                                      "Adolofo",
+                                      "Cortellano"};
+    
+    
     private player [] playerList;       // The list of players
     private player theBank;             // The bank
     private player currPlayer;          // The current player.
@@ -19,11 +33,12 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                         //    button.
     private boolean gameContinues;      // Flag to determine whether the game continues
                                         //    or not
-    int numberOfLots;                   // integer to hold the number of upgradable 
+    private int numberOfLots;           // integer to hold the number of upgradable 
                                         //    lots
+
     
-    lot[]improvableLots;                // improvableLots holds an array of improvable lots 
-    lot[]sellableLots;                  // sellableLats holds an array of sellable lots 
+    private lot[]improvableLots;        // improvableLots holds an array of improvable lots 
+    private lot[]sellableLots;          // sellableLats holds an array of sellable lots 
     
     private boolean isNextTurn;         // This boolean represents if
                                         // the user pressed next turn.
@@ -42,14 +57,14 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private JButton buyLocation;
 
     //For improving Locations
-    JOptionPane improvePanel;
+    private JOptionPane improvePanel;
     //For East side
-    JButton playerProp [];              // playerInfo is an array of buttons
+    private JButton playerProp [];      // playerInfo is an array of buttons
                                         //   to fetch  properties for players 1-4
-    JLabel playerStatus[];              // A label to determine basic player infor
+    private JLabel playerStatus[];      // A label to determine basic player infor
                                         //   like current position, and funds
-    JComboBox allLocations;             // A drop down list that contains all locations
-    JButton getLocation;                // getLocation will prompt the system to
+    private JComboBox allLocations;     // A drop down list that contains all locations
+    private JButton getLocation;        // getLocation will prompt the system to
                                         //   fetch the information for a given location
 
     // Common to all Functions
@@ -74,21 +89,20 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     private JTextArea area;             // Text area to hold the message
     private JScrollPane pane;           // Window pane with scrollbar containing text area
     // Related to Layout and panels
-    JPanel south;
-    JPanel north;
-    JPanel east ;
-    JPanel west;
-    JPanel center;
-    JPanel northCenter;
-    JPanel southCenter;
-    JPanel northRightCenter;
+    private JPanel south;
+    private JPanel north;
+    private JPanel east ;
+    private JPanel west;
+    private JPanel center;
+    private JPanel northCenter;
+    private JPanel southCenter;
+    private JPanel northRightCenter;
     
-    BorderLayout layout;
+    private BorderLayout layout;
 
     @Override
     public void init()
     {
-        setSize(600,600);
         JPanel northRightCenter;			//Place where the dice resides
         initializeMonopoly();
         initializeWidgets();
@@ -169,10 +183,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         endGame.addActionListener(this);
 
-        playerProp[0].addActionListener(this);
-        playerProp[1].addActionListener(this);
-        playerProp[2].addActionListener(this);
-        playerProp[3].addActionListener(this);
+        for(int i = 0; i < NUM_PLAYERS; i++)
+            playerProp[i].addActionListener(this);
 
         nextTurn.addActionListener(this);
         getLocation.addActionListener(this);
@@ -184,7 +196,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     {
         int currentPlayer;
         //Populate the players with their information.
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < NUM_PLAYERS; i++)
         {
             currentPlayer = playerOrder[i];
             tmpPlayerLocation = playerList[currentPlayer].getBoardLocation();
@@ -287,7 +299,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         textArea.setText(message);
         // turns and dice values.
         turnCounter %= playerList.length;
-        
+        diceOne = getDiceVal();
+        diceTwo = getDiceVal();
         
         if(isNextTurn)
         {
@@ -311,18 +324,17 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             {
                 turnCounter  = 0;
             }
-            
-            // prepaing the message for the turn
-            message = currPlayer.getToken() + " just rolled " + (diceOne + diceTwo)
-                    + " and moved on to " + current.getName() +"\n\n"; 
+
+
         }
         // if buy is clicked.
         if(isBuyClicked)
         {
+            System.out.println("buy clicked");
             isBuyClicked = false;       // Reset
             currentLot = theGame.getBoardLocate(currPlayer);
             currPlayer.buyProperty((property)currentLot);
-            message = currPlayer.getToken() + " just bought "
+            message = currPlayer.getToken() + " Just bought "
                       + currentLot.getName() + " for "
                       + ((property) currentLot).getPurcaseCost() + "\n";
             
@@ -355,41 +367,38 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             textArea.setText("");
             textArea.setText(message);
         }
-        // drawing the card.
+
         drawMonopolyCard(g, 250, northCenter.getHeight(), theGame.getBoardLocate(currPlayer));
         setLables();
     }
 
     
     public void drawMonopolyCard(Graphics g, int panelWidth, int panelHeight, boardLocation current )
-    // PRE: g is the graphic instance sent from paint()
-    //      panelWidth is the width of the Center-North Panel, Which changes on resize
-    //      panelHeight is the height of the Center-North Panel, Which changes on resize
-    // POST: Will draw a monopoly Card according to the position in which the player
-    //       resides
+  //PRE: g is the graphic instance sent from paint()
+//       panelWidth is the width of the Center-North Panel, Which changes on resize
+//       panelHeight is the height of the Center-North Panel, Which changes on resize
+  //POST:  Will draw a monopoly Card according to the position in which the player resides
   {
-      // Drawing the card
       g.setColor(Color.WHITE);
       g.fillRect(east.getWidth()+ panelWidth/32,north.getHeight()+ panelHeight/32,
                    panelWidth - panelWidth*2/32, panelHeight - panelHeight*2/32);
       
-                                  // If lot, then fill the lot color.
+      
       if(current instanceof lot){
     	  drawCardTop(g, panelWidth, (panelHeight/5), ((lot) current).getColor(), current);
       }
-      else                        // not a lot
+      else
     	  drawCardTop(g, panelWidth, (panelHeight/5), "White", current);
   }
 
   public void drawCardTop(Graphics g, int panelWidth, int panelHeight, String tileColor, boardLocation current)
-  // PRE: take in the graphics object, the width and height of the panel and and a tile color as
-  //      well as the current board Location.
-  // POST: Draw the top rectangle of the monopoly card with the corresponding color.
+  //PRE: take in the graphics object, the width and height of the panel and and a tile color as
+  //		well as the current board Location.
+  //POST://Draw the top rectangle of the monopoly card with the corresponding color.
   {
 	  
 	String temp = tileColor.toUpperCase();
-	
-	if(temp.equals("ORANGE"))          // Setting the top color for the card.
+	if(temp.equals("ORANGE"))
 	{
 		g.setColor(Color.ORANGE);
 	}
@@ -424,7 +433,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 	else
 		g.setColor(Color.WHITE);
 	
-	// Drawing the top of the card.
   	g.fillRect(east.getWidth()+ panelWidth/32,north.getHeight() + panelHeight/32,
   			panelWidth - panelWidth*2/32, panelHeight-panelHeight*2/32);
   	
@@ -443,12 +451,11 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 	  g.drawString(Name, panelWidth, panelHeight);
 	  g.setFont(new Font("SansSerif", Font.PLAIN, 15));
 	  
-	  if(current instanceof lot)       // If lot
+	  if(current instanceof lot)
 	  {
 		  drawRent(g, panelWidth, panelHeight, current);
 	  }
-	  else if(current instanceof taxSquare 
-	          && ((taxSquare) current).getTaxMode() == 1)
+	  else if(current instanceof taxSquare && ((taxSquare) current).getTaxMode() == 1)
 	  {
 		  g.drawString("Rent: $200.0", panelWidth-15, panelHeight+100);
 	  }
@@ -538,7 +545,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          
          String []lotNames;          // an array to hold the name of the lots 
                                      //     to be improved
-         String propVal;             // hotel when selling hotel, else house.
+
          
          lot lotToImprove;           //lotToImprove holds the lot to be improved
          lot lotToBeSold;            //lotToBeSold holds the lo
@@ -550,7 +557,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          sellableLotIndex = -1;
          input = "";
          
-         propVal = "house";
+         
          //Verify whether: game continues,  can improve, or can sell
          verifyImprove();
          verifySell();        
@@ -571,6 +578,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          if(e.getSource() == buyLocation)
          {
            isBuyClicked = true;
+           //message = "Thank you, you just bought Illinois Ave.";
          }
 
          if(e.getSource() == sellHouses)
@@ -627,48 +635,42 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                                           //   hotel
                    {
                        lotToBeSold.sellHotel();
-                       propVal = "hotel";
                    }
                    
                    else //Handle the case when doesn't have any hotels
                    {
                        lotToBeSold.sellHouse();
-                       propVal = "house";
                    }
                    
-                   // updating the message.
-                   message = currPlayer.getToken() + " just sold a " + propVal
-                           + " on " + lotToBeSold.getName();
                }
                
                else
                {
                     // Disable sellHouses button on failure to find a suitable
                     //   location
-                    message = currPlayer.getToken() + " cannot sell any property.\n";
                     canSell = false;
                     sellHouses.setEnabled(canSell);
                     
                }
                
-
+               
+               
            }
            
-           playerList[0].sell((playerList[0].getMoney()*-1));
            
+           message = "We are now selling your houses";
+           playerList[0].sell((playerList[0].getMoney()*-1));
          }
 
          if(e.getSource() == endGame)
          {
-              message = "game is ended.\n";
               result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " 
             		  		+ playerList[2].toString() +"\n " + playerList[3].toString();
               area = new JTextArea(result);
               area.setRows(30);
               area.setColumns(40);
               pane = new JScrollPane(area);
-              JOptionPane.showMessageDialog(null, pane, "End Game Info.", 
-                                            JOptionPane.PLAIN_MESSAGE);
+              JOptionPane.showMessageDialog(null, pane, "End Game Info.", JOptionPane.PLAIN_MESSAGE);
               System.exit(0);
          }
 
@@ -728,21 +730,19 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                                            //   must improve to hotel
                     {
                         lotToImprove.makeHotel();
-                        propVal = "hotel";
                     }
                     
                     else //Handle the case when the player has less than 4 houses
                     {
                         lotToImprove.addNumHouses();
-                        propVal = "house";
                     }
-                    message = currPlayer.getToken() + " just built a "
-                              + propVal + " on " + lotToImprove.getName() + "\n";
+                    
                 }
                 
                 lotSelectionFound = false;  // lot selection for next iteration
                 improveLotIndex = 0; // Reset for next iteration
             }
+            
             else
             {
                  // Disable improveProperty button on failure to find a suitable
@@ -752,23 +752,9 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                  
             }
         }
-        
         if(e.getSource() == nextTurn)
         {   
-            diceOne = getDiceVal();
-            diceTwo = getDiceVal();
-            
-            if(diceOne == diceTwo)
-            {
-                message = "just rolled a double current player gets another"
-                        + "turn!\n";
-                message = message + textArea.getText().toString();
-            }
-            else
-            {
-                turnCounter++;
-            }
-            
+            turnCounter++;
             isNextTurn = true;
         }
 
@@ -805,21 +791,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         {
             popUpPlayerInfo(playerList[playerOrder[3]]);
         }
-        // for setting the news feed.
-        if(textArea.getText().toString() != null)
-        {
-            if(!message.equals(textArea.getText().toString()))
-            {
-                message = message + textArea.getText().toString();
-            }
-        }
-        
-        // only write if the message is different.
-        if(message != textArea.getText().toString())
-        {
-            textArea.setText("");
-            textArea.setText(message);
-        }
+
         repaint();
     }
 
@@ -831,15 +803,15 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     
     public void addToPanel()
     {
-      //East side add components to panels
-        east.add(playerProp[0]);
-        east.add(playerStatus[0]);
-        east.add(playerProp[1]);
-        east.add(playerStatus[1]);
-        east.add(playerProp[2]);
-        east.add(playerStatus[2]);
-        east.add(playerProp[3]);
-        east.add(playerStatus[3]);
+      //East side add components to panel
+        
+        for(int i = 0; i < NUM_PLAYERS; i++) // add button controls for players
+                                             //     playing the game only.
+        {
+            east.add(playerProp[i]);
+            east.add(playerStatus[i]);
+        }
+
 
         //West side add components to panels
         west.add(buyLocation);
@@ -855,14 +827,12 @@ public class GUI extends JApplet implements ActionListener, ItemListener
 
         southCenter.add(scrollPane, BorderLayout.CENTER);
 
-        east.add(playerProp[0]);
-        east.add(playerStatus[0]);
-        east.add(playerProp[1]);
-        east.add(playerStatus[1]);
-        east.add(playerProp[2]);
-        east.add(playerStatus[2]);
-        east.add(playerProp[3]);
-        east.add(playerStatus[3]);
+        for(int i = 0; i < NUM_PLAYERS; i++)
+        {
+            east.add(playerProp[i]);
+            east.add(playerStatus[i]);
+        }
+
         east.add(getLocation);
         east.add(allLocations);
 
@@ -903,11 +873,10 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         theBank = new player (9999,0, "Bank");
 
         //Initialize the player List
-        playerList = new player[4];
-        playerList[0] = new player(1500, 0, "Harsh");
-        playerList[1] = new player(1500, 0, "Adolfo");
-        playerList[2] = new player(1500, 0, "Christian");
-        playerList[3] = new player(1500, 0, "Cortellano");
+        playerList = new player[NUM_PLAYERS];
+        
+        for(int i = 0; i < NUM_PLAYERS; i++)
+            playerList[i] = new player(1500,0,PLAYER_NAMES[i]);
 
         //Initialize the monopoly Game
         theGame = new Monopoly(playerList);
