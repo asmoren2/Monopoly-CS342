@@ -24,6 +24,11 @@ public class taxSquare extends boardLocation
         this.spacesFromGo = spacesFromGo;
         this.taxMode = taxMode;
     }
+    
+    public int getTaxMode()
+    {
+    	return taxMode;
+    }
 
     public void setTaxMode (int taxMode)
     // POST: sets taxMode = taxMode
@@ -54,11 +59,6 @@ public class taxSquare extends boardLocation
         // income tax
         {
             rent = 75;
-        }
-        // resetting the actoins.
-        for(boolean action: actionStatus)
-        {
-            action = false;
         }
         actionStatus[4] = true;     // end game
         possibleActions[4] = PACTIONS[4];
