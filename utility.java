@@ -75,12 +75,16 @@ public class utility extends property
                && this.owner == thePlayer           // This Location is already owned
                && thePlayer.canImprove(thePlayer.getImprovingLots()))    
        {
+               actionStatus[1] = false;                  // Do not buy owned utilities
+               possibleActions[1] = PACTIONS[1];
                actionStatus[3] = true;
                possibleActions[3] = PACTIONS[3];
        }
        else if (isOwned == true && this.owner != thePlayer
                 && thePlayer.getMoney() > rent)     // owned by another player
        {
+           actionStatus[1] = false;                  // Do not buy owned utilities
+           possibleActions[1] = PACTIONS[1];
            rent = caltUtilRent(owner.getNumberRailroad(), thePlayer.getDiceLand());
            thePlayer.payRent(owner, rent);
        }
