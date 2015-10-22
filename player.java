@@ -5,16 +5,21 @@
 //              The player holds money, and property information.
 public class player
 {
-  private double money; //The amount of money that the player has
-  private int numRailroad; //Number of railroads that the player owns
-  private int numUtility; //Number of utilities that the player owns
-  private int numLots;    // Number of lots a player owns.
-  private int numProperties; // The number of property a player owns.
-  private int spaceFromGo; //Number of spaces the player is from Go tile
-  private String playerToken; //Differentiates the player from
-  private int diceLand;      // The value of the dice as it lands.
+  private double money;             // The amount of money that the player has
+  private int numRailroad;          // Number of railroads that the player owns
+  private int numUtility;           // Number of utilities that the player owns
+  private int numLots;              // Number of lots a player owns.
+  private int numProperties;        // The number of property a player owns.
+  private int spaceFromGo;          // Number of spaces the player is from Go tile
+  private String playerToken;       // Differentiates the player from
+  private int diceLand;             // The value of the dice as it lands.
   private boardLocation current;    // The current board location.
-  private property [] propertyList;
+  
+  private boolean inDebt;           // isBankrupt determines whether a player is 
+                                    //    in debt 
+  
+  private property [] propertyList; // propertyList contains all properties
+                                    //    a player owns  
 
   lot [] canBeImproved;  //An array to be populated with the properties that are
                          //   available for improvement.
@@ -222,6 +227,37 @@ public lot [] getSellableLots()
 
 
   return canBeSold;
+}
+
+public boolean canContinue(lot[] sellableLots)
+// 
+{
+    int lotBound;
+    
+    lotBound = sellableLots.length;
+    
+    if(this.money < 0)           // Verify the user balance to check if he/she is in debt
+        inDebt = true;      
+    
+    else                    // If balance is not negative,  player is not in debt
+        return true;
+    
+    
+    if(inDebt == true)        // Handle the case where the player is currently in debt 
+    {
+        for(int i = 0;i < lotBound; i++)
+        {
+           if(sellableLots[i] != null)  // If the current lot is not null
+           {
+               return true;             // return true if we have at least on
+                                        //   one sellable lot that is not null
+           }
+        }
+    }
+    
+    return false;                       // If the player is not in debt, then
+                                        //    he/she may continue without issue
+   
 }
 
 public boolean canSell(lot[] sellableLots)

@@ -17,6 +17,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
                                         //    button.
     private boolean canSell;            // Flag to enable or disable the sell
                                         //    button.
+    private boolean gameContinues;      // Flag to determine whether the game continues
+                                        //    or not
     int numberOfLots;                   // integer to hold the number of upgradable 
                                         //    lots
     
@@ -59,7 +61,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
     // Related to West Side
     private JButton improveProperty;    // Button to improve property
     private JButton sellHouses;         // Sell houses when you have no money
-    private JButton nextPlayer;         // End turn go to next player
     private JButton endGame;            // Player can choose to end game
 
     //SouthCenter
@@ -103,7 +104,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         turnCounter = 0;
         isNextTurn = true;
         canImprove = false;
-
+        gameContinues = true;
 
         initializePanels();
 
@@ -147,7 +148,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         buyLocation.setEnabled(status[1]);
         improveProperty.setEnabled(canImprove);
         sellHouses.setEnabled(status[2]);
-        nextPlayer.setEnabled(status[0]);
         endGame.setEnabled(status[4]);
 
     }
@@ -164,7 +164,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         improveProperty.addActionListener(this);
         sellHouses.addActionListener(this);
         buyLocation.addActionListener(this);
-        nextPlayer.addActionListener(this);
+
         endGame.addActionListener(this);
 
         playerProp[0].addActionListener(this);
@@ -490,8 +490,22 @@ public class GUI extends JApplet implements ActionListener, ItemListener
          input = "";
          
          
+         //Verify whether: game continues,  can improve, or can sell
          verifyImprove();
-         verifySell();
+         verifySell();        
+         gameContinues = currPlayer.canContinue(sellableLots);
+         
+         if (gameContinues == false)    //If game is said to stop working, then
+                                        //  disable all the buttons except for 
+                                        //  end game
+         {
+             buyLocation.setEnabled(false);
+             sellHouses.setEnabled(false);
+             nextTurn.setEnabled(false);
+             improveProperty.setEnabled(false);
+             
+         }
+         
          
          if(e.getSource() == buyLocation)
          {
@@ -579,11 +593,7 @@ public class GUI extends JApplet implements ActionListener, ItemListener
            message = "We are now selling your houses";
            playerList[0].sell((playerList[0].getMoney()*-1));
          }
-         if(e.getSource() == nextPlayer)
-         {
-           turnCounter++;
-              isNextTurn = true;
-         }
+
          if(e.getSource() == endGame)
          {
               result = playerList[0].toString() + "\n "+ playerList[1].toString() + "\n " + playerList[2].toString() +"\n " + playerList[3].toString();
@@ -746,7 +756,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         west.add(buyLocation);
         west.add(improveProperty);
         west.add(sellHouses);
-        west.add(nextPlayer);
         west.add(endGame);
 
         south.add(nextTurn);
@@ -788,7 +797,6 @@ public class GUI extends JApplet implements ActionListener, ItemListener
         buyLocation = new JButton("Buy this Property");
         improveProperty = new JButton("Improve this Property");
         sellHouses = new JButton("Sell Houses");
-        nextPlayer = new JButton("End Turn");
         endGame = new JButton("End Game");
         nextTurn = new JButton("Next Turn");
 
