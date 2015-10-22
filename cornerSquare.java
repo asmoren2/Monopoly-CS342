@@ -1,4 +1,4 @@
-//Programmer:  Christian M. Valladares, Harsh Patel, Adolfo Moreno
+//Programmer:  Christian M. Valladares
 //Assignment:  Monopoly
 //Date:        October 8, 2015
 //Description: This class represents the four different corners of a monopoly
@@ -10,23 +10,25 @@
 public class cornerSquare extends boardLocation
 {
    private boolean isJail;       // isJail determines whether this corner Square
-                                 // is a jail location.
+                                 //    is a jail location.
 
    private boolean isGo;         // isGo determines whether this corner Square
-                                 // is the Go block.
+                                 //    is the Go block.
 
    private boolean isFreeSpace;  // isFreeSpace determines whether this corner is
-                                 // is just a free space.
+                                 //    is just a free space.
 
    private double costOnLanding; // constOnLanding determines what the cost for
-                                 // landing on this corner implies   
+                                 //    landing on this corner implies   
 
+   //CONSTRUCTORS
+   //........................................................................
    public cornerSquare()
    // POST: cornerSquare() creates an instance of cornerSquare, with boolean
    //       values isJail, isGo = false.   Will assume a given corner is a
    //       freeSpace as it has no side effects therefore isFreeSpace = true
    {
-      super();                  //construct boardLocation superClass
+      super();             //construct boardLocation superClass
       setToFreeSpace();
    }
 
@@ -45,19 +47,17 @@ public class cornerSquare extends boardLocation
       super(nameOfLocation, spacesFromGo);
 
       if(chooseCornerMode == 0)        // If CornerMode == 0,  the cornerBlock is determined
-      {                                // to be a jail block
-          setToJail();                  
-      }
+         setToJail();                  //   to be a jail block
+
       else if (chooseCornerMode == 1)  // If chooseCornerMode == 1, the cornerBlock is
-      {                                // determined to be a Go block
-          setToGo();                    
-      }
+         setToGo();                    //   determined to be a Go block
+
       else                             // if chooseCornerMode >= 2, the cornerBlock is
-      {                                // determined to be a Free Space block
-          setToFreeSpace();             
-      }
+         setToFreeSpace();             //   determined to be a Free Space block
    }
 
+   //MODIFIERS
+   //........................................................................
    public void setToJail()
    // PRE: cornerSquare instance has been constructed, and isJail = false
    // POST: cornerSquare's isJail = true.  isGo, isFreeSpace = false.
@@ -85,6 +85,8 @@ public class cornerSquare extends boardLocation
       isGo = false;
    }
 
+   //GETTERS
+   //...........................................................................
    public boolean getJailStatus()
    // POST: Determines whether this cornerSquare instance is a Jail square
    //       FCTVAL = isJail
@@ -94,6 +96,7 @@ public class cornerSquare extends boardLocation
 
    public boolean getGoStatus()
    // POST: Determines whether this cornerSquare instance is a Go square
+   //
    {
       return isGo;
    }
@@ -107,29 +110,31 @@ public class cornerSquare extends boardLocation
 
    @Override
    public String [] getPossibleActions(player player)
-   // PRE: player must be initialized.
-   // POST: FCTVAL == possibleActions, an array of Strings containing all
-   //                 the possible actions a player can perform at a cornerSquare
-   //                 is returned.  
-   //                 An array of booleans that represents the same thing is also 
-   //                 altered in order to be used in the GUI.
    {
-       if(isGo)                             // if on "Go" get $200
+       if(isGo)     // if on "Go" get $200
        {
            player.addMoney(200);
        }
        else if(player.canImprove(player.getImprovingLots()))
-       {                                    // Has improvable property
+       // Has improvable property
+       {
            actionStatus[3] = true;
            possibleActions[3] = PACTIONS[3];
        }
-       
-       actionStatus[0] = true;              // Do nothing
+       // Do nothing
+       actionStatus[0] = true;
        possibleActions[0] = PACTIONS[0];
-       
-       actionStatus[4] = true;              // End game
+       actionStatus[4] = true;  // End game
        possibleActions[4] = PACTIONS[4];
-       
        return possibleActions;
    }
+
+    @Override
+    public boolean performAction(player thePlayer, player theBank, char choice)
+    {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+
 }

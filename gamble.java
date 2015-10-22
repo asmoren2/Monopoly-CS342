@@ -3,7 +3,7 @@
 // Date:        October, 17 2015
 // Description: This class represents a gamble square on the board
 //              it is a special feature that allows the user that lands
-//              on the square to gamble a fortune on the roll of a dice.
+//              on the square to gamble a fortune on the next dice roll.
 
 public class gamble extends boardLocation
 {
@@ -52,31 +52,23 @@ public class gamble extends boardLocation
     
     @Override
     public String [] getPossibleActions(player player)
-    // PRE: player must be initialized.
-    // POST: FCTVAL == possibleActions, an array of Strings containing all
-    //                 the possible actions a player can perform at a Gamble square
-    //                 is returned.  
-    //                 An array of booleans that represents the same thing is also 
-    //                 altered in order to be used in the GUI.
     {
-       actionStatus[4] = true;               // end game
+       actionStatus[4] = true;  // end game
        possibleActions[4] = PACTIONS[4];
-       
-       if(player.getMoney() < 0 &&           // the player has no money and can sell
-          player.hasSellableProperty())
+       if(player.getMoney() < 0 && player.hasSellableProperty())
+       // the player has no money and can sell
        {
-           actionStatus[2] = true;           // sell
+           // sell
+           actionStatus[2] = true;
            possibleActions[2] = PACTIONS[2];
-       }                                     // if player has improvable lots.
+       }
        else if (player.canImprove(player.getImprovingLots()))
        {
-           actionStatus[3] = true;           // improve lots
+           actionStatus[3] = true;
            possibleActions[3] = PACTIONS[3];
        }
-       
        return possibleActions;
     }
-    
     @Override
     public String toString()
     // FCTVAL == a string that represents what the gamble square does,
@@ -89,4 +81,11 @@ public class gamble extends boardLocation
                + " you gambled:" + gambleAmount;
                
     }
+    @Override
+    public boolean performAction(player thePlayer, player theBank, char choice)
+    {
+        
+        return false;
+    }
+
 }

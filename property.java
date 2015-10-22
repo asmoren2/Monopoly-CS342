@@ -1,4 +1,4 @@
-// Programmer:  Harsh Patel, Christian Valaderas, Adolfo Moreno
+// Programmer:  Harsh Patel
 // Assignment:  Monopoly
 // Date:        October, 14 2015
 // Description: This class acts as a super class to all the properties
@@ -24,7 +24,6 @@ public abstract class property extends boardLocation
     {
         super(nameOfLocation,spacesFromGo);
     }
-    
     public void setRent(double rent, int option)
     // PRE: rent and option are initialized.
     //      rent >= 0
@@ -42,6 +41,8 @@ public abstract class property extends boardLocation
         this.owner = owner;
         this.isOwned = true;
         owner.buyProperty(this);
+        //NOTE: MAKE SURE YOU ADD THE FUNCTIONALITY TO DEDUCT MONEY FROM THE
+        //      PLAYER
     }
 
     public boolean isOwned()
@@ -65,10 +66,6 @@ public abstract class property extends boardLocation
 
     @Override
     public String[] getPossibleActions(player player)
-    // PRE: player must be initialized.
-    // POST: FCTVAL == possibleActions, an array of Strings containing all
-    //                 the possible actions a player can perform at a property
-    //                 is returned.  
     {
         return possibleActions;
     }
