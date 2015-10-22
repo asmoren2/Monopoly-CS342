@@ -33,15 +33,13 @@ public class gamble extends boardLocation
         this.gambleAmount = gambleAmount;
     }
     
-    public double gambleMoney(double money, int num)
+    public double gambleMoney(double money, int num, int randNum)
     // PRE:  money > 0,
     //       0 < num < 6
     // POST: returns the amount of money you have won or lost.
     //       if you guessed the number right, you win double 
     //       the money, else you loose double the money.
-    {
-        int randNum = ((int)Math.random() * 7);
-       
+    {       
         if(randNum == num)          // if the number was guessed 
         {                           // correctly.
             return money*2;
