@@ -1,4 +1,4 @@
-// Programmer:  Adolfo Moreno
+// Programmer:  Adolfo Moreno, Harsh Patel, Christian Valaderas
 // Assignment:  Monopoly
 // Date:        October, 14 2015
 // Description: This class represents a utility on the board location.
@@ -6,31 +6,32 @@
 
 public class utility extends property
 {
-   //Description:
-   //Electric Company, Cost: 150, Tile: 12
-   //Water Works, Cost : 150, Tile: 28
-
    public utility()
    // POST: a default utility is created with the purchase
    //      cost of 150.
    {
        super();
        this.purchaseCost = 150;
-   }//Default Constructor
+   }
 
    public utility(String nameOfLocation, int spacesFromGo)
+   // PRE: nameOfLocation and spacesFromGo must be initialized.
    // POST: a default utility is created with the name
    //       nameOfLocation and it is spacesFromGo away from
    //       the go block.  It cost purchaseCost.
    {
       super(nameOfLocation,spacesFromGo);
       this.purchaseCost = 150.0;
-   }//input Constructor
+   }
 
    public double caltUtilRent(int n, int diceNumber)
+   // n and diceNumber must be initialized.
    {
-      double rentCost = 0;
-      if(n == 1)
+      double rentCost;
+      
+      rentCost = 0;
+      
+      if(n == 1)            // Calculating rent for utility.
       {
          rentCost = (4*diceNumber);
       }
@@ -44,25 +45,35 @@ public class utility extends property
 
    @Override
    public String [] getPossibleActions(player thePlayer)
-   // PRE: player must be initialized
-   // POST: FCTVAL == A string array representing all the actions
-   //                 a player can currently perform is returned.
+   // PRE: player must be initialized.
+   // POST: FCTVAL == possibleActions, an array of Strings containing all
+   //                 the possible actions a player can perform at a utiliy
+   //                 is returned.  
+   //                 An array of booleans that represents the same thing is also 
    {
        double rent = 0; 
        // End game
        actionStatus[4] = true;
        possibleActions[4] = PACTIONS[4];
-
-       if(isOwned == false && thePlayer.getMoney() > purchaseCost)         // This Location is not owned
+           
+       // resetting the actions.
+       for(boolean action: actionStatus)
        {
-           actionStatus[1] = true;  // buy
-           possibleActions[1] = PACTIONS[1];
-           actionStatus[0] = true;  // Do nothing
-           possibleActions[0] = PACTIONS[0];
-
+           action = false;
        }
-       else if(isOwned == true && this.owner == thePlayer
-               && thePlayer.canImprove(thePlayer.getImprovingLots()))    // This Location is already owned
+       
+       if(isOwned == false                          // This Location is not owned
+          && thePlayer.getMoney() > purchaseCost)         
+       {
+           actionStatus[1] = true;                  // buy
+           possibleActions[1] = PACTIONS[1];
+           
+           actionStatus[0] = true;                  // Do nothing
+           possibleActions[0] = PACTIONS[0];
+       }
+       else if(isOwned == true 
+               && this.owner == thePlayer           // This Location is already owned
+               && thePlayer.canImprove(thePlayer.getImprovingLots()))    
        {
                actionStatus[3] = true;
                possibleActions[3] = PACTIONS[3];
@@ -73,8 +84,8 @@ public class utility extends property
            rent = caltUtilRent(owner.getNumberRailroad(), thePlayer.getDiceLand());
            thePlayer.payRent(owner, rent);
        }
-       else if(thePlayer.getMoney() <= 0
-               && thePlayer.hasSellableProperty())
+       else if(thePlayer.getMoney() <= 0            // If can't pay rent and can sell
+               && thePlayer.hasSellableProperty())  // houses.
        {
            actionStatus[2] = true;      // Sell
            possibleActions[2] = PACTIONS[2];
@@ -82,12 +93,5 @@ public class utility extends property
 
        return possibleActions;
    }
-
-@Override
-public boolean performAction(player thePlayer, player theBank, char choice) {
-    // TODO Auto-generated method stub
-    return false;
-}
-
 
 }
