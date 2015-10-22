@@ -347,6 +347,8 @@ public class GUI extends JApplet implements ActionListener, ItemListener
             textArea.setText("");
             textArea.setText(message);
         }
+
+        drawMonopolyCard(g, 250, 350, theGame.getBoardLocate(currPlayer));
         setLables();
     }
 
